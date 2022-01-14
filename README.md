@@ -1,11 +1,20 @@
-# Setup
+# Capacity Planner
+
+This is a tool to assist in generating a precise Team Velocity for Planning Iterations during Agile planning.
+# Quick Setup
 
 git clone https://github.com/MikeMundy/CapacityPlanner.git
+
 cd CapacityPlanner
+
+git checkout -b myNewBranch
+
 yarn install --ignore-engines
+
 yarn start
 
-See 'READ_ME_surge.md' for instructins for quickly hosting online via Surge. 
+
+See 'READ_ME_surge.md' for instructions for quickly hosting online via Surge. 
 
 # Getting Started with Create React App
 
