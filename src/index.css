@@ -1,0 +1,275 @@
+body {
+  margin: 20px;
+  font-family: Verdana;
+  font-size: smaller;
+}
+
+.app {
+  width: 1200px;
+}
+
+.capTable {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.capTable td {
+  padding: 10px;
+  margin: 0;
+  white-space:nowrap;
+  border-bottom: 1px solid lightgray;
+  vertical-align: top;
+}
+
+.capTable th {
+  padding: 10px;
+  margin: 0;
+  white-space:nowrap;
+  vertical-align: bottom;
+  border-bottom: 1px solid lightgray;
+  text-align: left;
+}
+
+
+.formTable {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.formTable td {
+  padding: 5px;
+  margin: 0;
+  white-space:nowrap;
+  border: 0;
+  vertical-align: top;
+}
+
+.formTable th {
+  padding: 5px;
+  margin: 0;
+  white-space:nowrap;
+  vertical-align: bottom;
+  border: 0;
+}
+
+.mainTable {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0 0 20px 0;
+  max-width: 800px;
+}
+
+.mainTable td {
+  border: 1px solid lightgrey;
+  padding: 5px;
+  margin: 0;
+  white-space:nowrap;
+}
+
+.mainTable th {
+  border: 1px solid lightgrey;
+  padding: 5px;
+  margin: 0;
+  white-space:nowrap;
+  vertical-align: bottom;
+}
+
+.mainTable .topRow {
+  background-color:#fffbc9
+}
+
+.mainTable tr.personRow:hover {
+  background-color: rgb(243, 243, 243);
+}
+
+.iterationTable {
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.iterationCell {
+  width: 100px;
+}
+
+.iterationTable td {
+  padding: 0 10px 5px 0;
+  margin: 0;
+  border: 0;
+  text-align: left;
+  font-weight: normal;
+  font-size: smaller;
+  width: 100px;
+}
+
+.iterationTable th {
+  font-weight: normal;
+}
+
+.iterationTableXXX td:first-of-type {
+  font-weight: bold;
+}
+
+.half {
+  width: 50%;
+}
+
+.numInput {
+  width:90%;
+  text-align:center;
+  margin: 0;
+  padding: 0;
+}
+
+.numInputSmall {
+  width: 60%;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.red {
+  background-color: #ffe6e6;
+}
+
+.holidaysDiv {
+  margin-bottom: 20px;
+}
+
+.filterDiv {
+  margin-bottom: 5px;
+}
+
+.smaller {
+  font-size: smaller;
+}
+
+.smaller td {
+  padding: 2px;
+}
+
+.bold {
+  font-weight: bold !important;
+  color: red;
+  cursor:help;
+}
+
+.nameCol {
+  min-width: 100px;
+}
+
+.roleCol {
+  min-width: 150px;
+}
+
+.menu {
+  margin-bottom: 20px;
+}
+
+.menu button {
+  margin-right: 5px;
+  font-size: larger;
+}
+
+.menu button.selectedMenuItem {
+  background-color: lightskyblue;
+}
+
+.inlineBlock {
+  display: inline-block;
+}
+
+.pad10 {
+  padding: 10px;
+}
+
+.marBottom5 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.marBottom5:last-of-type {
+  margin: 0; 
+}
+
+.bigButton {
+  font-size: larger;
+  margin-bottom: 5px;
+}
+
+.rightMargin {
+  margin-right: 5px;
+}
+
+.floatRight {
+  float: right;
+}
+
+.percentInput {
+  width: 40px;
+  text-align: right;
+}
+
+.marginBottom10 {
+  margin-bottom: 5px;
+}
+
+.data {
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.calendarDiv {
+  height: 500px;
+  width: 700px;
+}
+
+.rbc-event-content {
+  text-align: center;
+}
+
+div.rbc-day-bg:nth-of-type(6n) {
+  background-color: rgb(213, 250, 213);
+}
+
+div.rbc-day-bg:nth-of-type(7n) {
+  background-color: rgb(213, 250, 213);
+}
+
+.rightArrow {
+  font-weight: bold;
+  font-size: larger;
+  padding: 0 5px 0 5px;
+}
+
+.rightArrow:last-of-type {
+  display: none;
+}
+
+.question {
+  cursor:help;
+}
+
+
+
+
+
+
+
