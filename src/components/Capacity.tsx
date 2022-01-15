@@ -28,6 +28,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
 
     const [currentPI, setCurrentPI] = useState(getCurrentPIDetails());
     const [selectedFilterPersonId, setSelectedFilterPersonId] = useState(-1);
+    const [selectedFilterTeamId, setSelectedFilterTeamId] = useState(-1);
 
     const selectProgramIncrement = (id: string) => {
         props.updateSelectedProgramIncrement(parseInt(id));
@@ -59,6 +60,13 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
         return p1.lastName < p2.lastName ? -1 : 1;
     };
 
+    const teamSorter = (p1: ITeam, p2: ITeam): number => {
+        if (p1.name === p2.name) {
+            return p1.name < p2.name ? -1 : 1
+        }
+        return p1.name < p2.name ? -1 : 1;
+    };
+
     const getNameSelect = () => {
         const options: any[] = [];
         options.push(<option value={-1}>-- select person --</option>);
@@ -66,6 +74,15 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
             options.push(<option value={person.id}>{person.lastName}, {person.firstName}</option>)
         })
         return <select onChange={(e) => setSelectedFilterPersonId(parseInt(e.target.value))} value={selectedFilterPersonId}>{options}</select>;
+    }
+
+    const getTeamSelect = () => {
+        const options: any[] = [];
+        options.push(<option value={-1}>-- select team --</option>);
+        props.teams.sort(teamSorter).forEach((team) => {
+            options.push(<option value={team.id}>{team.name}</option>)
+        })
+        return <select onChange={(e) => setSelectedFilterTeamId(parseInt(e.target.value))} value={selectedFilterTeamId}>{options}</select>;
     }
 
     const addDays = (date: Date, days: number) => {
@@ -205,13 +222,9 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
         let availabilityMultiplier = (personTeam.percentage / 100);
         capacity = capacity * availabilityMultiplier;
 
-        // Multiply by time spent on holiday:
-        let holidayMultiplier = (iteration.numWeekDays - holidays) / iteration.numWeekDays;
-        capacity = capacity * holidayMultiplier;
-
-        // Multiply by time spent on PTO:
-        let ptoMultiplier = (iteration.numWeekDays - ptos) / iteration.numWeekDays;
-        capacity = capacity * ptoMultiplier;
+        // Multiply by time spent on holidays and PTOs:
+        let holidayAndPTOMultiplier = (iteration.numWeekDays - holidays - ptos) / iteration.numWeekDays;
+        capacity = capacity * holidayAndPTOMultiplier;
 
         return capacity;
     }
@@ -229,15 +242,10 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
         capacity = capacity * availabilityMultiplier;
         out = out + "x Availability " + availabilityMultiplier + " ";
 
-        // Multiply by time spent on holiday:
-        let holidayMultiplier = (iteration.numWeekDays - holidays) / iteration.numWeekDays;
-        capacity = capacity * holidayMultiplier;
-        out = out + "x Holidays " + holidayMultiplier + " ";
-
-        // Multiply by time spent on PTO:
-        let ptoMultiplier = (iteration.numWeekDays - ptos) / iteration.numWeekDays;
-        capacity = capacity * ptoMultiplier;
-        out = out + "x PTOs " + ptoMultiplier + " ";
+        // Multiply by time spent on holiday and PTOs:
+        let holidayAndPTOMultiplier = (iteration.numWeekDays - holidays - ptos) / iteration.numWeekDays;
+        capacity = capacity * holidayAndPTOMultiplier;
+        out = out + "x (" + holidays + " Holidays + " + ptos + " PTOs) / " + iteration.numWeekDays + " Workdays = " + holidayAndPTOMultiplier + ") ";
 
         out = out + "= " + capacity;
 
@@ -246,7 +254,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
 
     const getNumTeams = (personId: number) => {
         let output = 1;
-        const teams = props.personTeams.filter((pt) => pt.personId === personId);
+        const teams = props.personTeams.filter((pt) => pt.teamId === selectedFilterTeamId || selectedFilterTeamId === -1).filter((pt) => pt.personId === personId);
         if (teams) {
             output = teams.length;
         };
@@ -294,7 +302,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
 
         let rowNum = 1;
 
-        props.personTeams.sort(personTeamSorter).forEach(pt => {
+        props.personTeams.filter((pt) => pt.teamId === selectedFilterTeamId || selectedFilterTeamId === -1).sort(personTeamSorter).forEach(pt => {
             const p = props.persons.filter((p) => p.id === selectedFilterPersonId || selectedFilterPersonId === -1).find((p) => p.id === pt.personId);
             if (p) {
 
@@ -472,7 +480,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                         </tbody>
                     </table>
 
-                    <div className="filterDiv">Filter by: {getNameSelect()}</div>
+                    <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
 
                     <table className="mainTable">
                         <thead></thead>
@@ -514,7 +522,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                         </tbody>
                     </table>
 
-                    <pre>{JSON.stringify(capRows, null, 2)}</pre>
+                    {/* <pre>{JSON.stringify(capRows, null, 2)}</pre> */}
 
                     {/* <pre>{JSON.stringify(ipr, null, 2)}</pre> */}
 
