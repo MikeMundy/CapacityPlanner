@@ -17,10 +17,24 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const getInitialPersonsBasic = () => {
     const personsBasic: IPersonBasic[] = [
-      { id: 1, firstName: "Mike", lastName: "Mundy", locationId: 1 },
-      { id: 2, firstName: "Mary", lastName: "Ang", locationId: 1 },
-      { id: 3, firstName: "Lan", lastName: "Luo", locationId: 2 },
-      { id: 4, firstName: "Judy", lastName: "Wang", locationId: 2 },
+      { id: 1, firstName: "Mary", lastName: "Ang", locationId: 1 },
+      { id: 2, firstName: "Rishika", lastName: "Singh", locationId: 1 },
+      { id: 3, firstName: "Levi", lastName: "Dimalibot", locationId: 1 },
+      { id: 4, firstName: "Shane", lastName: "O'Malley", locationId: 1 },
+      { id: 5, firstName: "Knowlton", lastName: "Wang", locationId: 1 },
+      { id: 6, firstName: "Corey", lastName: "Little", locationId: 1 },
+      { id: 7, firstName: "Judy", lastName: "Wang", locationId: 1 },
+      { id: 8, firstName: "Allan", lastName: "Hou", locationId: 1 },
+      { id: 9, firstName: "Chunhui", lastName: "Liu", locationId: 1 },
+      { id: 10, firstName: "Tony", lastName: "Zhang", locationId: 1 },
+      { id: 11, firstName: "Jing", lastName: "Zhang", locationId: 1 },
+      { id: 12, firstName: "Lan", lastName: "Luo", locationId: 1 },
+      { id: 13, firstName: "Mike", lastName: "Mundy", locationId: 1 },
+      { id: 14, firstName: "Chris", lastName: "Dufour", locationId: 1 },
+      { id: 15, firstName: "Keikhosro", lastName: "Safavi", locationId: 1 },
+      { id: 16, firstName: "Chris", lastName: "Mate", locationId: 1 },
+      { id: 17, firstName: "Trevor", lastName: "Mackay", locationId: 1 },
+      { id: 18, firstName: "Mike", lastName: "Deroin", locationId: 1 },
     ]
     return personsBasic;
   };
@@ -35,10 +49,26 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const getInitialPersonTeams = () => {
     const personTeams: IPersonTeam[] = [
-      { personId: 1, teamId: 1, role: "Manager", percentage: 100 },
-      { personId: 2, teamId: 2, role: "Dev", percentage: 50 },
-      { personId: 2, teamId: 1, role: "Developer", percentage: 50 },
-      { personId: 4, teamId: 2, role: "Product Owner", percentage: 100 },
+      { personId: 1, teamId: 1, role: "QA Manager", percentage: 50 },
+      { personId: 1, teamId: 2, role: "QA Manager", percentage: 50 },
+      { personId: 18, teamId: 1, role: "Product Manager", percentage: 25 },
+      { personId: 18, teamId: 2, role: "Product Manager", percentage: 75 },
+      { personId: 3, teamId: 2, role: "QA", percentage: 100 },
+      { personId: 14, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 8, teamId: 2, role: "Developer", percentage: 50 },
+      { personId: 6, teamId: 2, role: "QA", percentage: 100 },
+      { personId: 9, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 12, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 17, teamId: 2, role: "Tech Writer", percentage: 100 },
+      { personId: 16, teamId: 2, role: "Software Release Developer", percentage: 100 },
+      { personId: 13, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 4, teamId: 2, role: "QA Manager", percentage: 100 },
+      { personId: 15, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 2, teamId: 2, role: "QA", percentage: 100 },
+      { personId: 7, teamId: 2, role: "Director IS", percentage: 100 },
+      { personId: 5, teamId: 2, role: "QA", percentage: 100 },
+      { personId: 10, teamId: 2, role: "Developer", percentage: 100 },
+      { personId: 11, teamId: 2, role: "Developer", percentage: 100 },
     ]
     return personTeams;
   };
@@ -53,27 +83,42 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const getInitialLocationHolidays = () => {
     const locationHolidays: ILocationHoliday[] = [
-      { id: 1, locationId: 1, name: "Christmas", date: new Date(2021, 12 - 1, 25) },
-      { id: 2, locationId: 1, name: "Thanksgiving (Canada)", date: new Date(2021, 10 - 1, 11) },
-      { id: 3, locationId: 1, name: "Boxing Day", date: new Date(2021, 12 - 1, 26) },
-      { id: 4, locationId: 2, name: "Martin Luther King Jr. Day", date: new Date(2021, 1 - 1, 18) },
-      { id: 5, locationId: 2, name: "Thanksgiving (USA)", date: new Date(2021, 11 - 1, 25) },
+      { id: 1, locationId: 1, name: "New Years Day (obs. Mon.)", date: new Date(2022, 1 - 1, 3) },
+      { id: 2, locationId: 1, name: "Family Day", date: new Date(2022, 2 - 1, 2) },
+      { id: 3, locationId: 1, name: "Good Friday", date: new Date(2022, 4 - 1, 15) },
+      { id: 4, locationId: 1, name: "Victoria Day", date: new Date(2022, 5 - 1, 23) },
+      { id: 5, locationId: 1, name: "Canada Day", date: new Date(2022, 7 - 1, 1) },
+      { id: 6, locationId: 1, name: "Civic Holiday", date: new Date(2022, 8 - 1, 1) },
+      { id: 7, locationId: 1, name: "Labour Day", date: new Date(2022, 9 - 1, 5) },
+      { id: 8, locationId: 1, name: "Thanksgiving", date: new Date(2022, 10 - 1, 10) },
+      { id: 9, locationId: 1, name: "Christmas (obs. Tue.)", date: new Date(2022, 12 - 1, 27) },
+      { id: 9, locationId: 1, name: "Boxing Day", date: new Date(2022, 12 - 1, 26) },
+
+      { id: 10, locationId: 2, name: "Martin Luther King Jr. Day", date: new Date(2021, 1 - 1, 18) },
+      { id: 11, locationId: 2, name: "Thanksgiving (USA)", date: new Date(2021, 11 - 1, 25) },
     ]
     return locationHolidays;
   };
 
   const getInitialPersonVacations = () => {
     const personVacations: IPersonVacation[] = [
-      { id: 1, personId: 1, date: new Date(2021, 5 - 1, 12), fractionOfDay: 1 },
-      { id: 1, personId: 1, date: new Date(2021, 5 - 1, 13), fractionOfDay: 0.5 },
+      { id: 1, personId: 13, date: new Date(2022, 1 - 1, 31), fractionOfDay: 1 },
+      { id: 2, personId: 13, date: new Date(2022, 2 - 1, 1), fractionOfDay: 1 },
+      { id: 3, personId: 13, date: new Date(2022, 2 - 1, 3), fractionOfDay: 1 },
+      { id: 4, personId: 13, date: new Date(2022, 2 - 1, 4), fractionOfDay: 1 },
+      { id: 5, personId: 13, date: new Date(2022, 2 - 1, 7), fractionOfDay: 1 },
+      { id: 6, personId: 13, date: new Date(2022, 2 - 1, 8), fractionOfDay: 1 },
+      { id: 7, personId: 13, date: new Date(2022, 2 - 1, 9), fractionOfDay: 1 },
+      { id: 8, personId: 13, date: new Date(2022, 2 - 1, 10), fractionOfDay: 1 },
+      { id: 9, personId: 13, date: new Date(2022, 2 - 1, 11), fractionOfDay: 1 },
     ]
     return personVacations;
   };
 
   const getInitialProgramIncrements = () => {
     const programIncrements: IProgramIncrement[] = [
-      { id: 1, incrementNumberInYear: 4, startDate: new Date(2021, 10, 22), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
-      { id: 2, incrementNumberInYear: 5, startDate: new Date(2022, 1, 28), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 }
+      { id: 1, incrementNumberInYear: 1, startDate: new Date(2022, 1-1, 17), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
+      { id: 2, incrementNumberInYear: 2, startDate: new Date(2022, 4-1, 25), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
     ]
     return programIncrements;
   };

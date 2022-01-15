@@ -21,7 +21,7 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         { name: "VACATIONS", title: "Vacations" },
         { name: "PROGRAM_INCREMENTS", title: "Program Increments" },
         { name: "CAPACITY", title: "P.I. Capacity" },
-        { name: "CAPACITY_OLD", title: "Capacity (Old)" }
+        // { name: "CAPACITY_OLD", title: "Capacity (Old)" }
     ];
 
     const pageElements = pages.map((p) =>
