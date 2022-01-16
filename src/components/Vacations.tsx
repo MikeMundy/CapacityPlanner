@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
 import "../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
@@ -71,7 +70,7 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
     }
 
     const isSameDate = (d1: Date, d2: Date) => {
-        return d1.getFullYear() === d2.getFullYear() && d1.getMonth() == d2.getMonth() && d1.getDate() == d2.getDate();
+        return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth() && d1.getDate() === d2.getDate();
     }
 
     const onSelectSlot = (data: any) => {
@@ -141,6 +140,10 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
         <div>
             <h2>Vacations</h2>
 
+            <p>Select your name in the Person dropdown. Then use the Back & Next buttons to find a month, then click on a day to 
+                add a vacation. '1' = one whole day of vacation. Click on any vacation entry to edit the proportion of the day (to '0.5' or '0.25' etc.) or to delete the vacation.
+            </p>
+
             {/* <div>{JSON.stringify(props.personVacations, null, 2)}</div>
             <div>{JSON.stringify(props.locationHolidays, null, 2)}</div> */}
 
@@ -156,7 +159,7 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
                 </tr>
             </table>
 
-            {props.selectedPersonId != -1 &&
+            {props.selectedPersonId !== -1 &&
                 <>
                     <div className="calendarDiv">
                         <Calendar

@@ -15,13 +15,13 @@ const Menu: React.FC<IProps> = (props: IProps) => {
     }
 
     const pages = [
+        { name: "HOME", title: "Home" },
         { name: "TEAMS", title: "Teams" },
         { name: "LOCATIONS", title: "Locations & Holidays" },
         { name: "PEOPLE", title: "People" },
         { name: "VACATIONS", title: "Vacations" },
         { name: "PROGRAM_INCREMENTS", title: "Program Increments" },
         { name: "CAPACITY", title: "P.I. Capacity" },
-        // { name: "CAPACITY_OLD", title: "Capacity (Old)" }
     ];
 
     const pageElements = pages.map((p) =>

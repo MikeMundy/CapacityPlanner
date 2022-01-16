@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
+import Footer from "./components/Footer";
+import Home from "./components/Home";
 import ProgramIncrements from "./components/ProgramIncrements";
 import Menu from "./components/Menu";
 import People from "./components/People";
 import Teams from "./components/Teams";
 import Locations from "./components/Locations";
 import Vacations from "./components/Vacations";
-import CapacityPlanner_OLD from "./components/CapacityPlanner_OLD";
+// import CapacityPlanner_OLD from "./components/CapacityPlanner_OLD";
 
 import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "./interfaces/Interfaces";
 import Capacity from './components/Capacity';
@@ -134,7 +136,7 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [selectedPersonId, setSelectedPersonId] = useState(-1);
   const [selectedProgramIncrementId, setSelectedProgramIncrementId] = useState(-1);
 
-  const [showData, setShowData] = useState(false);
+  // const [showData, setShowData] = useState(false);
 
   const onSelectPage = (page: string) => {
     setPage(page);
@@ -275,13 +277,14 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const getComponentToDisplay = () => {
     switch (page) {
+      case "HOME": return <Home/>;
       case "PEOPLE": return <People personsBasic={personsBasic} locations={locations} teams={teams} personTeams={personTeams} addPerson={addPerson} editPerson={editPerson} deletePerson={deletePerson} />;
       case "TEAMS": return <Teams teams={teams} addTeam={addTeam} editTeam={editTeam} deleteTeam={deleteTeam} />;
       case "LOCATIONS": return <Locations locations={locations} locationHolidays={locationHolidays} addLocation={addLocation} editLocation={editLocation} deleteLocation={deleteLocation} />;
       case "VACATIONS": return <Vacations selectedPersonId={selectedPersonId} personsBasic={personsBasic} personVacations={personVacations} locationHolidays={locationHolidays} updateVacations={updateVacations} updateSelectedPersonId={(id: number) => setSelectedPersonId(id)} />;
       case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements} addProgramIncrement={addProgramIncrement} editProgramIncrement={editProgramIncrement} deleteProgramIncrement={deleteProgramIncrement} />;
       case "CAPACITY": return <Capacity programIncrements={programIncrements} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)}/>;
-      case "CAPACITY_OLD": return <CapacityPlanner_OLD />;
+      // case "CAPACITY_OLD": return <CapacityPlanner_OLD />;
 
       default: return <h2>Page Unknown</h2>;
     }
@@ -295,7 +298,7 @@ const App: React.FC<IProps> = (props: IProps) => {
 
       {getComponentToDisplay()}
 
-      {!showData &&
+      {/* {!showData &&
         <button onClick={(e) => setShowData(true)}>Show Data</button>
       }
 
@@ -307,7 +310,9 @@ const App: React.FC<IProps> = (props: IProps) => {
           <pre><div className="data"><h4>TEAMS:</h4> {JSON.stringify(teams, null, 2)}</div></pre>
           <pre><div className="data"><h4>PERSON TEAMS:</h4> {JSON.stringify(personTeams, null, 2)}</div></pre>
         </>
-      }
+      } */}
+
+      <Footer></Footer>
 
     </div>
   );

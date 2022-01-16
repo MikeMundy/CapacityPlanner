@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { OutputFileType } from "typescript";
-import { IIteration, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IPlanning, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
+import { IIteration, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
 
 export interface IProps {
     selectedProgramIncrement: number;
@@ -322,7 +321,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                 rowNum = rowNum + 1;
 
                 let capIterNum = 1;
-                iterations.map((iteration, index) => {
+                iterations.forEach((iteration, index) => {
                     const holidays = getHolidaysForPersonForIteration(iteration, p, pt);
                     const ptos = getPTOsForPersonForIteration(iteration, p, pt);
                     const capIter = {
@@ -334,7 +333,6 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                     };
                     capRow.iterations.push(capIter);
                     capIterNum = capIterNum + 1;
-
                 });
 
                 theCapRows.push(capRow)
@@ -361,9 +359,9 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                     <td>{cr.location}</td>
                     <td>{cr.team} ({cr.role})</td>
                     <td className="center">{cr.availability}%</td>
-                    <td className="center">
+                    {/* <td className="center">
                         <input type="text" value={0} className={"numInput"} onChange={(e) => { }}></input>
-                    </td>
+                    </td> */}
                     {cr.iterations.map((cri, index) =>
                         <>
                             {!cr.skipHolsAndPTOs &&
@@ -422,7 +420,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
     const getTotalsRows = (capRows: ICapacityRow[]) => {
         return (
             <tr className="topRow">
-                <td colSpan={5}><b>Total:</b></td>
+                <td colSpan={4}><b>Total:</b></td>
                 {iterations.map((iteration, index) =>
                     <>
                         <td colSpan={2}></td>
@@ -490,7 +488,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
                                 <th rowSpan={2} className="smaller">Location</th>
                                 <th rowSpan={2} className="smaller">Team & Role</th>
                                 <th rowSpan={2} className="smaller">Availability</th>
-                                <th rowSpan={2} className="smaller">Carryover<br></br>Points</th>
+                                {/* <th rowSpan={2} className="smaller">Carryover<br></br>Points</th> */}
                                 {iterations.map((i, index) =>
                                     <th colSpan={3} className="iterationCell">
                                         <table className="iterationTable">
