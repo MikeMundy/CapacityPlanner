@@ -125,7 +125,7 @@ const App: React.FC<IProps> = (props: IProps) => {
     return programIncrements;
   };
 
-  const [page, setPage] = useState("LOCATIONS");
+  const [page, setPage] = useState("HOME");
   const [personsBasic, setPersonsBasic] = useState(getInitialPersonsBasic())
   const [teams, setTeams] = useState(getInitialTeams())
   const [personTeams, setPersonTeams] = useState(getInitialPersonTeams())
