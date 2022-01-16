@@ -267,6 +267,25 @@ div.rbc-day-bg:nth-of-type(7n) {
   cursor:help;
 }
 
+ol.home li { 
+  margin-bottom: 10px;
+  line-height: 23px;
+}
+
+ul.home li { 
+  margin-bottom: 10px;
+  line-height: 23px;
+}
+
+div.footer {
+  margin-top: 20px;
+  opacity: 0.5;
+}
+
+p { 
+  line-height: 23px;
+}
+
 
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-date-picker";
-import { IProgramIncrement, ITeam } from "../interfaces/Interfaces";
+import { IProgramIncrement } from "../interfaces/Interfaces";
 
 export interface IProps {
     programIncrements: IProgramIncrement[];
@@ -124,11 +124,6 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
         if (window.confirm('Are you sure that you want to delete this Program Increment?')) { // tslint:disable-line
             props.deleteProgramIncrement(id);
         }
-    }
-
-    const cancelAddProgramIncrement = () => {
-        // setIsAdding(false);
-        // setName("");
     }
 
     const checkEditIsInvalid = () => {

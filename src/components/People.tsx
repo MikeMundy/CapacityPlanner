@@ -145,7 +145,6 @@ const People: React.FC<IProps> = (props: IProps) => {
             let roleInTeam = "";
             let percentageInTeam = 100;
             let inTeam = false;
-            let locationId = -1;
             const thisTeam = props.personTeams.find((pt) => pt.personId === personBasic.id && pt.teamId === t.id);
             if (thisTeam) {
                 roleInTeam = thisTeam.role;

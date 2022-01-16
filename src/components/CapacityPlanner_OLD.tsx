@@ -104,7 +104,7 @@ const CapacityPlannerOLD: React.FC<IProps> = (props: IProps) => {
         while (curDate <= endDate) {
             // const dayOfWeek = curDate.getDay();
             // if (!(dayOfWeek in [0, 6])) { // Only include holidays that are on week days
-            holidays.forEach((hd) => {
+            holidays.forEach((hd, count) => {
                 if (isSameDate(curDate, hd.date)) {
                     count = count + 1;
                 }
@@ -325,7 +325,6 @@ const CapacityPlannerOLD: React.FC<IProps> = (props: IProps) => {
 
         const curDate = new Date(startDate.getTime());
         while (curDate <= endDate) {
-            const dayOfWeek = curDate.getDay();
             // if (!(dayOfWeek in [0, 6])) { // Only include holidays that are on week days
             holidays.forEach((hd) => {
                 if (isSameDate(curDate, hd.date)) {
