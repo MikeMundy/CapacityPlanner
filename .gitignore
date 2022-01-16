@@ -105,4 +105,3 @@ dist
 
 build/*
 build/asset-management
-!build/CNAME
