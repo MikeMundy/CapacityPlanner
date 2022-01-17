@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Login from "./components/Login";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import ProgramIncrements from "./components/ProgramIncrements";
@@ -119,8 +120,8 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const getInitialProgramIncrements = () => {
     const programIncrements: IProgramIncrement[] = [
-      { id: 1, incrementNumberInYear: 1, startDate: new Date(2022, 1-1, 17), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
-      { id: 2, incrementNumberInYear: 2, startDate: new Date(2022, 4-1, 25), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
+      { id: 1, incrementNumberInYear: 1, startDate: new Date(2022, 1 - 1, 17), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
+      { id: 2, incrementNumberInYear: 2, startDate: new Date(2022, 4 - 1, 25), numberIterations: 7, daysPerIteration: 14, pointsPerIteration: 8 },
     ]
     return programIncrements;
   };
@@ -135,6 +136,8 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [programIncrements, setProgramIncrements] = useState(getInitialProgramIncrements())
   const [selectedPersonId, setSelectedPersonId] = useState(-1);
   const [selectedProgramIncrementId, setSelectedProgramIncrementId] = useState(-1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState("");
 
   // const [showData, setShowData] = useState(false);
 
@@ -275,15 +278,36 @@ const App: React.FC<IProps> = (props: IProps) => {
     setProgramIncrements(updatedPIs);
   }
 
+  const onLogin = (username: string, password: string): string => {
+    if (username.trim() === "Manager" && password.trim() === "RedBrick") {
+      setIsLoggedIn(true);
+      setUserRole("MANAGER");
+      return "";
+    }
+    if (username.trim() === "User" && password.trim() === "GreenTree") {
+      setIsLoggedIn(true);
+      setUserRole("USER");
+      return "";
+    }
+    return "Login failed"
+  }
+
+  const onLogOut = () => {
+    setIsLoggedIn(false);
+  }
+
   const getComponentToDisplay = () => {
+
+    if (!isLoggedIn) { return <Login onLogin={onLogin} /> }
+
     switch (page) {
-      case "HOME": return <Home/>;
+      case "HOME": return <Home />;
       case "PEOPLE": return <People personsBasic={personsBasic} locations={locations} teams={teams} personTeams={personTeams} addPerson={addPerson} editPerson={editPerson} deletePerson={deletePerson} />;
       case "TEAMS": return <Teams teams={teams} addTeam={addTeam} editTeam={editTeam} deleteTeam={deleteTeam} />;
       case "LOCATIONS": return <Locations locations={locations} locationHolidays={locationHolidays} addLocation={addLocation} editLocation={editLocation} deleteLocation={deleteLocation} />;
       case "VACATIONS": return <Vacations selectedPersonId={selectedPersonId} personsBasic={personsBasic} personVacations={personVacations} locationHolidays={locationHolidays} updateVacations={updateVacations} updateSelectedPersonId={(id: number) => setSelectedPersonId(id)} />;
       case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements} addProgramIncrement={addProgramIncrement} editProgramIncrement={editProgramIncrement} deleteProgramIncrement={deleteProgramIncrement} />;
-      case "CAPACITY": return <Capacity programIncrements={programIncrements} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)}/>;
+      case "CAPACITY": return <Capacity programIncrements={programIncrements} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
       // case "CAPACITY_OLD": return <CapacityPlanner_OLD />;
 
       default: return <h2>Page Unknown</h2>;
@@ -294,7 +318,9 @@ const App: React.FC<IProps> = (props: IProps) => {
     <div className="app">
       <h1>Capacity Planner</h1>
 
-      <Menu page={page} onSelectPage={onSelectPage} />
+      {isLoggedIn &&
+        <Menu page={page} userRole={userRole} onSelectPage={onSelectPage} onLogOut={onLogOut} />
+      }
 
       {getComponentToDisplay()}
 

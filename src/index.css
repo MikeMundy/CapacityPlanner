@@ -286,6 +286,14 @@ p {
   line-height: 23px;
 }
 
+.warning {
+  color: red;
+}
+
+.marginLeft10 {
+  margin-left: 10px;
+}
+
 
 
 
