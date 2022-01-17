@@ -2,7 +2,9 @@ import React from "react";
 
 export interface IProps {
     page: string;
+    userRole: string;
     onSelectPage: (page: string) => void;
+    onLogOut: () => void;
 }
 
 const Menu: React.FC<IProps> = (props: IProps) => {
@@ -15,25 +17,38 @@ const Menu: React.FC<IProps> = (props: IProps) => {
     }
 
     const pages = [
-        { name: "HOME", title: "Home" },
-        { name: "TEAMS", title: "Teams" },
-        { name: "LOCATIONS", title: "Locations & Holidays" },
-        { name: "PEOPLE", title: "People" },
-        { name: "VACATIONS", title: "Vacations" },
-        { name: "PROGRAM_INCREMENTS", title: "Program Increments" },
-        { name: "CAPACITY", title: "P.I. Capacity" },
+        { name: "HOME", title: "Home", ManagerOnly: false },
+        { name: "TEAMS", title: "Teams", ManagerOnly: true },
+        { name: "LOCATIONS", title: "Locations & Holidays", ManagerOnly: true },
+        { name: "PEOPLE", title: "People", ManagerOnly: true },
+        { name: "VACATIONS", title: "Vacations", ManagerOnly: false },
+        { name: "PROGRAM_INCREMENTS", title: "Program Increments", ManagerOnly: true },
+        { name: "CAPACITY", title: "P.I. Capacity", ManagerOnly: false },
     ];
+
+    const GetAllowedPage = (p: any): boolean => {
+        if (props.userRole === "MANAGER") { return true; }
+        if (props.userRole === "USER") {
+            return !p.ManagerOnly;
+        }
+        return false;
+    }
 
     const pageElements = pages.map((p) =>
         <>
-            <button key={p.name} onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
-            <span className="rightArrow">&#187;</span>
+            {GetAllowedPage(p) &&
+                <>
+                    <button key={p.name} onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
+                    <span className="rightArrow">&#187;</span>
+                </>
+            }
         </>
     )
 
     return (
         <div className="menu">
             {pageElements}
+            <button className="marginLeft10" onClick={props.onLogOut}>Log Out</button>
         </div>
     )
 
