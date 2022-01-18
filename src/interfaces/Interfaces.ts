@@ -68,6 +68,17 @@ export interface IIteration2 {
     lengthInDays: number;
     points: number;
 }
+
+export interface IIterationExtended {
+    id: number;
+    programIncrementId: number;
+    name: string;
+    startDate: Date;
+    lengthInDays: number;
+    points: number;
+    numWeekDays: number;
+    num: number;
+}
 export interface IIteration {
     num: number;
     startDate: Date;

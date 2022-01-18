@@ -54,11 +54,15 @@ body {
   border: 0;
 }
 
+.mainTableDiv {
+  width: 200px;
+}
+
 .mainTable {
   border-collapse: collapse;
   padding: 0;
   margin: 0 0 20px 0;
-  max-width: 800px;
+  table-layout: auto;
 }
 
 .mainTable td {

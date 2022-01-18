@@ -24,7 +24,8 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         { name: "VACATIONS", title: "Vacations", ManagerOnly: false },
         { name: "PROGRAM_INCREMENTS", title: "Program Increments (Old)", ManagerOnly: true },
         { name: "PROGRAM_INCREMENTS_2", title: "Program Increments (New)", ManagerOnly: true },
-        { name: "CAPACITY", title: "P.I. Capacity", ManagerOnly: false },
+        { name: "CAPACITY", title: "P.I. Capacity (Old)", ManagerOnly: false },
+        { name: "CAPACITY_2", title: "P.I. Capacity (New)", ManagerOnly: false },
     ];
 
     const GetAllowedPage = (p: any): boolean => {
