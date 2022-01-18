@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import ProgramIncrements from "./components/ProgramIncrements";
+import ProgramIncrements2 from "./components/ProgramIncrements2";
 import Menu from "./components/Menu";
 import People from "./components/People";
 import Teams from "./components/Teams";
@@ -11,8 +12,9 @@ import Locations from "./components/Locations";
 import Vacations from "./components/Vacations";
 // import CapacityPlanner_OLD from "./components/CapacityPlanner_OLD";
 
-import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "./interfaces/Interfaces";
+import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IProgramIncrement2, IIteration2, ITeam } from "./interfaces/Interfaces";
 import Capacity from './components/Capacity';
+
 export interface IProps {
 }
 
@@ -126,6 +128,29 @@ const App: React.FC<IProps> = (props: IProps) => {
     return programIncrements;
   };
 
+  const getInitialProgramIncrements2 = () => {
+    const programIncrements: IProgramIncrement2[] = [
+      { id: 1, name: "PI 2022.1" },
+      { id: 2, name: "PI 2022.2" },
+    ]
+    return programIncrements;
+  };
+
+  const getInitialProgramIterations = () => {
+    const programIterations: IIteration2[] = [
+      { id: 1, programIncrementId: 1, name: "PI Planning 2022.1", startDate: new Date(2022, 1 - 1, 24), lengthInDays: 2, points: 0 },
+      { id: 2, programIncrementId: 1, name: "Iteration 2022.1.1", startDate: new Date(2022, 1 - 1, 26), lengthInDays: 14, points: 8 },
+      { id: 3, programIncrementId: 1, name: "Iteration 2022.1.2", startDate: new Date(2022, 2 - 1, 9), lengthInDays: 14, points: 8 },
+      { id: 4, programIncrementId: 1, name: "Iteration 2022.1.3", startDate: new Date(2022, 2 - 1, 23), lengthInDays: 14, points: 8 },
+      { id: 5, programIncrementId: 1, name: "Iteration 2022.1.4", startDate: new Date(2022, 3 - 1, 9), lengthInDays: 14, points: 8 },
+      { id: 6, programIncrementId: 1, name: "Iteration 2022.1.5", startDate: new Date(2022, 3 - 1, 23), lengthInDays: 14, points: 8 },
+      { id: 7, programIncrementId: 1, name: "Iteration 2022.1.6", startDate: new Date(2022, 4 - 1, 20), lengthInDays: 21, points: 8 },
+      { id: 8, programIncrementId: 2, name: "PI Planning 2022.2", startDate: new Date(2022, 5 - 1, 22), lengthInDays: 2, points: 8 },
+      { id: 9, programIncrementId: 2, name: "Iteration 2022.2.1", startDate: new Date(2022, 5 - 1, 24), lengthInDays: 14, points: 8 },
+    ]
+    return programIterations;
+  };
+
   const [page, setPage] = useState("HOME");
   const [personsBasic, setPersonsBasic] = useState(getInitialPersonsBasic())
   const [teams, setTeams] = useState(getInitialTeams())
@@ -134,15 +159,21 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [locationHolidays, setLocationHolidays] = useState(getInitialLocationHolidays())
   const [personVacations, setPersonVacations] = useState(getInitialPersonVacations())
   const [programIncrements, setProgramIncrements] = useState(getInitialProgramIncrements())
+  const [programIncrements2, setProgramIncrements2] = useState(getInitialProgramIncrements2())
+  const [programIterations, setProgramIterations] = useState(getInitialProgramIterations())
   const [selectedPersonId, setSelectedPersonId] = useState(-1);
   const [selectedProgramIncrementId, setSelectedProgramIncrementId] = useState(-1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("");
 
-  // const [showData, setShowData] = useState(false);
+  const [showData, setShowData] = useState(false);
 
   const onSelectPage = (page: string) => {
     setPage(page);
+  }
+
+  const getIterationsForIncrement = () => {
+    return programIterations.filter((i) => i.programIncrementId === selectedProgramIncrementId);
   }
 
   const addPerson = (personBasic: IPersonBasic, thisPersonsTeams: IPersonTeam[]) => {
@@ -261,8 +292,14 @@ const App: React.FC<IProps> = (props: IProps) => {
     setProgramIncrements(updatedPIs);
   }
 
-  const editProgramIncrement = (pi: IProgramIncrement) => {
+  const addProgramIncrement2 = (pi: IProgramIncrement2) => {
+    let updatedPIs = [...programIncrements2];
+    updatedPIs.push(pi);
+    setProgramIncrements2(updatedPIs);
+  }
 
+  const editProgramIncrement = (pi: IProgramIncrement) => {
+    setSelectedProgramIncrementId(pi.id);
     let updatedPIs = [...programIncrements];
     const index = updatedPIs.findIndex((t) => t.id === pi.id);
     if (index >= 0) {
@@ -271,11 +308,58 @@ const App: React.FC<IProps> = (props: IProps) => {
     }
   }
 
+  const setProgramIncrementId = (id: number) => {
+    setSelectedProgramIncrementId(id);
+  }
+
+  const editProgramIncrement2 = (pi: IProgramIncrement2) => {
+    let updatedPIs = [...programIncrements2];
+    const index = updatedPIs.findIndex((t) => t.id === pi.id);
+    if (index >= 0) {
+      updatedPIs[index] = pi;
+      setProgramIncrements2(updatedPIs);
+    }
+  }
+
   const deleteProgramIncrement = (id: number) => {
 
     let updatedPIs = [...programIncrements];
     updatedPIs = updatedPIs.filter((t) => t.id !== id);
     setProgramIncrements(updatedPIs);
+  }
+
+  const deleteProgramIncrement2 = (id: number) => {
+    // delete the PI
+    let updatedPIs = [...programIncrements2];
+    updatedPIs = updatedPIs.filter((t) => t.id !== id);
+    setProgramIncrements2(updatedPIs);
+    // delete the Iterations for the PI
+    let updatedIterations = [...programIterations];
+    updatedIterations = updatedIterations.filter((i) => i.programIncrementId !== id);
+    setProgramIterations(updatedIterations);
+  }
+
+  const addProgramIteration = (pi: IIteration2) => {
+    let updatedPIs = [...programIterations];
+    const maxId = programIterations.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
+    pi.id = maxId + 1;
+    updatedPIs.push(pi);
+    setProgramIterations(updatedPIs);
+  }
+
+  const editProgramIteration = (pi: IIteration2) => {
+    let updatedPIs = [...programIterations];
+    const index = updatedPIs.findIndex((t) => t.id === pi.id);
+    if (index >= 0) {
+      updatedPIs[index] = pi;
+      setProgramIterations(updatedPIs);
+    }
+  }
+
+  const deleteProgramIteration = (id: number) => {
+    let updatedPIs = [...programIterations];
+    updatedPIs = updatedPIs.filter((t) => t.id !== id);
+    setProgramIterations(updatedPIs);
   }
 
   const onLogin = (username: string, password: string): string => {
@@ -307,6 +391,7 @@ const App: React.FC<IProps> = (props: IProps) => {
       case "LOCATIONS": return <Locations locations={locations} locationHolidays={locationHolidays} addLocation={addLocation} editLocation={editLocation} deleteLocation={deleteLocation} />;
       case "VACATIONS": return <Vacations selectedPersonId={selectedPersonId} personsBasic={personsBasic} personVacations={personVacations} locationHolidays={locationHolidays} updateVacations={updateVacations} updateSelectedPersonId={(id: number) => setSelectedPersonId(id)} />;
       case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements} addProgramIncrement={addProgramIncrement} editProgramIncrement={editProgramIncrement} deleteProgramIncrement={deleteProgramIncrement} />;
+      case "PROGRAM_INCREMENTS_2": return <ProgramIncrements2 programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} setProgramIncrementId={setProgramIncrementId} addProgramIncrement={addProgramIncrement2} editProgramIncrement={editProgramIncrement2} deleteProgramIncrement={deleteProgramIncrement2} addProgramIteration={addProgramIteration} editProgramIteration={editProgramIteration} deleteProgramIteration={deleteProgramIteration} />;
       case "CAPACITY": return <Capacity programIncrements={programIncrements} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
       // case "CAPACITY_OLD": return <CapacityPlanner_OLD />;
 
@@ -324,7 +409,7 @@ const App: React.FC<IProps> = (props: IProps) => {
 
       {getComponentToDisplay()}
 
-      {/* {!showData &&
+      {!showData &&
         <button onClick={(e) => setShowData(true)}>Show Data</button>
       }
 
@@ -335,8 +420,13 @@ const App: React.FC<IProps> = (props: IProps) => {
           <pre><div className="data"><h4>LOCATION HOLIDAYS:</h4> {JSON.stringify(locationHolidays, null, 2)}</div></pre>
           <pre><div className="data"><h4>TEAMS:</h4> {JSON.stringify(teams, null, 2)}</div></pre>
           <pre><div className="data"><h4>PERSON TEAMS:</h4> {JSON.stringify(personTeams, null, 2)}</div></pre>
+          <pre><div className="data"><h4>PIs:</h4> {JSON.stringify(programIncrements2, null, 2)}</div></pre>
+          <pre><div className="data"><h4>Iterations:</h4> {JSON.stringify(programIterations, null, 2)}</div></pre>
         </>
-      } */}
+      }
+
+      {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
+      <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
 
       <Footer></Footer>
 

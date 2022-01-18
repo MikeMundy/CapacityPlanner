@@ -55,6 +55,19 @@ export interface IProgramIncrement {
     pointsPerIteration: number;
 }
 
+export interface IProgramIncrement2 {
+    id: number;
+    name: string;
+}
+
+export interface IIteration2 {
+    id: number;
+    programIncrementId: number;
+    name: string;
+    startDate: Date;
+    lengthInDays: number;
+    points: number;
+}
 export interface IIteration {
     num: number;
     startDate: Date;

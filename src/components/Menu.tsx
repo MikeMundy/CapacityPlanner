@@ -22,7 +22,8 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         { name: "LOCATIONS", title: "Locations & Holidays", ManagerOnly: true },
         { name: "PEOPLE", title: "People", ManagerOnly: true },
         { name: "VACATIONS", title: "Vacations", ManagerOnly: false },
-        { name: "PROGRAM_INCREMENTS", title: "Program Increments", ManagerOnly: true },
+        { name: "PROGRAM_INCREMENTS", title: "Program Increments (Old)", ManagerOnly: true },
+        { name: "PROGRAM_INCREMENTS_2", title: "Program Increments (New)", ManagerOnly: true },
         { name: "CAPACITY", title: "P.I. Capacity", ManagerOnly: false },
     ];
 
@@ -35,14 +36,14 @@ const Menu: React.FC<IProps> = (props: IProps) => {
     }
 
     const pageElements = pages.map((p) =>
-        <>
+        <span key={p.name}>
             {GetAllowedPage(p) &&
                 <>
-                    <button key={p.name} onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
+                    <button onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
                     <span className="rightArrow">&#187;</span>
                 </>
             }
-        </>
+        </span>
     )
 
     return (
