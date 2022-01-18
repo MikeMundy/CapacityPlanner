@@ -1,12 +1,16 @@
 Hosted at https://breezy-leg.surge.sh/
 (URL is stored in /build/CNAME)
 
-First time, run: 
+Before first deployment to production, run: 
+
 yarn global add surge
 
-to surge, start in this folder:
+To deploy to production via Surge, start in this folder:
+
 yarn build
+
 cd build
+
 surge
 
 To be really useful I'd need to add a persistent back-end data store (maybe https://jsonbin.io/) and maybe
