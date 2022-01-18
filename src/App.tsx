@@ -10,10 +10,11 @@ import People from "./components/People";
 import Teams from "./components/Teams";
 import Locations from "./components/Locations";
 import Vacations from "./components/Vacations";
+import Capacity from './components/Capacity';
+import Capacity2 from './components/Capacity2';
 // import CapacityPlanner_OLD from "./components/CapacityPlanner_OLD";
 
 import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IProgramIncrement2, IIteration2, ITeam } from "./interfaces/Interfaces";
-import Capacity from './components/Capacity';
 
 export interface IProps {
 }
@@ -144,8 +145,8 @@ const App: React.FC<IProps> = (props: IProps) => {
       { id: 4, programIncrementId: 1, name: "Iteration 2022.1.3", startDate: new Date(2022, 2 - 1, 23), lengthInDays: 14, points: 8 },
       { id: 5, programIncrementId: 1, name: "Iteration 2022.1.4", startDate: new Date(2022, 3 - 1, 9), lengthInDays: 14, points: 8 },
       { id: 6, programIncrementId: 1, name: "Iteration 2022.1.5", startDate: new Date(2022, 3 - 1, 23), lengthInDays: 14, points: 8 },
-      { id: 7, programIncrementId: 1, name: "Iteration 2022.1.6", startDate: new Date(2022, 4 - 1, 20), lengthInDays: 21, points: 8 },
-      { id: 8, programIncrementId: 2, name: "PI Planning 2022.2", startDate: new Date(2022, 5 - 1, 22), lengthInDays: 2, points: 8 },
+      { id: 7, programIncrementId: 1, name: "Iteration 2022.1.6", startDate: new Date(2022, 4 - 1, 20), lengthInDays: 21, points: 12 },
+      { id: 8, programIncrementId: 2, name: "PI Planning 2022.2", startDate: new Date(2022, 5 - 1, 22), lengthInDays: 2, points: 0 },
       { id: 9, programIncrementId: 2, name: "Iteration 2022.2.1", startDate: new Date(2022, 5 - 1, 24), lengthInDays: 14, points: 8 },
     ]
     return programIterations;
@@ -166,7 +167,7 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("");
 
-  const [showData, setShowData] = useState(false);
+  // const [showData, setShowData] = useState(false);
 
   const onSelectPage = (page: string) => {
     setPage(page);
@@ -393,6 +394,7 @@ const App: React.FC<IProps> = (props: IProps) => {
       case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements} addProgramIncrement={addProgramIncrement} editProgramIncrement={editProgramIncrement} deleteProgramIncrement={deleteProgramIncrement} />;
       case "PROGRAM_INCREMENTS_2": return <ProgramIncrements2 programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} setProgramIncrementId={setProgramIncrementId} addProgramIncrement={addProgramIncrement2} editProgramIncrement={editProgramIncrement2} deleteProgramIncrement={deleteProgramIncrement2} addProgramIteration={addProgramIteration} editProgramIteration={editProgramIteration} deleteProgramIteration={deleteProgramIteration} />;
       case "CAPACITY": return <Capacity programIncrements={programIncrements} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
+      case "CAPACITY_2": return <Capacity2 programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
       // case "CAPACITY_OLD": return <CapacityPlanner_OLD />;
 
       default: return <h2>Page Unknown</h2>;
@@ -409,7 +411,7 @@ const App: React.FC<IProps> = (props: IProps) => {
 
       {getComponentToDisplay()}
 
-      {!showData &&
+      {/* {!showData &&
         <button onClick={(e) => setShowData(true)}>Show Data</button>
       }
 
@@ -423,7 +425,7 @@ const App: React.FC<IProps> = (props: IProps) => {
           <pre><div className="data"><h4>PIs:</h4> {JSON.stringify(programIncrements2, null, 2)}</div></pre>
           <pre><div className="data"><h4>Iterations:</h4> {JSON.stringify(programIterations, null, 2)}</div></pre>
         </>
-      }
+      } */}
 
       {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
       <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
