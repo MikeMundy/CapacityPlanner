@@ -25,7 +25,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
         setLoginResponse("");
     }
 
-    const Login = () => {
+    const Login = (e: any) => {
+        e.preventDefault();
         const result = props.onLogin(userName, password);
         setLoginResponse(result);
     }
@@ -59,8 +60,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
                         <tr>
                             <td></td>
                             <td>
-                                <button disabled={userName === "" || password === ""} onClick={Login}>Log In</button>
-                                <button className="marginLeft10" onClick={Reset}>Reset</button>
+                                <button type="submit" disabled={userName === "" || password === ""} onClick={Login}>Log In</button>
+                                <button type="button" className="marginLeft10" onClick={Reset}>Reset</button>
                             </td>
                         </tr>
                     </tbody>

@@ -1,9 +1,9 @@
 import React from "react";
-import { IIteration2, IIterationExtended, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement2, ITeam } from "../interfaces/Interfaces";
+import { IIteration, IIterationExtended, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
 
 export interface IProps {
-    programIncrements: IProgramIncrement2[];
-    programIterations: IIteration2[];
+    programIncrements: IProgramIncrement[];
+    programIterations: IIteration[];
     persons: IPersonBasic[];
     personTeams: IPersonTeam[];
     teams: ITeam[];
@@ -15,7 +15,7 @@ export interface IProps {
     selectedFilterPersonId: number;
 }
 
-const CapacityTable: React.FC<IProps> = (props: IProps) => {
+const PICapacityTable: React.FC<IProps> = (props: IProps) => {
 
     const addDays = (d: Date, days: number) => {
         var date: Date = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
@@ -181,12 +181,12 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
         return 0;
     }
 
-    const getHolidaysForPersonForIteration = (iteration: IIteration2, person: IPersonBasic) => {
+    const getHolidaysForPersonForIteration = (iteration: IIteration, person: IPersonBasic) => {
         let count = 0;
 
         const locationId = person.locationId;
         const locationHolidays = props.locationHolidays.filter((l) => l.locationId === locationId);
-        console.log("locationHolidays: " + JSON.stringify(locationHolidays));
+        // console.log("locationHolidays: " + JSON.stringify(locationHolidays));
 
         if (locationHolidays) {
             locationHolidays.filter((lh) => lh.date >= iteration.startDate && lh.date <= addDays(iteration.startDate, iteration.lengthInDays)).forEach((lh) => {
@@ -197,7 +197,7 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
         return count;
     }
 
-    const getPTOsForPersonForIteration = (iteration: IIteration2, person: IPersonBasic, personTeam: IPersonTeam) => {
+    const getPTOsForPersonForIteration = (iteration: IIteration, person: IPersonBasic, personTeam: IPersonTeam) => {
         let count = 0;
 
         const personVacations = props.personVacations.filter((pv) => pv.personId === person.id);
@@ -215,7 +215,7 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
         return count;
     }
 
-    const getCapacityForPersonForIteration = (pi: IProgramIncrement2, iteration: IIterationExtended, person: IPersonBasic, personTeam: IPersonTeam, holidays: number, ptos: number) => {
+    const getCapacityForPersonForIteration = (pi: IProgramIncrement, iteration: IIterationExtended, person: IPersonBasic, personTeam: IPersonTeam, holidays: number, ptos: number) => {
 
         // Start with the basic points per iteration
         let capacity = iteration.points;
@@ -258,7 +258,7 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
         return capRows;
     }
 
-    const nullPI: IProgramIncrement2 = { id: -1, name: "" };
+    const nullPI: IProgramIncrement = { id: -1, name: "" };
 
     const getCurrentPIDetails = () => {
         const currentPI = props.programIncrements.find((p) => p.id === props.selectedProgramIncrementId);
@@ -270,7 +270,7 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
 
     const currentPI = getCurrentPIDetails();
 
-    const getCapacityDescForPersonForIteration = (pi: IProgramIncrement2, iteration: IIterationExtended, personTeam: IPersonTeam, holidays: number, ptos: number) => {
+    const getCapacityDescForPersonForIteration = (pi: IProgramIncrement, iteration: IIterationExtended, personTeam: IPersonTeam, holidays: number, ptos: number) => {
 
         let out = "";
 
@@ -431,4 +431,4 @@ const CapacityTable: React.FC<IProps> = (props: IProps) => {
 
 }
 
-export default CapacityTable;
+export default PICapacityTable;

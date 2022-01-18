@@ -74,8 +74,8 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
     }
 
     const onSelectSlot = (data: any) => {
-        console.log(JSON.stringify(data));
-        console.log(data.start);
+        // console.log(JSON.stringify(data));
+        // console.log(data.start);
 
         const maxId = props.personVacations.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
         const existingEvent = props.personVacations.find((vp) => isSameDate(vp.date, data.start) && vp.personId === props.selectedPersonId);
@@ -88,8 +88,8 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
     }
 
     const onSelectEvent = (data: any) => {
-        console.log(JSON.stringify(data));
-        console.log(parseFloat(data.title));
+        // console.log(JSON.stringify(data));
+        // console.log(parseFloat(data.title));
         if (!isNaN(parseFloat(data.title))) {
             setSelectedEvent(data);
             setFractionOfDay(data.title);

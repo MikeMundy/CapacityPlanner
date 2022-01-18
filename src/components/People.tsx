@@ -59,22 +59,28 @@ const People: React.FC<IProps> = (props: IProps) => {
 
         const displayPersonLocation = (p: IPersonBasic) => {
             const location = props.locations.find((l) => l.id === p.locationId);
-            if(location) {
+            if (location) {
                 return location.name
             } else {
                 return "?";
             }
         }
 
+        const confirmDeletePerson = (id: number) => {
+            if (window.confirm("Are you sure that you want to delete this person?")) { // tslint:disable-line
+                deletePerson(id)
+            };
+        }
+
         const output = props.personsBasic.sort(sorter).map((p) =>
-            <tr key={"p" + p.id}>
+            <tr key={p.id}>
                 {/* <td>{p.id}</td> */}
                 <td>{p.lastName}</td>
                 <td>{p.firstName}</td>
                 <td>{displayPersonLocation(p)}</td>
                 <td>{displayPersonTeams(p)}</td>
                 <td><button onClick={(e) => beginEditPerson(p)}>Edit</button></td>
-                <td><button onClick={(e) => deletePerson(p.id)}>Delete</button></td>
+                <td><button onClick={(e) => confirmDeletePerson(p.id)}>Delete</button></td>
             </tr>
         )
         return (
@@ -86,7 +92,7 @@ const People: React.FC<IProps> = (props: IProps) => {
                         <th>First Name</th>
                         <th>Location</th>
                         <th>Team (Role) & Avail.</th>
-                         <th></th>
+                        <th></th>
                         <th></th>
                     </tr>
                     {output}
@@ -113,7 +119,7 @@ const People: React.FC<IProps> = (props: IProps) => {
         const newPerson: IPersonBasic = { id: maxId + 1, firstName: firstName.trim(), lastName: lastName.trim(), locationId: locationId };
 
         const isNullPercent = (percent: number | null) => {
-            if(percent === null) { return 100; }
+            if (percent === null) { return 100; }
             return percent;
         }
 
@@ -202,10 +208,10 @@ const People: React.FC<IProps> = (props: IProps) => {
     }
 
     const getRoleInTeam = (team: ITeam) => {
-        console.log("team: " + JSON.stringify(team));
-        console.log("thisPersonsTeams: " + JSON.stringify(thisPersonsTeams));
+        // console.log("team: " + JSON.stringify(team));
+        // console.log("thisPersonsTeams: " + JSON.stringify(thisPersonsTeams));
         const role = thisPersonsTeams.find((pt) => pt.teamId === team.id)?.role;
-        console.log("role: " + JSON.stringify(role));
+        // console.log("role: " + JSON.stringify(role));
         if (role) { return role; }
         return "";
     }
@@ -219,7 +225,7 @@ const People: React.FC<IProps> = (props: IProps) => {
     const changePercentInTeam = (percent: string, team: ITeam) => {
         let updatedPersonsTeams = [...thisPersonsTeams];
         const index = updatedPersonsTeams.findIndex((pt) => pt.teamId === team.id);
-        if(parseInt(percent)) {
+        if (parseInt(percent)) {
             updatedPersonsTeams[index].percentage = parseInt(percent);
         } else {
             updatedPersonsTeams[index].percentage = 100;
