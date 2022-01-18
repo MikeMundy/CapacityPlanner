@@ -22,10 +22,8 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         { name: "LOCATIONS", title: "Locations & Holidays", ManagerOnly: true },
         { name: "PEOPLE", title: "People", ManagerOnly: true },
         { name: "VACATIONS", title: "Vacations", ManagerOnly: false },
-        { name: "PROGRAM_INCREMENTS", title: "Program Increments (Old)", ManagerOnly: true },
-        { name: "PROGRAM_INCREMENTS_2", title: "Program Increments (New)", ManagerOnly: true },
-        { name: "CAPACITY", title: "P.I. Capacity (Old)", ManagerOnly: false },
-        { name: "CAPACITY_2", title: "P.I. Capacity (New)", ManagerOnly: false },
+        { name: "PROGRAM_INCREMENTS", title: "Program Increments", ManagerOnly: true },
+        { name: "CAPACITY", title: "P.I. Capacity", ManagerOnly: false },
     ];
 
     const GetAllowedPage = (p: any): boolean => {
@@ -36,12 +34,14 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         return false;
     }
 
-    const pageElements = pages.map((p) =>
+    const pageElements = pages.map((p, index) =>
         <span key={p.name}>
             {GetAllowedPage(p) &&
                 <>
                     <button onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
-                    <span className="rightArrow">&#187;</span>
+                    {index < pages.length - 1 &&
+                        <span className="rightArrow">&#187;</span>
+                    }
                 </>
             }
         </span>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import CapacityTable from "./CapacityTable";
-import { IIteration2, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement2, ITeam } from "../interfaces/Interfaces";
+import PICapacityTable from "./PICapacityTable";
+import { IIteration, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
 
 export interface IProps {
     selectedProgramIncrement: number;
-    programIncrements: IProgramIncrement2[];
-    programIterations: IIteration2[];
+    programIncrements: IProgramIncrement[];
+    programIterations: IIteration[];
     persons: IPersonBasic[];
     personTeams: IPersonTeam[];
     teams: ITeam[];
@@ -15,9 +15,9 @@ export interface IProps {
     updateSelectedProgramIncrement: (id: number) => void;
 }
 
-const Capacity2: React.FC<IProps> = (props: IProps) => {
+const PICapacity: React.FC<IProps> = (props: IProps) => {
 
-    const nullPI: IProgramIncrement2 = { id: -1, name: "" };
+    const nullPI: IProgramIncrement = { id: -1, name: "" };
 
     const getCurrentPIDetails = () => {
         const currentPI = props.programIncrements.find((p) => p.id === props.selectedProgramIncrement);
@@ -39,7 +39,7 @@ const Capacity2: React.FC<IProps> = (props: IProps) => {
         }
     }
 
-    const piNameSorter = (p1: IProgramIncrement2, p2: IProgramIncrement2): number => {
+    const piNameSorter = (p1: IProgramIncrement, p2: IProgramIncrement): number => {
         return p1.name > p2.name ? 1 : -1;
     };
 
@@ -90,7 +90,7 @@ const Capacity2: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>Program Increment Capacity (NEW)</h2>
+            <h2>Program Increment Capacity</h2>
 
             <table className="formTable">
                 <tbody>
@@ -99,7 +99,7 @@ const Capacity2: React.FC<IProps> = (props: IProps) => {
                         <td>
                             <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
                                 <option value={-1}>-- select --</option>
-                                {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id}>{p.name}</option>)}
+                                {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
                             </select>
                         </td>
                     </tr>
@@ -113,7 +113,7 @@ const Capacity2: React.FC<IProps> = (props: IProps) => {
 
                     <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
 
-                    <CapacityTable
+                    <PICapacityTable
                         programIncrements={props.programIncrements}
                         programIterations={props.programIterations}
                         persons={props.persons}
@@ -139,4 +139,4 @@ const Capacity2: React.FC<IProps> = (props: IProps) => {
     )
 }
 
-export default Capacity2;
+export default PICapacity;

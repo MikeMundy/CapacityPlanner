@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { IIteration2 } from "../interfaces/Interfaces";
+import { IIteration } from "../interfaces/Interfaces";
 import DatePicker from 'react-date-picker';
 
 export interface IProps {
     programIncrementId: number;
-    programIterations: IIteration2[];
-    addProgramIteration: (programIteration: IIteration2) => void;
-    editProgramIteration: (programIteration: IIteration2) => void;
+    programIterations: IIteration[];
+    addProgramIteration: (programIteration: IIteration) => void;
+    editProgramIteration: (programIteration: IIteration) => void;
     deleteProgramIteration: (id: number) => void;
 }
 
@@ -25,7 +25,7 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
 
         if (props.programIterations.length === 0) { return <div className="marBottom5">There are currently no Program Iterations.</div> }
 
-        const sorter = (pi1: IIteration2, pi2: IIteration2): number => {
+        const sorter = (pi1: IIteration, pi2: IIteration): number => {
             return pi1.startDate < pi2.startDate ? -1 : 1;
         };
 
@@ -79,7 +79,7 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
     }
 
     const saveAddProgramIteration = () => {
-        const newPI: IIteration2 = { id: -1, programIncrementId: props.programIncrementId, name: name, startDate: startDate, lengthInDays: lengthInDays, points: points };
+        const newPI: IIteration = { id: -1, programIncrementId: props.programIncrementId, name: name, startDate: startDate, lengthInDays: lengthInDays, points: points };
         props.addProgramIteration(newPI);
         setIsAdding(false);
     }

@@ -45,22 +45,12 @@ export interface IPlanning {
     numIterations: number;
     iterationDuration: number;
 }
-
 export interface IProgramIncrement {
-    id: number;
-    incrementNumberInYear: number;
-    startDate: Date;
-    numberIterations: number;
-    daysPerIteration: number;
-    pointsPerIteration: number;
-}
-
-export interface IProgramIncrement2 {
     id: number;
     name: string;
 }
 
-export interface IIteration2 {
+export interface IIteration {
     id: number;
     programIncrementId: number;
     name: string;
@@ -78,25 +68,6 @@ export interface IIterationExtended {
     points: number;
     numWeekDays: number;
     num: number;
-}
-export interface IIteration {
-    num: number;
-    startDate: Date;
-    endDate: Date;
-    duration: number;
-    numWeekDays: number;
-    // numHolidays: number;
-    // numWorkDays: number;
-}
-
-export interface IIterationOLD {
-    num: number;
-    startDate: Date;
-    endDate: Date;
-    duration: number;
-    numWeekDays: number;
-    numHolidays: number;
-    numWorkDays: number;
 }
 
 export interface IHoliday {

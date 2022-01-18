@@ -263,9 +263,9 @@ div.rbc-day-bg:nth-of-type(7n) {
   padding: 0 5px 0 5px;
 }
 
-.rightArrow:last-of-type {
+/* .rightArrow:last-of-type {
   display: none;
-}
+} */
 
 .question {
   cursor:help;
