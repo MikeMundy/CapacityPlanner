@@ -1,3 +1,4 @@
+import { Box, Button, ButtonGroup } from "@mui/material";
 import React from "react";
 
 export interface IProps {
@@ -8,13 +9,6 @@ export interface IProps {
 }
 
 const Menu: React.FC<IProps> = (props: IProps) => {
-
-    const getClassName = (page: string): string => {
-        if (page === props.page) {
-            return "selectedMenuItem";
-        }
-        return "";
-    }
 
     const pages = [
         { name: "HOME", title: "Home", ManagerOnly: false },
@@ -34,24 +28,23 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         return false;
     }
 
-    const pageElements = pages.map((p, index) =>
+    const buttonElements = pages.map((p, index) =>
         <span key={p.name}>
             {GetAllowedPage(p) &&
                 <>
-                    <button onClick={(e) => props.onSelectPage(p.name)} className={getClassName(p.name)}>{p.title}</button>
-                    {index < pages.length - 1 &&
-                        <span className="rightArrow">&#187;</span>
-                    }
+                    <Button onClick={(e) => props.onSelectPage(p.name)}>{p.title}</Button>
                 </>
             }
         </span>
     )
 
     return (
-        <div className="menu">
-            {pageElements}
-            <button className="marginLeft10" onClick={props.onLogOut}>Log Out</button>
-        </div>
+        <Box sx={{ mb: 2 }}>
+            <ButtonGroup aria-label="main menu">
+                {buttonElements}
+                <Button onClick={props.onLogOut}>Log Out</Button>
+            </ButtonGroup>
+        </Box>
     )
 
 }

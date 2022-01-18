@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import { IProgramIncrement, IIteration } from "../interfaces/Interfaces";
 import ProgramIterations from "./ProgramIterations";
@@ -107,58 +108,63 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>Program Increments</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                Program Increments
+            </Typography>
 
-            {!isAdding && !isEditing &&
-                <div><button onClick={(e) => startAdd()} className="bigButton">Add Program Increment</button></div>
-            }
+            <Typography variant="body1" gutterBottom>
 
-            {(isAdding || isEditing) &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>{getAddOrEditTitle()} a Program Increment</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>PI Name</b></td>
-                                    <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Iterations</b></td>
-                                    {isAdding &&
-                                        <td>Edit to add Iterations after saving this new PI</td>
-                                    }
-                                    {isEditing &&
-                                        <td><ProgramIterations programIncrementId={programIncrementId} programIterations={props.programIterations} addProgramIteration={props.addProgramIteration} editProgramIteration={props.editProgramIteration} deleteProgramIteration={props.deleteProgramIteration} /></td>
-                                    }
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                {!isAdding && !isEditing &&
+                    <div><button onClick={(e) => startAdd()} className="bigButton">Add Program Increment</button></div>
+                }
 
-                        <div className="right">
-                            {isAdding &&
-                                <button onClick={saveAddProgramIncrement} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
-                            }
-                            {isEditing &&
-                                <button onClick={() => saveEditProgramIncrement()} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
-                            }
-                            <button onClick={CancelAddOrEdit} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
-                </>
-            }
+                {(isAdding || isEditing) &&
+                    <>
+                        <fieldset className="inlineBlock pad10">
+                            <legend><h3>{getAddOrEditTitle()} a Program Increment</h3></legend>
+                            <table className="formTable">
+                                <tbody>
+                                    <tr>
+                                        <td><b>PI Name</b></td>
+                                        <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Iterations</b></td>
+                                        {isAdding &&
+                                            <td>Edit to add Iterations after saving this new PI</td>
+                                        }
+                                        {isEditing &&
+                                            <td><ProgramIterations programIncrementId={programIncrementId} programIterations={props.programIterations} addProgramIteration={props.addProgramIteration} editProgramIteration={props.editProgramIteration} deleteProgramIteration={props.deleteProgramIteration} /></td>
+                                        }
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-            {!isEditing && !isAdding &&
-                <>
-                    {getProgramIncrementElements()}
-                </>
-            }
+                            <div className="right">
+                                {isAdding &&
+                                    <button onClick={saveAddProgramIncrement} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
+                                }
+                                {isEditing &&
+                                    <button onClick={() => saveEditProgramIncrement()} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
+                                }
+                                <button onClick={CancelAddOrEdit} className="bigButton">Cancel</button>
+                            </div>
+                        </fieldset>
+                    </>
+                }
 
-            {/* <div>ProgramIncrements2, programIncrementId: {programIncrementId}</div>
+                {!isEditing && !isAdding &&
+                    <>
+                        {getProgramIncrementElements()}
+                    </>
+                }
+
+                {/* <div>ProgramIncrements2, programIncrementId: {programIncrementId}</div>
             <div>ProgramIncrements2, props.programIterations:  <pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
 
-        </div>
+            </Typography>
+        </div >
     )
 
 }

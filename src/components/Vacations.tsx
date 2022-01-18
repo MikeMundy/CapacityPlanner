@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import "../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
 
 import { IEvent, ILocationHoliday, IPersonBasic, IPersonVacation } from "../interfaces/Interfaces";
+import { Typography } from "@mui/material";
 
 export interface IProps {
     selectedPersonId: number;
@@ -138,70 +139,76 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>Vacations</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                Vacations
+            </Typography>
 
-            <p>Select your name in the Person dropdown. Then use the Back & Next buttons to find a month, then click on a day to 
+            <Typography variant="body1" gutterBottom>
+
+                <p>Select your name in the Person dropdown. Then use the Back & Next buttons to find a month, then click on a day to
                 add a vacation. '1' = one whole day of vacation. Click on any vacation entry to edit the proportion of the day (to '0.5' or '0.25' etc.) or to delete the vacation.
             </p>
 
-            {/* <div>{JSON.stringify(props.personVacations, null, 2)}</div>
+                {/* <div>{JSON.stringify(props.personVacations, null, 2)}</div>
             <div>{JSON.stringify(props.locationHolidays, null, 2)}</div> */}
 
-            <table className="formTable">
-                <tr>
-                    <td><b>Person</b></td>
-                    <td>
-                        <select value={props.selectedPersonId} onChange={(e) => selectPersonId(e.target.value)}>
-                            <option value={-1}>-- select --</option>
-                            {props.personsBasic.sort(sorter).map((p) => <option value={p.id}>{p.lastName}, {p.firstName} </option>)}
-                        </select>
-                    </td>
-                </tr>
-            </table>
+                <table className="formTable">
+                    <tr>
+                        <td><b>Person</b></td>
+                        <td>
+                            <select value={props.selectedPersonId} onChange={(e) => selectPersonId(e.target.value)}>
+                                <option value={-1}>-- select --</option>
+                                {props.personsBasic.sort(sorter).map((p) => <option value={p.id}>{p.lastName}, {p.firstName} </option>)}
+                            </select>
+                        </td>
+                    </tr>
+                </table>
 
-            {props.selectedPersonId !== -1 &&
-                <>
-                    <div className="calendarDiv">
-                        <Calendar
-                            selectable
-                            localizer={localizer}
-                            events={getEvents()}
-                            startAccessor="start"
-                            endAccessor="end"
-                            views={['month']}
-                            onSelectSlot={e => onSelectSlot(e)}
-                            onSelectEvent={e => onSelectEvent(e)}
-                        />
-                    </div>
+                {props.selectedPersonId !== -1 &&
+                    <>
+                        <div className="calendarDiv">
+                            <Calendar
+                                selectable
+                                localizer={localizer}
+                                events={getEvents()}
+                                startAccessor="start"
+                                endAccessor="end"
+                                views={['month']}
+                                onSelectSlot={e => onSelectSlot(e)}
+                                onSelectEvent={e => onSelectEvent(e)}
+                            />
+                        </div>
 
-                    {/* <div>vacay: {JSON.stringify(vacationsForPerson, null, 2)}</div>
+                        {/* <div>vacay: {JSON.stringify(vacationsForPerson, null, 2)}</div>
                     <div>hols: {JSON.stringify(holidaysForPerson, null, 2)}</div> */}
 
-                </>
-            }
+                    </>
+                }
 
-            {modalIsOpen &&
-                <Modal
-                    isOpen={modalIsOpen}
-                    style={customStyles}
-                    contentLabel="Example Modal"
-                    onRequestClose={() => setModalIsOpen(false)}
-                >
-                    <table className="formTable">
-                        <tr>
-                            <td>Fraction of Day:</td>
-                            <td><input value={fractionOfDay} onChange={(e) => setFractionOfDay(e.target.value)} /></td>
-                        </tr>
-                    </table>
+                {modalIsOpen &&
+                    <Modal
+                        isOpen={modalIsOpen}
+                        style={customStyles}
+                        contentLabel="Example Modal"
+                        onRequestClose={() => setModalIsOpen(false)}
+                    >
+                        <table className="formTable">
+                            <tr>
+                                <td>Fraction of Day:</td>
+                                <td><input value={fractionOfDay} onChange={(e) => setFractionOfDay(e.target.value)} /></td>
+                            </tr>
+                        </table>
 
-                    <div className="right">
-                        <button onClick={(e) => onUpdateEvent()} className="bigButton rightMargin">Update</button>
-                        <button onClick={(e) => onDeleteEvent()} className="bigButton rightMargin">Delete</button>
-                        <button onClick={e => setModalIsOpen(false)} className="bigButton">Close</button>
-                    </div>
+                        <div className="right">
+                            <button onClick={(e) => onUpdateEvent()} className="bigButton rightMargin">Update</button>
+                            <button onClick={(e) => onDeleteEvent()} className="bigButton rightMargin">Delete</button>
+                            <button onClick={e => setModalIsOpen(false)} className="bigButton">Close</button>
+                        </div>
 
-                </Modal>
-            }
+                    </Modal>
+                }
+
+            </Typography>
 
         </div>
 
