@@ -1,11 +1,16 @@
 body {
   margin: 20px;
-  font-family: Verdana;
-  font-size: smaller;
+  /* font-family: Verdana;
+  font-size: smaller; */
 }
 
 .app {
-  width: 1200px;
+  /* width: 1200px; */
+  padding: 20px;
+}
+
+.mainBody {
+  min-height: 600px;
 }
 
 .capTable {

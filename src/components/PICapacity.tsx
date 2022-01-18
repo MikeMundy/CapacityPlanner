@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PICapacityTable from "./PICapacityTable";
 import { IIteration, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
+import { Typography } from "@mui/material";
 
 export interface IProps {
     selectedProgramIncrement: number;
@@ -90,50 +91,56 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>Program Increment Capacity</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                Program Increment Capacity
+            </Typography>
 
-            <table className="formTable">
-                <tbody>
-                    <tr>
-                        <td><b>Program Increment</b></td>
-                        <td>
-                            <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
-                                <option value={-1}>-- select --</option>
-                                {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <Typography variant="body1" gutterBottom>
 
-            {props.selectedProgramIncrement !== -1 &&
-                <>
+                <table className="formTable">
+                    <tbody>
+                        <tr>
+                            <td><b>Program Increment</b></td>
+                            <td>
+                                <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
+                                    <option value={-1}>-- select --</option>
+                                    {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                    <h2>{currentPI.name}</h2>
+                {props.selectedProgramIncrement !== -1 &&
+                    <>
 
-                    <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
+                        <h2>{currentPI.name}</h2>
 
-                    <PICapacityTable
-                        programIncrements={props.programIncrements}
-                        programIterations={props.programIterations}
-                        persons={props.persons}
-                        personTeams={props.personTeams}
-                        teams={props.teams}
-                        locations={props.locations}
-                        locationHolidays={props.locationHolidays}
-                        personVacations={props.personVacations}
-                        selectedProgramIncrementId={props.selectedProgramIncrement}
-                        selectedFilterTeamId={selectedFilterTeamId}
-                        selectedFilterPersonId={selectedFilterPersonId}
-                    />
+                        <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
 
-                    {/* <div><pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
+                        <PICapacityTable
+                            programIncrements={props.programIncrements}
+                            programIterations={props.programIterations}
+                            persons={props.persons}
+                            personTeams={props.personTeams}
+                            teams={props.teams}
+                            locations={props.locations}
+                            locationHolidays={props.locationHolidays}
+                            personVacations={props.personVacations}
+                            selectedProgramIncrementId={props.selectedProgramIncrement}
+                            selectedFilterTeamId={selectedFilterTeamId}
+                            selectedFilterPersonId={selectedFilterPersonId}
+                        />
 
-                    {/* <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div> */}
+                        {/* <div><pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
+
+                        {/* <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div> */}
 
 
-                </>
-            }
+                    </>
+                }
+
+            </Typography>
 
         </div>
     )

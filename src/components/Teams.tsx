@@ -1,3 +1,4 @@
+import { Box, Button, Card, CardActions, CardContent, CardHeader, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { ITeam } from "../interfaces/Interfaces";
 
@@ -31,19 +32,13 @@ const Teams: React.FC<IProps> = (props: IProps) => {
             <tr key={t.id}>
                 {/* <td>{t.id}</td> */}
                 <td>{t.name}</td>
-                <td><button onClick={(e) => beginEditTeam(t)}>Edit</button></td>
-                <td><button onClick={(e) => deleteTeam(t.id)}>Delete</button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => beginEditTeam(t)}>Edit</Button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => deleteTeam(t.id)}>Delete</Button></td>
             </tr>
         )
         return (
             <table className="capTable">
                 <tbody>
-                    <tr>
-                        {/* <th>ID</th> */}
-                        <th>Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
                     {output}
                 </tbody>
             </table>
@@ -85,58 +80,60 @@ const Teams: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>Teams</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                Teams
+            </Typography>
 
-            {!isAdding && !isEditing &&
-                <div><button onClick={(e) => setIsAdding(true)} className="bigButton">Add Team</button></div>
-            }
-            {isAdding &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Add a Team</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>Team Name</b></td>
-                                    <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <Typography variant="body1" gutterBottom>
 
-                        <div className="right">
-                            <button onClick={addTeam} disabled={name.trim() === ""} className="bigButton rightMargin">Add</button>
-                            <button onClick={cancelAdd} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
-                </>
-            }
+                {!isAdding && !isEditing &&
+                    <div><Button variant="contained" onClick={(e) => setIsAdding(true)} className="bigButton">Add Team</Button></div>
+                }
+                {isAdding &&
+                    <Box display="inline-block">
+                        <Card
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <CardHeader title="Add Team"></CardHeader>
+                            <CardContent>
+                                <TextField id="username" label="Team Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                            </CardContent>
+                            <CardActions>
+                                <Button variant="contained" onClick={addTeam} disabled={name.trim() === ""} >Add</Button>
+                                <Button variant="outlined" onClick={cancelAdd} >Cancel</Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                }
 
-            {!isEditing && !isAdding &&
-                <>
-                    {getTeamsElements()}
-                </>
-            }
+                {!isEditing && !isAdding &&
+                    <>
+                        {getTeamsElements()}
+                    </>
+                }
 
-            {isEditing &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Edit a Team</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>Team Name</b></td>
-                                    <td><input type="text" value={editName} onChange={(e) => setEditName(e.target.value)}></input></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                {isEditing &&
+                    <Box display="inline-block">
+                        <Card
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <CardHeader title="Edit Team"></CardHeader>
+                            <CardContent>
+                                <TextField id="username" label="Team Name" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} />
+                            </CardContent>
+                            <CardActions>
+                                <Button variant="contained" onClick={editTeam} disabled={editName.trim() === ""} >Update</Button>
+                                <Button variant="outlined" onClick={(e) => setIsEditing(false)} >Cancel</Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                }
 
-                        <div className="right">
-                            <button onClick={editTeam} disabled={editName.trim() === ""} className="bigButton rightMargin">Update</button>
-                            <button onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
-                </>
-            }
+            </Typography>
         </div>
     )
 

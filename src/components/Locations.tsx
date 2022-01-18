@@ -1,3 +1,4 @@
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Chip, FormControl, FormLabel, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import DatePicker from 'react-date-picker';
 
@@ -41,19 +42,13 @@ const Locations: React.FC<IProps> = (props: IProps) => {
             <tr key={l.id}>
                 {/* <td>{l.id}</td> */}
                 <td>{l.name}</td>
-                <td><button onClick={(e) => beginEditLocation(l)}>Edit</button></td>
-                <td><button onClick={(e) => deleteLocation(l.id)}>Delete</button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => beginEditLocation(l)}>Edit</Button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => deleteLocation(l.id)}>Delete</Button></td>
             </tr>
         )
         return (
             <table className="capTable">
                 <tbody>
-                    <tr>
-                        {/* <th>ID</th> */}
-                        <th>Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
                     {output}
                 </tbody>
             </table>
@@ -71,6 +66,7 @@ const Locations: React.FC<IProps> = (props: IProps) => {
     const beginEditLocation = (location: ILocation) => {
         setLocationEdited(location);
         setIsEditing(true);
+        setIsEditingLocHoliday(false);
         setEditName(location.name);
     }
 
@@ -165,131 +161,243 @@ const Locations: React.FC<IProps> = (props: IProps) => {
         setIsAddingLocHoliday(false);
     }
 
+    const cancelMain = () => {
+        setIsEditing(false);
+        setIsEditingLocHoliday(false);
+        setIsAdding(false);
+        setIsAddingLocHoliday(false);
+    }
+
     return (
         <div>
-            <h2>Locations & Holidays</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                Locations & Holidays
+            </Typography>
 
-            {!isAdding && !isEditing &&
-                <div><button onClick={(e) => setIsAdding(true)} className="bigButton">Add Location</button></div>
-            }
-            {isAdding &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Add a Location</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <Typography variant="body1" gutterBottom>
 
-                        <div className="right">
-                            <button onClick={addLocation} disabled={name.trim() === ""} className="bigButton rightMargin">Add</button>
-                            <button onClick={cancelAdd} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
-                </>
-            }
+                {!isAdding && !isEditing &&
+                    <div><Button variant="contained" onClick={(e) => setIsAdding(true)} className="bigButton">Add Location</Button></div>
+                }
 
-            {!isEditing && !isAdding &&
-                <>
-                    {getLocationsElements()}
-                </>
-            }
+                {isAdding &&
+                    <Box display="inline-block">
+                        <Card
+                            component="form"
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <CardHeader title="Add Location"></CardHeader>
+                            <CardContent>
+                                <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                            </CardContent>
+                            <CardContent>
+                                <Chip label="Edit this location to add Holidays" size="small" />
+                            </CardContent>
+                            <CardActions>
+                                <Button variant="contained" onClick={addLocation} disabled={name.trim() === ""}  >Add</Button>
+                                <Button variant="outlined" onClick={cancelAdd} >Cancel</Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
+                }
 
-            {isEditing &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Edit a Location</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td><input type="text" value={editName} onChange={(e) => setEditName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Holidays:</b></td>
-                                    <td>
-                                        {!isEditingLocHoliday && !isAddingLocHoliday &&
-                                            <>
-                                                {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length > 0 &&
-                                                    <table className="formTable marginBottom10">
-                                                        {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).sort(dateSort).map((lh) =>
-                                                            <tr>
-                                                                <td>{lh.name}</td>
-                                                                <td>{dateDisplay(lh.date)}</td>
-                                                                <td><button onClick={(e) => editLocationHoliday(lh)}>Edit</button></td>
-                                                                <td><button onClick={(e) => deleteLocationHoliday(lh)}>Delete</button></td>
-                                                            </tr>
-                                                        )}
+                {!isEditing && !isAdding &&
+                    <>
+                        {getLocationsElements()}
+                    </>
+                }
+
+                {isEditing &&
+                    <>
+                        <Box display="inline-block">
+                            <Card
+                                component="form"
+                                noValidate
+                                autoComplete="off"
+                            >
+                                <CardHeader title="Edit Location"></CardHeader>
+                                <CardContent>
+                                    <Stack>
+                                        <TextField id="location" label="Location" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} />
+                                        <h5>Holidays</h5>
+                                        <div>
+                                            {!isEditingLocHoliday && !isAddingLocHoliday &&
+                                                <>
+                                                    {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length > 0 &&
+                                                        <table className="formTable marginBottom10">
+                                                            {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).sort(dateSort).map((lh) =>
+                                                                <tr>
+                                                                    <td>{lh.name}</td>
+                                                                    <td>{dateDisplay(lh.date)}</td>
+                                                                    <td><Button variant="outlined" size="small" onClick={(e) => editLocationHoliday(lh)}>Edit</Button></td>
+                                                                    <td><Button variant="outlined" size="small" onClick={(e) => deleteLocationHoliday(lh)}>Delete</Button></td>
+                                                                </tr>
+                                                            )}
+                                                        </table>
+                                                    }
+                                                    {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length <= 0 &&
+                                                        <div className="marginBottom10">No holidays have been created for this location.</div>
+                                                    }
+                                                    <div>
+                                                        <Button variant="outlined" onClick={(e) => addLocHoliday()}>Add Holiday</Button>
+                                                    </div>
+                                                </>
+                                            }
+
+                                            {isEditingLocHoliday &&
+                                                <Box>
+                                                    <Card
+                                                        component="form"
+                                                        noValidate
+                                                        autoComplete="off"
+                                                        sx={{ width: 400, overflow: "visible" }}
+                                                        variant="outlined"
+                                                    >
+                                                        <CardHeader title="Edit Holiday"></CardHeader>
+                                                        <CardContent>
+                                                            <TextField id="holidayname" fullWidth label="Holiday" variant="standard" required onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name} />
+                                                        </CardContent>
+                                                        <CardContent>
+                                                            <FormControl>
+                                                                <FormLabel>Date</FormLabel>
+                                                                <DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} />
+                                                            </FormControl>
+                                                        </CardContent>
+                                                        <CardActions>
+                                                            <Button variant="contained" size="small" disabled={locHolidayEdited.name.trim() === ""} onClick={(e) => updateLocHoliday()}>Update</Button>
+                                                            <Button variant="outlined" size="small" onClick={(e) => cancelEditLocationHoliday()}>Cancel</Button>
+                                                        </CardActions>
+                                                    </Card>
+                                                </Box>
+                                            }
+
+                                            {isAddingLocHoliday &&
+                                                <fieldset className="inlineBlock pad10">
+                                                    <legend><b>Add Holiday</b></legend>
+
+                                                    <table className="formTable">
+                                                        <tr>
+                                                            <td>Name:</td>
+                                                            <td><input type="text" onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name}></input></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Date:</td>
+                                                            <td><DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} /></td>
+                                                        </tr>
                                                     </table>
-                                                }
-                                                {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length <= 0 &&
-                                                    <div className="marginBottom10">No holidays have been created for this location.</div>
-                                                }
-                                                <div>
-                                                    <button onClick={(e) => addLocHoliday()}>Add Holiday</button>
-                                                </div>
-                                            </>
-                                        }
+                                                    <div>
+                                                        <button className="rightMargin" onClick={(e) => addNewLocHoliday()} disabled={locHolidayEdited.name.trim() === ""}>Save</button>
+                                                        <button onClick={(e) => cancelAddLocationHoliday()}>Cancel</button>
+                                                    </div>
 
-                                        {isEditingLocHoliday &&
-                                            <fieldset className="inlineBlock pad10">
-                                                <legend><b>Edit Holiday</b></legend>
+                                                </fieldset>
+                                            }
 
-                                                <table className="formTable">
-                                                    <tr>
-                                                        <td>Name:</td>
-                                                        <td><input type="text" onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name}></input></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Date:</td>
-                                                        <td><DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} /></td>
-                                                    </tr>
-                                                </table>
-                                                <div>
-                                                    <button className="rightMargin" disabled={locHolidayEdited.name.trim() === ""} onClick={(e) => updateLocHoliday()}>Update</button>
-                                                    <button onClick={(e) => cancelEditLocationHoliday()}>Cancel</button>
-                                                </div>
+                                        </div>
+                                    </Stack>
+                                </CardContent>
+                                {!isEditingLocHoliday && !isAddingLocHoliday &&
+                                    <CardActions>
+                                        <Button variant="contained" onClick={editLocation} disabled={editName.trim() === ""} >Update</Button>
+                                        <Button variant="outlined" onClick={cancelMain} >Cancel</Button>
+                                    </CardActions>
+                                }
+                            </Card>
+                        </Box>
 
-                                            </fieldset>
-                                        }
+                        <fieldset className="inlineBlock pad10">
+                            <legend><h3>Edit a Location</h3></legend>
+                            <table className="formTable">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Location</b></td>
+                                        <td><input type="text" value={editName} onChange={(e) => setEditName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Holidays:</b></td>
+                                        <td>
+                                            {!isEditingLocHoliday && !isAddingLocHoliday &&
+                                                <>
+                                                    {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length > 0 &&
+                                                        <table className="formTable marginBottom10">
+                                                            {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).sort(dateSort).map((lh) =>
+                                                                <tr>
+                                                                    <td>{lh.name}</td>
+                                                                    <td>{dateDisplay(lh.date)}</td>
+                                                                    <td><button onClick={(e) => editLocationHoliday(lh)}>Edit</button></td>
+                                                                    <td><button onClick={(e) => deleteLocationHoliday(lh)}>Delete</button></td>
+                                                                </tr>
+                                                            )}
+                                                        </table>
+                                                    }
+                                                    {locationHolidays.filter((lh) => lh.locationId === locationEdited.id).length <= 0 &&
+                                                        <div className="marginBottom10">No holidays have been created for this location.</div>
+                                                    }
+                                                    <div>
+                                                        <button onClick={(e) => addLocHoliday()}>Add Holiday</button>
+                                                    </div>
+                                                </>
+                                            }
 
-                                        {isAddingLocHoliday &&
-                                            <fieldset className="inlineBlock pad10">
-                                                <legend><b>Add Holiday</b></legend>
+                                            {isEditingLocHoliday &&
+                                                <fieldset className="inlineBlock pad10">
+                                                    <legend><b>Edit Holiday</b></legend>
 
-                                                <table className="formTable">
-                                                    <tr>
-                                                        <td>Name:</td>
-                                                        <td><input type="text" onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name}></input></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Date:</td>
-                                                        <td><DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} /></td>
-                                                    </tr>
-                                                </table>
-                                                <div>
-                                                    <button className="rightMargin" onClick={(e) => addNewLocHoliday()} disabled={locHolidayEdited.name.trim() === ""}>Save</button>
-                                                    <button onClick={(e) => cancelAddLocationHoliday()}>Cancel</button>
-                                                </div>
+                                                    <table className="formTable">
+                                                        <tr>
+                                                            <td>Name:</td>
+                                                            <td><input type="text" onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name}></input></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Date:</td>
+                                                            <td><DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} /></td>
+                                                        </tr>
+                                                    </table>
+                                                    <div>
+                                                        <button className="rightMargin" disabled={locHolidayEdited.name.trim() === ""} onClick={(e) => updateLocHoliday()}>Update</button>
+                                                        <button onClick={(e) => cancelEditLocationHoliday()}>Cancel</button>
+                                                    </div>
 
-                                            </fieldset>
-                                        }
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                </fieldset>
 
-                        <div className="right">
-                            <button onClick={editLocation} disabled={editName.trim() === ""} className="bigButton rightMargin">Update</button>
-                            <button onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
-                </>
-            }
+                                            }
+
+                                            {isAddingLocHoliday &&
+                                                <fieldset className="inlineBlock pad10">
+                                                    <legend><b>Add Holiday</b></legend>
+
+                                                    <table className="formTable">
+                                                        <tr>
+                                                            <td>Name:</td>
+                                                            <td><input type="text" onChange={(e) => onChangeLocHolidayEditedName(e.target.value)} value={locHolidayEdited.name}></input></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Date:</td>
+                                                            <td><DatePicker onChange={(date: Date) => onChangeLocHolidayEditedDate(date)} value={locHolidayEdited.date} clearIcon={null} /></td>
+                                                        </tr>
+                                                    </table>
+                                                    <div>
+                                                        <button className="rightMargin" onClick={(e) => addNewLocHoliday()} disabled={locHolidayEdited.name.trim() === ""}>Save</button>
+                                                        <button onClick={(e) => cancelAddLocationHoliday()}>Cancel</button>
+                                                    </div>
+
+                                                </fieldset>
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div className="right">
+                                <button onClick={editLocation} disabled={editName.trim() === ""} className="bigButton rightMargin">Update</button>
+                                <button onClick={cancelMain} className="bigButton">Cancel</button>
+                            </div>
+                        </fieldset>
+                    </>
+                }
+
+            </Typography>
         </div>
     )
 

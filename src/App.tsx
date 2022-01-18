@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
@@ -12,6 +17,7 @@ import Vacations from "./components/Vacations";
 import PICapacity from './components/PICapacity';
 
 import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IIteration, ITeam } from "./interfaces/Interfaces";
+import { Typography } from '@mui/material';
 
 export interface IProps {
 }
@@ -332,14 +338,16 @@ const App: React.FC<IProps> = (props: IProps) => {
     if (username.trim() === "Manager" && password.trim() === "RedBrick") {
       setIsLoggedIn(true);
       setUserRole("MANAGER");
+      setPage("HOME");
       return "";
     }
     if (username.trim() === "User" && password.trim() === "GreenTree") {
       setIsLoggedIn(true);
       setUserRole("USER");
+      setPage("HOME");
       return "";
     }
-    return "Login failed"
+    return "Login failed";
   }
 
   const onLogOut = () => {
@@ -357,7 +365,7 @@ const App: React.FC<IProps> = (props: IProps) => {
       case "LOCATIONS": return <Locations locations={locations} locationHolidays={locationHolidays} addLocation={addLocation} editLocation={editLocation} deleteLocation={deleteLocation} />;
       case "VACATIONS": return <Vacations selectedPersonId={selectedPersonId} personsBasic={personsBasic} personVacations={personVacations} locationHolidays={locationHolidays} updateVacations={updateVacations} updateSelectedPersonId={(id: number) => setSelectedPersonId(id)} />;
       case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} setProgramIncrementId={setProgramIncrementId} addProgramIncrement={addProgramIncrement2} editProgramIncrement={editProgramIncrement2} deleteProgramIncrement={deleteProgramIncrement2} addProgramIteration={addProgramIteration} editProgramIteration={editProgramIteration} deleteProgramIteration={deleteProgramIteration} />;
-       case "CAPACITY": return <PICapacity programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
+      case "CAPACITY": return <PICapacity programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
 
       default: return <h2>Page Unknown</h2>;
     }
@@ -365,15 +373,19 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   return (
     <div className="app">
-      <h1>Intrado Capacity Planner</h1>
+      <div className="mainBody">
 
-      {isLoggedIn &&
-        <Menu page={page} userRole={userRole} onSelectPage={onSelectPage} onLogOut={onLogOut} />
-      }
+        <Typography variant="h2" component="div" gutterBottom>
+          Intrado Capacity Planner
+        </Typography>
 
-      {getComponentToDisplay()}
+        {isLoggedIn &&
+          <Menu page={page} userRole={userRole} onSelectPage={onSelectPage} onLogOut={onLogOut} />
+        }
 
-      {/* {!showData &&
+        {getComponentToDisplay()}
+
+        {/* {!showData &&
         <button onClick={(e) => setShowData(true)}>Show Data</button>
       }
 
@@ -389,12 +401,13 @@ const App: React.FC<IProps> = (props: IProps) => {
         </>
       } */}
 
-      {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
+        {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
       <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
 
+      </div>
       <Footer></Footer>
 
-    </div>
+    </div >
   );
 }
 

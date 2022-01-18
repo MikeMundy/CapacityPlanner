@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import { ILocation, IPersonBasic, IPersonTeam, ITeam, IInTeam } from "../interfaces/Interfaces";
 
@@ -235,173 +236,178 @@ const People: React.FC<IProps> = (props: IProps) => {
 
     return (
         <div>
-            <h2>People</h2>
+            <Typography variant="h3" component="div" gutterBottom>
+                People
+            </Typography>
 
-            {!isAdding && !isEditing &&
-                <>
-                    <div><button onClick={(e) => beginAddPerson()} className="bigButton">Add Person</button></div>
-                    {getPersonsElements()}
-                </>
-            }
+            <Typography variant="body1" gutterBottom>
 
-            {!isEditing && isAdding &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Add Person</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>First Name</b></td>
-                                    <td><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Last Name</b></td>
-                                    <td><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td>
-                                        <select value={locationId} onChange={(e) => setLocationId(parseInt(e.target.value))}>
-                                            <option value={-1}>-- select --</option>
-                                            {props.locations.map((l) => <option value={l.id}>{l.name}</option>)}
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>Teams</b></td>
-                                    <td>
-                                        {props.teams.length > 0 &&
-                                            <table className="formTable">
-                                                <tbody>
-                                                    <tr>
-                                                        <th className="left">Team</th>
-                                                        <th>In Team?</th>
-                                                        <th>Role in team</th>
-                                                        <th>%</th>
-                                                    </tr>
-                                                    {props.teams.map((t) =>
-                                                        <tr key={"ta" + t.id}>
-                                                            <td>{t.name}</td>
-                                                            <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
-                                                            <td>
-                                                                {isInTeam(t) &&
-                                                                    <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
-                                                                }
-                                                            </td>
-                                                            <td>
-                                                                {isInTeam(t) &&
-                                                                    <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
-                                                                }
-                                                            </td>
+                {!isAdding && !isEditing &&
+                    <>
+                        <div><button onClick={(e) => beginAddPerson()} className="bigButton">Add Person</button></div>
+                        {getPersonsElements()}
+                    </>
+                }
+
+                {!isEditing && isAdding &&
+                    <>
+                        <fieldset className="inlineBlock pad10">
+                            <legend><h3>Add Person</h3></legend>
+                            <table className="formTable">
+                                <tbody>
+                                    <tr>
+                                        <td><b>First Name</b></td>
+                                        <td><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Last Name</b></td>
+                                        <td><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Location</b></td>
+                                        <td>
+                                            <select value={locationId} onChange={(e) => setLocationId(parseInt(e.target.value))}>
+                                                <option value={-1}>-- select --</option>
+                                                {props.locations.map((l) => <option value={l.id}>{l.name}</option>)}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Teams</b></td>
+                                        <td>
+                                            {props.teams.length > 0 &&
+                                                <table className="formTable">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th className="left">Team</th>
+                                                            <th>In Team?</th>
+                                                            <th>Role in team</th>
+                                                            <th>%</th>
                                                         </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        }
+                                                        {props.teams.map((t) =>
+                                                            <tr key={"ta" + t.id}>
+                                                                <td>{t.name}</td>
+                                                                <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
+                                                                <td>
+                                                                    {isInTeam(t) &&
+                                                                        <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
+                                                                    }
+                                                                    {!isInTeam(t) &&
+                                                                        <>n/a</>
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {isInTeam(t) &&
+                                                                        <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
+                                                                    }
+                                                                    {!isInTeam(t) &&
+                                                                        <>n/a</>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            }
 
-                                        {props.teams.length <= 0 &&
-                                            <span>There are currently no teams set up.</span>
-                                        }
+                                            {props.teams.length <= 0 &&
+                                                <span>There are currently no teams set up.</span>
+                                            }
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                        <div className="right">
-                            <button onClick={addPerson} disabled={firstName.trim() === "" || lastName.trim() === ""} className="bigButton rightMargin">Add</button>
-                            <button onClick={(e) => setIsAdding(false)} className="bigButton">Cancel</button>
-                        </div>
+                            <div className="right">
+                                <button onClick={addPerson} disabled={firstName.trim() === "" || lastName.trim() === ""} className="bigButton rightMargin">Add</button>
+                                <button onClick={(e) => setIsAdding(false)} className="bigButton">Cancel</button>
+                            </div>
 
-                    </fieldset>
-                </>
-            }
+                        </fieldset>
+                    </>
+                }
 
-            {isEditing &&
-                <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Edit Person</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>First Name</b></td>
-                                    <td><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Last Name</b></td>
-                                    <td><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td>
-                                        <select value={editLocationId} onChange={(e) => setEditLocationId(parseInt(e.target.value))}>
-                                            <option value={-1}>-- select --</option>
-                                            {props.locations.map((l) => <option value={l.id}>{l.name}</option>)}
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>Teams</b></td>
-                                    <td>
+                {isEditing &&
+                    <>
+                        <fieldset className="inlineBlock pad10">
+                            <legend><h3>Edit Person</h3></legend>
+                            <table className="formTable">
+                                <tbody>
+                                    <tr>
+                                        <td><b>First Name</b></td>
+                                        <td><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Last Name</b></td>
+                                        <td><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)}></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Location</b></td>
+                                        <td>
+                                            <select value={editLocationId} onChange={(e) => setEditLocationId(parseInt(e.target.value))}>
+                                                <option value={-1}>-- select --</option>
+                                                {props.locations.map((l) => <option value={l.id}>{l.name}</option>)}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Teams</b></td>
+                                        <td>
 
-                                        {props.teams.length > 0 &&
-                                            <table className="capTable">
-                                                <tbody>
-                                                    <tr>
-                                                        <th className="left">Team</th>
-                                                        <th>In Team?</th>
-                                                        <th>Role in team</th>
-                                                        <th>%</th>
-                                                    </tr>
-                                                    {props.teams.map((t) =>
-                                                        <tr key={"t" + t.id}>
-                                                            <td>{t.name}</td>
-                                                            <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
-                                                            <td>
-                                                                {isInTeam(t) &&
-                                                                    <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
-                                                                }
-                                                            </td>
-                                                            <td>
-                                                                {isInTeam(t) &&
-                                                                    <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
-                                                                }
-                                                            </td>
+                                            {props.teams.length > 0 &&
+                                                <table className="capTable">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th className="left">Team</th>
+                                                            <th>In Team?</th>
+                                                            <th>Role in team</th>
+                                                            <th>%</th>
                                                         </tr>
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        }
+                                                        {props.teams.map((t) =>
+                                                            <tr key={"t" + t.id}>
+                                                                <td>{t.name}</td>
+                                                                <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
+                                                                <td>
+                                                                    {isInTeam(t) &&
+                                                                        <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
+                                                                    }
+                                                                    {!isInTeam(t) &&
+                                                                        <>n/a</>
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    {isInTeam(t) &&
+                                                                        <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
+                                                                    }
+                                                                    {!isInTeam(t) &&
+                                                                        <>n/a</>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            }
 
-                                        {props.teams.length <= 0 &&
-                                            <span>There are currently no teams set up.</span>
-                                        }
+                                            {props.teams.length <= 0 &&
+                                                <span>There are currently no teams set up.</span>
+                                            }
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                        <div className="right">
-                            <button onClick={editPerson} disabled={editFirstName.trim() === "" || editLastName.trim() === ""} className="bigButton rightMargin">Update</button>
-                            <button onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</button>
-                        </div>
+                            <div className="right">
+                                <button onClick={editPerson} disabled={editFirstName.trim() === "" || editLastName.trim() === ""} className="bigButton rightMargin">Update</button>
+                                <button onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</button>
+                            </div>
 
-                    </fieldset>
-                </>
-            }
+                        </fieldset>
+                    </>
+                }
+            </Typography>
         </div>
     )
 
