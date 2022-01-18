@@ -38,7 +38,7 @@ const Capacity: React.FC<IProps> = (props: IProps) => {
     }
 
     const piSorter = (p1: IProgramIncrement, p2: IProgramIncrement): number => {
-        return p1.startDate.getFullYear() > p2.startDate.getFullYear() ? 1 : -1;
+        return p1.startDate > p2.startDate ? 1 : -1;
     };
 
     const dateDisplay = (dt: Date): string => {
