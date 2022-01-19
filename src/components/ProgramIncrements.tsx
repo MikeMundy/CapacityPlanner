@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Chip, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { IProgramIncrement, IIteration } from "../interfaces/Interfaces";
 import ProgramIterations from "./ProgramIterations";
@@ -25,7 +25,7 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
 
     const getProgramIncrementElements = () => {
 
-        if (props.programIncrements.length === 0) { return <p>There are currently no Program Increments.</p> }
+        if (props.programIncrements.length === 0) { return <p>There are currently no program increments.</p> }
 
         const sorter = (pi1: IProgramIncrement, pi2: IProgramIncrement): number => {
             return pi1.name < pi2.name ? -1 : 1;
@@ -34,18 +34,13 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
         const output = props.programIncrements.sort(sorter).map((t) =>
             <tr key={t.id}>
                 <td>{t.name}</td>
-                <td><button onClick={(e) => startEdit(t.id)}>Edit</button></td>
-                <td><button onClick={(e) => deleteProgramIncrement(t.id)}>Delete</button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => startEdit(t.id)}>Edit</Button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => deleteProgramIncrement(t.id)}>Delete</Button></td>
             </tr>
         )
         return (
             <table className="capTable">
                 <tbody>
-                    <tr>
-                        <th>PI Name</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
                     {output}
                 </tbody>
             </table>
@@ -112,58 +107,46 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
                 Program Increments
             </Typography>
 
-            <Typography variant="body1" gutterBottom>
+            {!isAdding && !isEditing &&
+                <div><Button variant="contained" onClick={(e) => startAdd()}>Add Program Increment</Button></div>
+            }
 
-                {!isAdding && !isEditing &&
-                    <div><button onClick={(e) => startAdd()} className="bigButton">Add Program Increment</button></div>
-                }
-
-                {(isAdding || isEditing) &&
-                    <>
-                        <fieldset className="inlineBlock pad10">
-                            <legend><h3>{getAddOrEditTitle()} a Program Increment</h3></legend>
-                            <table className="formTable">
-                                <tbody>
-                                    <tr>
-                                        <td><b>PI Name</b></td>
-                                        <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Iterations</b></td>
-                                        {isAdding &&
-                                            <td>Edit to add Iterations after saving this new PI</td>
-                                        }
-                                        {isEditing &&
-                                            <td><ProgramIterations programIncrementId={programIncrementId} programIterations={props.programIterations} addProgramIteration={props.addProgramIteration} editProgramIteration={props.editProgramIteration} deleteProgramIteration={props.deleteProgramIteration} /></td>
-                                        }
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div className="right">
+            {(isAdding || isEditing) &&
+                <>
+                    <Box display="inline-block">
+                        <Card>
+                            <CardHeader title={getAddOrEditTitle() + " Program Increment"} ></CardHeader>
+                            <CardContent>
+                                <TextField id="location" label="PI Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                            </CardContent>
+                            <CardActions>
                                 {isAdding &&
-                                    <button onClick={saveAddProgramIncrement} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
+                                    <Button variant="contained" onClick={saveAddProgramIncrement} disabled={checkEditIsInvalid()}>Save</Button>
                                 }
                                 {isEditing &&
-                                    <button onClick={() => saveEditProgramIncrement()} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
+                                    <Button variant="contained" onClick={() => saveEditProgramIncrement()} disabled={checkEditIsInvalid()}>Update</Button>
                                 }
-                                <button onClick={CancelAddOrEdit} className="bigButton">Cancel</button>
-                            </div>
-                        </fieldset>
-                    </>
-                }
+                                <Button variant="outlined" onClick={CancelAddOrEdit}>Cancel</Button>
+                            </CardActions>
+                            <CardContent>
+                                {isAdding &&
+                                    <Chip label="Edit this PI Increment to add Iterations" size="small" />
+                                }
+                                {isEditing &&
+                                    <ProgramIterations programIncrementId={programIncrementId} programIterations={props.programIterations} addProgramIteration={props.addProgramIteration} editProgramIteration={props.editProgramIteration} deleteProgramIteration={props.deleteProgramIteration} />
+                                }
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </>
+            }
 
-                {!isEditing && !isAdding &&
-                    <>
-                        {getProgramIncrementElements()}
-                    </>
-                }
+            {!isEditing && !isAdding &&
+                <>
+                    {getProgramIncrementElements()}
+                </>
+            }
 
-                {/* <div>ProgramIncrements2, programIncrementId: {programIncrementId}</div>
-            <div>ProgramIncrements2, props.programIterations:  <pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
-
-            </Typography>
         </div >
     )
 

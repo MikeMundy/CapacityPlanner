@@ -1,3 +1,4 @@
+import { Box, Button, Card, CardContent, CardHeader, FormControl, FormLabel, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { IIteration } from "../interfaces/Interfaces";
 import DatePicker from 'react-date-picker';
@@ -23,7 +24,7 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
 
     const getProgramIterationElements = () => {
 
-        if (props.programIterations.length === 0) { return <div className="marBottom5">There are currently no Program Iterations.</div> }
+        if (props.programIterations.length === 0) { return <p>There are currently no Program Iterations.</p> }
 
         const sorter = (pi1: IIteration, pi2: IIteration): number => {
             return pi1.startDate < pi2.startDate ? -1 : 1;
@@ -47,8 +48,8 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
                 <td>{dateDisplay(addDays(t.startDate, t.lengthInDays - 1))}</td>
                 <td className="center">{t.lengthInDays}</td>
                 <td className="center">{t.points}</td>
-                <td><button onClick={(e) => startEdit(t.id)}>Edit</button></td>
-                <td><button onClick={(e) => deleteProgramIteration(t.id)}>Delete</button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => startEdit(t.id)}>Edit</Button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => deleteProgramIteration(t.id)}>Delete</Button></td>
             </tr>
         )
         return (
@@ -131,7 +132,7 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
     }
 
     const filterAsInteger = (x: string): number => {
-        if(parseInt(x)) {
+        if (parseInt(x)) {
             return parseInt(x);
         } else {
             return 0;
@@ -143,50 +144,47 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
 
             {(isAdding || isEditing) &&
                 <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>{getAddOrEditTitle()} a Program Iteration</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>Iteration Name</b></td>
-                                    <td><input type="text" value={name} onChange={(e) => setName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Start Date</b></td>
-                                    <td><DatePicker onChange={(date: Date) => setStartDate(date)} value={startDate} clearIcon={null} /></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Length (days)</b></td>
-                                    <td><input type="text" value={lengthInDays} onChange={(e) => setLengthInDays(filterAsInteger(e.target.value))} className="percentInput"></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Points</b></td>
-                                    <td><input type="text" value={points} onChange={(e) => setPoints(filterAsInteger(e.target.value))} className="percentInput"></input></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div className="right">
-                            {isAdding &&
-                                <button onClick={saveAddProgramIteration} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Save</button>
-                            }
-                            {isEditing &&
-                                <button onClick={() => saveEditProgramIteration()} disabled={checkEditIsInvalid()} className="bigButton rightMargin">Update</button>
-                            }
-                            <button onClick={CancelAddOrEdit} className="bigButton">Cancel</button>
-                        </div>
-                    </fieldset>
+                    <Box display="inline-block">
+                        <Card sx={{ width: 400, overflow: "visible" }}>
+                            <CardHeader title={getAddOrEditTitle() + " a Program Iteration"} ></CardHeader>
+                            <CardContent>
+                                <TextField id="iteration" label="Iteration Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                            </CardContent>
+                            <CardContent>
+                                <FormControl>
+                                    <FormLabel>Start Date</FormLabel>
+                                    <DatePicker onChange={(date: Date) => setStartDate(date)} value={startDate} clearIcon={null} />
+                                </FormControl>
+                            </CardContent>
+                            <CardContent>
+                                <TextField id="length" label="Length (days)" variant="standard" required value={lengthInDays} onChange={(e) => setLengthInDays(filterAsInteger(e.target.value))} />
+                            </CardContent>
+                            <CardContent>
+                                <TextField id="points" label="Points" variant="standard" required value={points} onChange={(e) => setPoints(filterAsInteger(e.target.value))} />
+                            </CardContent>
+                            <CardContent>
+                                {isAdding &&
+                                    <Button variant="contained" onClick={saveAddProgramIteration} disabled={checkEditIsInvalid()}>Save</Button>
+                                }
+                                {isEditing &&
+                                    <Button variant="contained" onClick={() => saveEditProgramIteration()} disabled={checkEditIsInvalid()}>Update</Button>
+                                }
+                                <Button variant="outlined" onClick={CancelAddOrEdit} className="bigButton">Cancel</Button>
+                            </CardContent>
+                        </Card>
+                    </Box>
                 </>
             }
 
             {!isEditing && !isAdding &&
                 <>
+                    <h3>Program Iterations</h3>
                     {getProgramIterationElements()}
                 </>
             }
 
             {!isAdding && !isEditing &&
-                <div><button onClick={(e) => startAdd()} className="bigButton">Add Program Iteration</button></div>
+                <div><Button variant="outlined" onClick={(e) => startAdd()}>Add Program Iteration</Button></div>
             }
 
             {/* <div><pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}

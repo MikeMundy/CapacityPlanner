@@ -44,7 +44,7 @@ const EditLocation: React.FC<IProps> = (props: IProps) => {
             noValidate
             autoComplete="off"
         >
-            <CardHeader title="Edit Location NEW"></CardHeader>
+            <CardHeader title="Edit Location"></CardHeader>
             <CardContent>
                 <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
             </CardContent>

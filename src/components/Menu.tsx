@@ -33,9 +33,9 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         pages.forEach((p, index) => {
             if (GetAllowedPage(p)) {
                 if (props.page === p.name) {
-                    results.push(<Button onClick={(e) => props.onSelectPage(p.name)} sx={{ fontWeight: "bold", backgroundColor: "rgba(25, 118, 210, 0.04)"}}>{p.title}</Button>);
+                    results.push(<Button key={index} onClick={(e) => props.onSelectPage(p.name)} sx={{ fontWeight: "bold", backgroundColor: "rgba(25, 118, 210, 0.04)"}}>{p.title}</Button>);
                 } else {
-                    results.push(<Button onClick={(e) => props.onSelectPage(p.name)}>{p.title}</Button>);
+                    results.push(<Button key={index} onClick={(e) => props.onSelectPage(p.name)}>{p.title}</Button>);
                 }
             }
         })

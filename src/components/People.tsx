@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardHeader, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { ILocation, IPersonBasic, IPersonTeam, ITeam, IInTeam } from "../interfaces/Interfaces";
 
@@ -80,8 +80,8 @@ const People: React.FC<IProps> = (props: IProps) => {
                 <td>{p.firstName}</td>
                 <td>{displayPersonLocation(p)}</td>
                 <td>{displayPersonTeams(p)}</td>
-                <td><button onClick={(e) => beginEditPerson(p)}>Edit</button></td>
-                <td><button onClick={(e) => confirmDeletePerson(p.id)}>Delete</button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => beginEditPerson(p)}>Edit</Button></td>
+                <td><Button variant="outlined" size="small" onClick={(e) => confirmDeletePerson(p.id)}>Delete</Button></td>
             </tr>
         )
         return (
@@ -240,68 +240,55 @@ const People: React.FC<IProps> = (props: IProps) => {
                 People
             </Typography>
 
-
-
             {!isAdding && !isEditing &&
                 <>
-                    <div><button onClick={(e) => beginAddPerson()} className="bigButton">Add Person</button></div>
+                    <div><Button variant="contained" onClick={(e) => beginAddPerson()} className="bigButton">Add Person</Button></div>
                     {getPersonsElements()}
                 </>
             }
 
             {!isEditing && isAdding &&
                 <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Add Person</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>First Name</b></td>
-                                    <td><input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Last Name</b></td>
-                                    <td><input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td>
-                                        <select value={locationId} onChange={(e) => setLocationId(parseInt(e.target.value))}>
-                                            <option value={-1}>-- select --</option>
-                                            {props.locations.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>Teams</b></td>
-                                    <td>
+                    <Box display="inline-block">
+                        <Card sx={{ width: 500 }}>
+                            <CardHeader title="Add Person"></CardHeader>
+                            <CardContent>
+                                <Stack spacing={1}>
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                    <p></p>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="ageSelectLabel">Location *</InputLabel>
+                                        <Select
+                                            value={locationId}
+                                            onChange={(e) => setLocationId(parseInt(e.target.value.toString()))}
+                                            id="locationSelect"
+                                            label="Location"
+                                            labelId="ageSelectLabel"
+                                            required
+                                        >
+                                            <MenuItem value={-1} key={-1}>&nbsp;</MenuItem>
+                                            {props.locations.map((l) => <MenuItem key={l.id} value={l.id}>{l.name}</MenuItem>)}
+                                        </Select>
+                                    </FormControl>
+                                    <div>
+                                        <h3 style={{ marginBottom: "0px" }}>Teams</h3>
                                         {props.teams.length > 0 &&
                                             <table className="formTable">
                                                 <tbody>
-                                                    <tr>
-                                                        <th className="left">Team</th>
-                                                        <th>In Team?</th>
-                                                        <th>Role in team</th>
-                                                        <th>%</th>
-                                                    </tr>
                                                     {props.teams.map((t) =>
                                                         <tr key={"ta" + t.id}>
-                                                            <td>{t.name}</td>
-                                                            <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
-                                                            <td>
+                                                            <td className="left" style={{ verticalAlign: "bottom" }}>
+                                                                <FormControlLabel control={<Checkbox defaultChecked checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)} />} label={t.name} />
+                                                            </td>
+                                                            <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" />
                                                                 }
                                                             </td>
-                                                            <td>
+                                                            <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} />
                                                                 }
                                                             </td>
                                                         </tr>
@@ -309,79 +296,63 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                 </tbody>
                                             </table>
                                         }
-
-                                        {props.teams.length <= 0 &&
-                                            <span>There are currently no teams set up.</span>
+                                        {props.teams.length === 0 &&
+                                            <p>No teams are set up.</p>
                                         }
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div className="right">
-                            <button onClick={addPerson} disabled={firstName.trim() === "" || lastName.trim() === ""} className="bigButton rightMargin">Add</button>
-                            <button onClick={(e) => setIsAdding(false)} className="bigButton">Cancel</button>
-                        </div>
-
-                    </fieldset>
+                                    </div>
+                                </Stack>
+                            </CardContent>
+                            <CardActions>
+                                <Button variant="contained" onClick={addPerson} disabled={firstName.trim() === "" || lastName.trim() === "" || locationId === -1}>Add</Button>
+                                <Button variant="outlined" onClick={(e) => setIsAdding(false)} className="bigButton">Cancel</Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
                 </>
             }
 
             {isEditing &&
                 <>
-                    <fieldset className="inlineBlock pad10">
-                        <legend><h3>Edit Person</h3></legend>
-                        <table className="formTable">
-                            <tbody>
-                                <tr>
-                                    <td><b>First Name</b></td>
-                                    <td><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Last Name</b></td>
-                                    <td><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)}></input></td>
-                                </tr>
-                                <tr>
-                                    <td><b>Location</b></td>
-                                    <td>
-                                        <select value={editLocationId} onChange={(e) => setEditLocationId(parseInt(e.target.value))}>
-                                            <option value={-1}>-- select --</option>
-                                            {props.locations.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><b>Teams</b></td>
-                                    <td>
-
+                    <Box display="inline-block">
+                        <Card sx={{ width: 500 }}>
+                            <CardHeader title="Edit Person"></CardHeader>
+                            <CardContent>
+                                <Stack spacing={1}>
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} />
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={editLastName} onChange={(e) => setEditLastName(e.target.value)} />
+                                    <p></p>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="ageSelectLabel">Location *</InputLabel>
+                                        <Select
+                                            value={editLocationId}
+                                            onChange={(e) => setEditLocationId(parseInt(e.target.value.toString()))}
+                                            id="locationSelect"
+                                            label="Location"
+                                            labelId="ageSelectLabel"
+                                            required
+                                        >
+                                            <MenuItem value={-1} key={-1}>&nbsp;</MenuItem>
+                                            {props.locations.map((l) => <MenuItem key={l.id} value={l.id}>{l.name}</MenuItem>)}
+                                        </Select>
+                                    </FormControl>
+                                    <div>
+                                        <h3 style={{ marginBottom: "0px" }}>Teams</h3>
                                         {props.teams.length > 0 &&
-                                            <table className="capTable">
+                                            <table className="formTable">
                                                 <tbody>
-                                                    <tr>
-                                                        <th className="left">Team</th>
-                                                        <th>In Team?</th>
-                                                        <th>Role in team</th>
-                                                        <th>%</th>
-                                                    </tr>
                                                     {props.teams.map((t) =>
-                                                        <tr key={"t" + t.id}>
-                                                            <td>{t.name}</td>
-                                                            <td className="center"><input type="checkbox" checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)}></input></td>
-                                                            <td>
+                                                        <tr key={"ta" + t.id}>
+                                                            <td className="left" style={{ verticalAlign: "bottom" }}>
+                                                                <FormControlLabel control={<Checkbox defaultChecked checked={isInTeam(t)} onChange={(e) => changeIsInTeam(e.target.checked, t)} />} label={t.name} />
+                                                            </td>
+                                                            <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <input type="text" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)}></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" />
                                                                 }
                                                             </td>
-                                                            <td>
+                                                            <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <input type="text" value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} className="percentInput"></input>
-                                                                }
-                                                                {!isInTeam(t) &&
-                                                                    <>n/a</>
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} />
                                                                 }
                                                             </td>
                                                         </tr>
@@ -389,22 +360,18 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                 </tbody>
                                             </table>
                                         }
-
-                                        {props.teams.length <= 0 &&
-                                            <span>There are currently no teams set up.</span>
+                                        {props.teams.length === 0 &&
+                                            <p>No teams are set up.</p>
                                         }
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div className="right">
-                            <button onClick={editPerson} disabled={editFirstName.trim() === "" || editLastName.trim() === ""} className="bigButton rightMargin">Update</button>
-                            <button onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</button>
-                        </div>
-
-                    </fieldset>
+                                    </div>
+                                </Stack>
+                            </CardContent>
+                            <CardActions>
+                                <Button variant="contained" onClick={editPerson} disabled={editFirstName.trim() === "" || editLastName.trim() === "" || editLocationId === -1}>Update</Button>
+                                <Button variant="outlined" onClick={(e) => setIsEditing(false)} className="bigButton">Cancel</Button>
+                            </CardActions>
+                        </Card>
+                    </Box>
                 </>
             }
 

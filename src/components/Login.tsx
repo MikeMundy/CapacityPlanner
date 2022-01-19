@@ -13,10 +13,12 @@ const Login: React.FC<IProps> = (props: IProps) => {
 
     const onChangeUserName = (e: any): void => {
         setUserName(e.target.value);
+        setLoginResponse("");
     }
 
     const onChangePassword = (e: any): void => {
         setPassword(e.target.value);
+        setLoginResponse("");
     }
 
     const Reset = () => {
@@ -29,6 +31,8 @@ const Login: React.FC<IProps> = (props: IProps) => {
         e.preventDefault();
         const result = props.onLogin(userName, password);
         setLoginResponse(result);
+        setUserName("");
+        setPassword("");
     }
 
     return (
