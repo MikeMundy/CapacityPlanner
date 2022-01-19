@@ -146,7 +146,8 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
             <Typography variant="body1" gutterBottom>
 
                 <p>Select your name in the Person dropdown. Then use the Back & Next buttons to find a month, then click on a day to
-                add a vacation. '1' = one whole day of vacation. Click on any vacation entry to edit the proportion of the day (to '0.5' or '0.25' etc.) or to delete the vacation.
+                add a vacation.</p>
+                <p> '1' = one whole day of vacation. Click on any vacation entry to edit the proportion of the day (to '0.5' or '0.25' etc.) or to delete the vacation.
             </p>
 
                 {/* <div>{JSON.stringify(props.personVacations, null, 2)}</div>

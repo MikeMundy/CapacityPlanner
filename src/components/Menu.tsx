@@ -28,19 +28,26 @@ const Menu: React.FC<IProps> = (props: IProps) => {
         return false;
     }
 
-    const buttonElements = pages.map((p, index) =>
-        <span key={p.name}>
-            {GetAllowedPage(p) &&
-                <>
-                    <Button onClick={(e) => props.onSelectPage(p.name)}>{p.title}</Button>
-                </>
+    const getButtonElements = () => {
+        let results: any[] = [];
+        pages.forEach((p, index) => {
+            if (GetAllowedPage(p)) {
+                if (props.page === p.name) {
+                    results.push(<Button onClick={(e) => props.onSelectPage(p.name)} sx={{ fontWeight: "bold", backgroundColor: "rgba(25, 118, 210, 0.04)"}}>{p.title}</Button>);
+                } else {
+                    results.push(<Button onClick={(e) => props.onSelectPage(p.name)}>{p.title}</Button>);
+                }
             }
-        </span>
-    )
+        })
+        return results;
+    }
+
+    const buttonElements = getButtonElements();
+
 
     return (
         <Box sx={{ mb: 2 }}>
-            <ButtonGroup aria-label="main menu">
+            <ButtonGroup variant="text" aria-label="main menu">
                 {buttonElements}
                 <Button onClick={props.onLogOut}>Log Out</Button>
             </ButtonGroup>

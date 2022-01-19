@@ -1,11 +1,10 @@
 body {
   margin: 20px;
-  /* font-family: Verdana;
-  font-size: smaller; */
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
 .app {
-  /* width: 1200px; */
+  width: 1200px;
   padding: 20px;
 }
 
