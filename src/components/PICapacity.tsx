@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PICapacityTable from "./PICapacityTable";
 import { IIteration, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
-import { Typography } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 
 export interface IProps {
     selectedProgramIncrement: number;
@@ -17,6 +17,8 @@ export interface IProps {
 }
 
 const PICapacity: React.FC<IProps> = (props: IProps) => {
+
+    const [minimise, setMinimise] = useState(false);
 
     const nullPI: IProgramIncrement = { id: -1, name: "" };
 
@@ -58,11 +60,16 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
 
     const getTeamSelect = () => {
         const options: any[] = [];
-        options.push(<option value={-1}>-- select team --</option>);
+        options.push(<MenuItem value={-1}>&nbsp;</MenuItem>);
         props.teams.sort(teamSorter).forEach((team) => {
-            options.push(<option key={team.id} value={team.id}>{team.name}</option>)
+            options.push(<MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)
         })
-        return <select onChange={(e) => setSelectedTeam(e.target.value)} value={selectedFilterTeamId}>{options}</select>;
+        return <FormControl sx={{ marginBottom: 2, width: 200 }}>
+            <InputLabel id="team">Team</InputLabel>
+            <Select size="small" onChange={(e) => setSelectedTeam(e.target.value.toString())} value={selectedFilterTeamId} labelId="team" label="team">
+                {options}
+            </Select>
+        </FormControl >;
     }
 
     const personSorter = (p1: IPersonBasic, p2: IPersonBasic): number => {
@@ -74,19 +81,24 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
 
     const getNameSelect = () => {
         const options: any[] = [];
-        options.push(<option value={-1}>-- select person --</option>);
+        options.push(<MenuItem value={-1}>&nbsp;</MenuItem>);
         if (selectedFilterTeamId === -1) {
             props.persons.sort(personSorter).forEach((person) => {
-                options.push(<option key={person.id} value={person.id}>{person.lastName}, {person.firstName}</option>)
+                options.push(<MenuItem key={person.id} value={person.id}>{person.lastName}, {person.firstName}</MenuItem>)
             })
         } else {
             const personIdsInTeam = props.personTeams.filter((pt) => pt.teamId === selectedFilterTeamId).map((pt) => pt.personId);
             const personsInTeam = props.persons.filter((p) => personIdsInTeam.includes(p.id));
             personsInTeam.sort(personSorter).forEach((person) => {
-                options.push(<option key={person.id} value={person.id}>{person.lastName}, {person.firstName}</option>)
+                options.push(<MenuItem key={person.id} value={person.id}>{person.lastName}, {person.firstName}</MenuItem>)
             })
         }
-        return <select onChange={(e) => setSelectedFilterPersonId(parseInt(e.target.value))} value={selectedFilterPersonId}>{options}</select>;
+        return <FormControl sx={{ marginBottom: 2, width: 200 }}>
+            <InputLabel id="person">Person</InputLabel>
+            <Select size="small" onChange={(e) => setSelectedFilterPersonId(parseInt(e.target.value.toString()))} value={selectedFilterPersonId} labelId="person" label="person">
+                {options}
+            </Select>
+        </FormControl >;
     }
 
     return (
@@ -95,28 +107,27 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
                 Program Increment Capacity
             </Typography>
 
-            <table className="formTable">
-                <tbody>
-                    <tr>
-                        <td><b>Program Increment</b></td>
-                        <td>
-                            <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
-                                <option value={-1} key={-1}>-- select --</option>
-                                {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <FormControl sx={{ marginBottom: 2, width: 200 }}>
+                <InputLabel id="inc">Program Increment</InputLabel>
+                <Select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value.toString())} labelId="inc" label="Program Increment">
+                    <MenuItem value={-1} key={-1}>&nbsp;</MenuItem>
+                    {props.programIncrements.sort(piNameSorter).map((p) => <MenuItem key={p.id} value={p.id}>{p.name} </MenuItem>)}
+                </Select>
+            </FormControl >
 
             {props.selectedProgramIncrement !== -1 &&
                 <>
 
                     <h2>{currentPI.name}</h2>
 
-                    <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
+                    <div>
+                        {getTeamSelect()} 
+                        {getNameSelect()} 
+                        <FormControlLabel sx={{marginLeft: 1}} control={<Checkbox defaultChecked checked={minimise} onChange={(e) => setMinimise(e.target.checked)} />} label="Minimise results" />
+                    </div>
 
                     <PICapacityTable
+                        minimiseResults={minimise}
                         programIncrements={props.programIncrements}
                         programIterations={props.programIterations}
                         persons={props.persons}

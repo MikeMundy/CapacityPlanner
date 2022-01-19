@@ -1,8 +1,8 @@
-import { Typography } from "@mui/material";
 import React from "react";
 import { IIteration, IIterationExtended, ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, ITeam } from "../interfaces/Interfaces";
 
 export interface IProps {
+    minimiseResults: boolean;
     programIncrements: IProgramIncrement[];
     programIterations: IIteration[];
     persons: IPersonBasic[];
@@ -96,9 +96,13 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
             return (
                 <tr className="personRow">
                     <td>{cr.name}</td>
-                    <td>{cr.location}</td>
-                    <td>{cr.team} ({cr.role})</td>
-                    <td className="center">{cr.availability}%</td>
+                    {!props.minimiseResults &&
+                        <>
+                            <td>{cr.location}</td>
+                            <td>{cr.team} ({cr.role})</td>
+                            <td className="center">{cr.availability}%</td>
+                        </>
+                    }
                     {/* <td className="center">
                         <input type="text" value={0} className={"numInput"} onChange={(e) => { }}></input>
                     </td> */}
@@ -357,13 +361,16 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
     }
 
     const getTotalsRows = (capRows: ICapacityRow[]) => {
+        let colspan = 4;
+        if (props.minimiseResults) { colspan = 1; }
+
         return (
             <tr className="topRow">
-                <td colSpan={4}><b>Total:</b></td>
+                <td colSpan={colspan}><b>Total:</b></td>
                 {iterations.map((iteration, index) =>
                     <React.Fragment key={index}>
                         <td colSpan={2}></td>
-                        <td className="center">{getTotalCapacityForIteration(capRows, iteration).toFixed(1)}</td>
+                        <td className="center"><b>{getTotalCapacityForIteration(capRows, iteration).toFixed(1)}</b></td>
                     </React.Fragment>
                 )}
                 <td className="center"><b>{getTotalCapacity(capRows).toFixed(1)}</b></td>
@@ -384,16 +391,23 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
     let capRows: ICapacityRow[] = getCapacityRows();
 
     return (
-        <Typography variant="body2" gutterBottom>
+        <>
+            <h3>Total Velocity</h3>
+
             <div className="mainTableDiv">
+
                 <table className="mainTable">
                     <thead></thead>
                     <tbody>
                         <tr className="topRow">
                             <th rowSpan={2} className="smaller">Name</th>
-                            <th rowSpan={2} className="smaller">Location</th>
-                            <th rowSpan={2} className="smaller">Team & Role</th>
-                            <th rowSpan={2} className="smaller">Availability</th>
+                            {!props.minimiseResults &&
+                                <>
+                                    <th rowSpan={2} className="smaller">Location</th>
+                                    <th rowSpan={2} className="smaller">Team & Role</th>
+                                    <th rowSpan={2} className="smaller">Availability</th>
+                                </>
+                            }
                             {iterations.map((i, index) =>
                                 <th key={index} colSpan={3} className="iterationCell">
                                     <table className="iterationTable">
@@ -428,8 +442,9 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
                         {getTotalsRows(capRows)}
                     </tbody>
                 </table>
+
             </div>
-        </Typography>
+        </>
     )
 
 }

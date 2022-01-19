@@ -74,6 +74,7 @@ body {
   padding: 5px;
   margin: 0;
   white-space:nowrap;
+  font-size: smaller;
 }
 
 .mainTable th {
@@ -82,14 +83,28 @@ body {
   margin: 0;
   white-space:nowrap;
   vertical-align: bottom;
+  text-align: left;
+  font-size: smaller;
 }
 
 .mainTable .topRow {
-  background-color:#fffbc9
+  background-color: #f7f8ff;
 }
 
 .mainTable tr.personRow:hover {
   background-color: rgb(243, 243, 243);
+}
+
+#div1 {
+    width:1200px; 
+    height: 20px; 
+}
+
+#div2 {
+  width:1200px; 
+  /* height: 100px;  */
+  background-color: #88FF88;
+  overflow: auto;
 }
 
 .iterationTable {

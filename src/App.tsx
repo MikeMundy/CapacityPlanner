@@ -383,7 +383,7 @@ const App: React.FC<IProps> = (props: IProps) => {
 
     switch (page) {
       case "HOME":
-        return <Home />;
+        return <Home userRole={userRole}/>;
 
       case "PEOPLE":
         return <People
