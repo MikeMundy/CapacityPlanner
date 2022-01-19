@@ -84,56 +84,54 @@ const Teams: React.FC<IProps> = (props: IProps) => {
                 Teams
             </Typography>
 
-            <Typography variant="body1" gutterBottom>
 
-                {!isAdding && !isEditing &&
-                    <div><Button variant="contained" onClick={(e) => setIsAdding(true)} className="bigButton">Add Team</Button></div>
-                }
-                {isAdding &&
-                    <Box display="inline-block">
-                        <Card
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <CardHeader title="Add Team"></CardHeader>
-                            <CardContent>
-                                <TextField id="username" label="Team Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
-                            </CardContent>
-                            <CardActions>
-                                <Button variant="contained" onClick={addTeam} disabled={name.trim() === ""} >Add</Button>
-                                <Button variant="outlined" onClick={cancelAdd} >Cancel</Button>
-                            </CardActions>
-                        </Card>
-                    </Box>
-                }
+            {!isAdding && !isEditing &&
+                <div><Button variant="contained" onClick={(e) => setIsAdding(true)} className="bigButton">Add Team</Button></div>
+            }
+            {isAdding &&
+                <Box display="inline-block">
+                    <Card
+                        component="form"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <CardHeader title="Add Team"></CardHeader>
+                        <CardContent>
+                            <TextField id="username" label="Team Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                        </CardContent>
+                        <CardActions>
+                            <Button variant="contained" onClick={addTeam} disabled={name.trim() === ""} >Add</Button>
+                            <Button variant="outlined" onClick={cancelAdd} >Cancel</Button>
+                        </CardActions>
+                    </Card>
+                </Box>
+            }
 
-                {!isEditing && !isAdding &&
-                    <>
-                        {getTeamsElements()}
-                    </>
-                }
+            {!isEditing && !isAdding &&
+                <>
+                    {getTeamsElements()}
+                </>
+            }
 
-                {isEditing &&
-                    <Box display="inline-block">
-                        <Card
-                            component="form"
-                            noValidate
-                            autoComplete="off"
-                        >
-                            <CardHeader title="Edit Team"></CardHeader>
-                            <CardContent>
-                                <TextField id="username" label="Team Name" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} />
-                            </CardContent>
-                            <CardActions>
-                                <Button variant="contained" onClick={editTeam} disabled={editName.trim() === ""} >Update</Button>
-                                <Button variant="outlined" onClick={(e) => setIsEditing(false)} >Cancel</Button>
-                            </CardActions>
-                        </Card>
-                    </Box>
-                }
+            {isEditing &&
+                <Box display="inline-block">
+                    <Card
+                        component="form"
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <CardHeader title="Edit Team"></CardHeader>
+                        <CardContent>
+                            <TextField id="username" label="Team Name" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} />
+                        </CardContent>
+                        <CardActions>
+                            <Button variant="contained" onClick={editTeam} disabled={editName.trim() === ""} >Update</Button>
+                            <Button variant="outlined" onClick={(e) => setIsEditing(false)} >Cancel</Button>
+                        </CardActions>
+                    </Card>
+                </Box>
+            }
 
-            </Typography>
         </div>
     )
 

@@ -12,7 +12,7 @@ import ProgramIncrements from "./components/ProgramIncrements";
 import Menu from "./components/Menu";
 import People from "./components/People";
 import Teams from "./components/Teams";
-import Locations from "./components/Locations";
+import Locations from "./components/LocationAndHoliday/Locations";
 import Vacations from "./components/Vacations";
 import PICapacity from './components/PICapacity';
 
@@ -238,30 +238,41 @@ const App: React.FC<IProps> = (props: IProps) => {
   }
 
   const addLocation = (location: ILocation) => {
+    let newLocation: ILocation = { ...location };
+    const maxLocationId = locations.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
+    newLocation.id = maxLocationId + 1;
+
     let updatedLocations = [...locations];
-    updatedLocations.push(location);
+    updatedLocations.push(newLocation);
     setLocations(updatedLocations);
   }
 
-  const editLocation = (location: ILocation, newLocationHolidays: ILocationHoliday[]) => {
-
-    // console.log("newLocationHolidays: " + JSON.stringify(newLocationHolidays, null, 2));
-
-    // Update location
+  const editLocation = (location: ILocation) => {
     let updatedLocations = [...locations];
     const index = updatedLocations.findIndex((t) => t.id === location.id);
     if (index >= 0) {
       updatedLocations[index] = location;
       setLocations(updatedLocations);
     }
+  }
 
-    // Update location's holidays
-    let updatedLocationHolidays = [...locationHolidays];
-    // delete any existing holidays for location
-    updatedLocationHolidays = updatedLocationHolidays.filter((lh) => lh.locationId !== location.id);
-    // add new holidays 
-    updatedLocationHolidays = [...updatedLocationHolidays, ...newLocationHolidays];
-    setLocationHolidays(updatedLocationHolidays);
+  const addLocationHoliday = (locationHoliday: ILocationHoliday) => {
+    let newHoliday: ILocationHoliday = { ...locationHoliday };
+    const maxHolidayId = locationHolidays.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
+    newHoliday.id = maxHolidayId + 1;
+
+    let updatedHolidays = [...locationHolidays];
+    updatedHolidays.push(newHoliday);
+    setLocationHolidays(updatedHolidays);
+  }
+
+  const editLocationHoliday = (locationHoliday: ILocationHoliday) => {
+    let updatedHolidays = [...locationHolidays];
+    const index = updatedHolidays.findIndex((h) => h.id === locationHoliday.id);
+    if (index >= 0) {
+      updatedHolidays[index] = locationHoliday;
+      setLocationHolidays(updatedHolidays);
+    }
   }
 
   const deleteLocation = (id: number) => {
@@ -270,10 +281,22 @@ const App: React.FC<IProps> = (props: IProps) => {
     updatedPersons.forEach((p) => { if (p.locationId === id) { p.locationId = -1; } });
     setPersonsBasic(updatedPersons);
 
+    // remove all holidays from the location:
+    let updatedHolidays = [...locationHolidays];
+    updatedHolidays = updatedHolidays.filter((h) => h.locationId !== id);
+    setLocationHolidays(updatedHolidays);
+
     // remove the location:
     let updatedLocations = [...locations];
     updatedLocations = updatedLocations.filter((t) => t.id !== id);
     setLocations(updatedLocations);
+  }
+
+  const deleteLocationHoliday = (id: number) => {
+    // remove the holiday:
+    let updatedLocationHolidays = [...locationHolidays];
+    updatedLocationHolidays = updatedLocationHolidays.filter((t) => t.id !== id);
+    setLocationHolidays(updatedLocationHolidays);
   }
 
   const updateVacations = (personVacations: IPersonVacation[]) => {
@@ -359,13 +382,76 @@ const App: React.FC<IProps> = (props: IProps) => {
     if (!isLoggedIn) { return <Login onLogin={onLogin} /> }
 
     switch (page) {
-      case "HOME": return <Home />;
-      case "PEOPLE": return <People personsBasic={personsBasic} locations={locations} teams={teams} personTeams={personTeams} addPerson={addPerson} editPerson={editPerson} deletePerson={deletePerson} />;
-      case "TEAMS": return <Teams teams={teams} addTeam={addTeam} editTeam={editTeam} deleteTeam={deleteTeam} />;
-      case "LOCATIONS": return <Locations locations={locations} locationHolidays={locationHolidays} addLocation={addLocation} editLocation={editLocation} deleteLocation={deleteLocation} />;
-      case "VACATIONS": return <Vacations selectedPersonId={selectedPersonId} personsBasic={personsBasic} personVacations={personVacations} locationHolidays={locationHolidays} updateVacations={updateVacations} updateSelectedPersonId={(id: number) => setSelectedPersonId(id)} />;
-      case "PROGRAM_INCREMENTS": return <ProgramIncrements programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} setProgramIncrementId={setProgramIncrementId} addProgramIncrement={addProgramIncrement2} editProgramIncrement={editProgramIncrement2} deleteProgramIncrement={deleteProgramIncrement2} addProgramIteration={addProgramIteration} editProgramIteration={editProgramIteration} deleteProgramIteration={deleteProgramIteration} />;
-      case "CAPACITY": return <PICapacity programIncrements={programIncrements2} programIterations={getIterationsForIncrement()} persons={personsBasic} locations={locations} teams={teams} personTeams={personTeams} locationHolidays={locationHolidays} personVacations={personVacations} selectedProgramIncrement={selectedProgramIncrementId} updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)} />;
+      case "HOME":
+        return <Home />;
+
+      case "PEOPLE":
+        return <People
+          personsBasic={personsBasic}
+          locations={locations}
+          teams={teams}
+          personTeams={personTeams}
+          addPerson={addPerson}
+          editPerson={editPerson}
+          deletePerson={deletePerson}
+        />;
+
+      case "TEAMS":
+        return <Teams
+          teams={teams}
+          addTeam={addTeam}
+          editTeam={editTeam}
+          deleteTeam={deleteTeam}
+        />;
+
+      case "LOCATIONS":
+        return <Locations
+          locations={locations}
+          locationHolidays={locationHolidays}
+          addLocation={addLocation}
+          editLocation={editLocation}
+          deleteLocation={deleteLocation}
+          addLocationHoliday={addLocationHoliday}
+          editLocationHoliday={editLocationHoliday}
+          deleteLocationHoliday={deleteLocationHoliday}
+        />;
+
+      case "VACATIONS":
+        return <Vacations
+          selectedPersonId={selectedPersonId}
+          personsBasic={personsBasic}
+          personVacations={personVacations}
+          locationHolidays={locationHolidays}
+          updateVacations={updateVacations}
+          updateSelectedPersonId={(id: number) => setSelectedPersonId(id)}
+        />;
+
+      case "PROGRAM_INCREMENTS":
+        return <ProgramIncrements
+          programIncrements={programIncrements2}
+          programIterations={getIterationsForIncrement()}
+          setProgramIncrementId={setProgramIncrementId}
+          addProgramIncrement={addProgramIncrement2}
+          editProgramIncrement={editProgramIncrement2}
+          deleteProgramIncrement={deleteProgramIncrement2}
+          addProgramIteration={addProgramIteration}
+          editProgramIteration={editProgramIteration}
+          deleteProgramIteration={deleteProgramIteration}
+        />;
+
+      case "CAPACITY":
+        return <PICapacity
+          programIncrements={programIncrements2}
+          programIterations={getIterationsForIncrement()}
+          persons={personsBasic}
+          locations={locations}
+          teams={teams}
+          personTeams={personTeams}
+          locationHolidays={locationHolidays}
+          personVacations={personVacations}
+          selectedProgramIncrement={selectedProgramIncrementId}
+          updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)}
+        />;
 
       default: return <h2>Page Unknown</h2>;
     }
@@ -385,12 +471,20 @@ const App: React.FC<IProps> = (props: IProps) => {
 
         {getComponentToDisplay()}
 
-        {/* {!showData &&
-        <button onClick={(e) => setShowData(true)}>Show Data</button>
+        {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
+      <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
+
+      </div>
+      <Footer></Footer>
+
+      {/* {!showData &&
+        <div>
+          <button onClick={(e) => setShowData(true)}>Show Data</button>
+        </div>
       }
 
       {showData &&
-        <>
+        <div>
           <button onClick={(e) => setShowData(false)}>Hide Data</button>
           <pre><div className="data"><h4>LOCATIONS:</h4> {JSON.stringify(locations, null, 2)}</div></pre>
           <pre><div className="data"><h4>LOCATION HOLIDAYS:</h4> {JSON.stringify(locationHolidays, null, 2)}</div></pre>
@@ -398,14 +492,8 @@ const App: React.FC<IProps> = (props: IProps) => {
           <pre><div className="data"><h4>PERSON TEAMS:</h4> {JSON.stringify(personTeams, null, 2)}</div></pre>
           <pre><div className="data"><h4>PIs:</h4> {JSON.stringify(programIncrements2, null, 2)}</div></pre>
           <pre><div className="data"><h4>Iterations:</h4> {JSON.stringify(programIterations, null, 2)}</div></pre>
-        </>
+        </div>
       } */}
-
-        {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
-      <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
-
-      </div>
-      <Footer></Footer>
 
     </div >
   );

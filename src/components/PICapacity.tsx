@@ -60,7 +60,7 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
         const options: any[] = [];
         options.push(<option value={-1}>-- select team --</option>);
         props.teams.sort(teamSorter).forEach((team) => {
-            options.push(<option value={team.id}>{team.name}</option>)
+            options.push(<option key={team.id} value={team.id}>{team.name}</option>)
         })
         return <select onChange={(e) => setSelectedTeam(e.target.value)} value={selectedFilterTeamId}>{options}</select>;
     }
@@ -77,13 +77,13 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
         options.push(<option value={-1}>-- select person --</option>);
         if (selectedFilterTeamId === -1) {
             props.persons.sort(personSorter).forEach((person) => {
-                options.push(<option value={person.id}>{person.lastName}, {person.firstName}</option>)
+                options.push(<option key={person.id} value={person.id}>{person.lastName}, {person.firstName}</option>)
             })
         } else {
             const personIdsInTeam = props.personTeams.filter((pt) => pt.teamId === selectedFilterTeamId).map((pt) => pt.personId);
             const personsInTeam = props.persons.filter((p) => personIdsInTeam.includes(p.id));
             personsInTeam.sort(personSorter).forEach((person) => {
-                options.push(<option value={person.id}>{person.lastName}, {person.firstName}</option>)
+                options.push(<option key={person.id} value={person.id}>{person.lastName}, {person.firstName}</option>)
             })
         }
         return <select onChange={(e) => setSelectedFilterPersonId(parseInt(e.target.value))} value={selectedFilterPersonId}>{options}</select>;
@@ -95,52 +95,48 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
                 Program Increment Capacity
             </Typography>
 
-            <Typography variant="body1" gutterBottom>
+            <table className="formTable">
+                <tbody>
+                    <tr>
+                        <td><b>Program Increment</b></td>
+                        <td>
+                            <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
+                                <option value={-1} key={-1}>-- select --</option>
+                                {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <table className="formTable">
-                    <tbody>
-                        <tr>
-                            <td><b>Program Increment</b></td>
-                            <td>
-                                <select value={props.selectedProgramIncrement} onChange={(e) => selectProgramIncrement(e.target.value)}>
-                                    <option value={-1}>-- select --</option>
-                                    {props.programIncrements.sort(piNameSorter).map((p) => <option value={p.id} key={p.id}>{p.name}</option>)}
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            {props.selectedProgramIncrement !== -1 &&
+                <>
 
-                {props.selectedProgramIncrement !== -1 &&
-                    <>
+                    <h2>{currentPI.name}</h2>
 
-                        <h2>{currentPI.name}</h2>
+                    <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
 
-                        <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div>
+                    <PICapacityTable
+                        programIncrements={props.programIncrements}
+                        programIterations={props.programIterations}
+                        persons={props.persons}
+                        personTeams={props.personTeams}
+                        teams={props.teams}
+                        locations={props.locations}
+                        locationHolidays={props.locationHolidays}
+                        personVacations={props.personVacations}
+                        selectedProgramIncrementId={props.selectedProgramIncrement}
+                        selectedFilterTeamId={selectedFilterTeamId}
+                        selectedFilterPersonId={selectedFilterPersonId}
+                    />
 
-                        <PICapacityTable
-                            programIncrements={props.programIncrements}
-                            programIterations={props.programIterations}
-                            persons={props.persons}
-                            personTeams={props.personTeams}
-                            teams={props.teams}
-                            locations={props.locations}
-                            locationHolidays={props.locationHolidays}
-                            personVacations={props.personVacations}
-                            selectedProgramIncrementId={props.selectedProgramIncrement}
-                            selectedFilterTeamId={selectedFilterTeamId}
-                            selectedFilterPersonId={selectedFilterPersonId}
-                        />
+                    {/* <div><pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
 
-                        {/* <div><pre>{JSON.stringify(props.programIterations, null, 2)}</pre></div> */}
-
-                        {/* <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div> */}
+                    {/* <div className="filterDiv">Filter by: {getTeamSelect()} {getNameSelect()}</div> */}
 
 
-                    </>
-                }
-
-            </Typography>
+                </>
+            }
 
         </div>
     )
