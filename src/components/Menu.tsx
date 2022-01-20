@@ -2,6 +2,7 @@ import { Box, Button, ButtonGroup } from "@mui/material";
 import React from "react";
 
 export interface IProps {
+    allDataLoaded: boolean;
     page: string;
     userRole: string;
     onSelectPage: (page: string) => void;
@@ -9,6 +10,8 @@ export interface IProps {
 }
 
 const Menu: React.FC<IProps> = (props: IProps) => {
+
+    if(!props.allDataLoaded) { return null; }
 
     const pages = [
         { name: "HOME", title: "Home", ManagerOnly: false },

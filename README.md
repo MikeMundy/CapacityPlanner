@@ -13,8 +13,14 @@ yarn install --ignore-engines
 
 yarn start
 
+## To run the fake local API using the local JSON server:
 
-See 'READ_ME_surge.md' for instructions for quickly hosting online via Surge. 
+yarn global add json-server
+
+yarn json-server --watch db.json --delay 1000
+
+
+## See 'READ_ME_surge.md' for instructions for quickly hosting online via Surge. 
 
 # Getting Started with Create React App
 
