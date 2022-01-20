@@ -254,8 +254,8 @@ const People: React.FC<IProps> = (props: IProps) => {
                             <CardHeader title="Add Person"></CardHeader>
                             <CardContent>
                                 <Stack spacing={1}>
-                                    <TextField id="firstName" label="First Name" variant="standard" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                                    <TextField id="lastName" label="Last Name" variant="standard" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={firstName} onChange={(e) => setFirstName(e.target.value)} inputProps={{ maxLength: 50 }}/>
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={lastName} onChange={(e) => setLastName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                                     <p></p>
                                     <FormControl fullWidth>
                                         <InputLabel id="ageSelectLabel">Location *</InputLabel>
@@ -283,12 +283,12 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" />
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }}/>
                                                                 }
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} />
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }}/>
                                                                 }
                                                             </td>
                                                         </tr>
@@ -318,8 +318,8 @@ const People: React.FC<IProps> = (props: IProps) => {
                             <CardHeader title="Edit Person"></CardHeader>
                             <CardContent>
                                 <Stack spacing={1}>
-                                    <TextField id="firstName" label="First Name" variant="standard" required value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} />
-                                    <TextField id="lastName" label="Last Name" variant="standard" required value={editLastName} onChange={(e) => setEditLastName(e.target.value)} />
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} inputProps={{ maxLength: 50 }}/>
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={editLastName} onChange={(e) => setEditLastName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                                     <p></p>
                                     <FormControl fullWidth>
                                         <InputLabel id="ageSelectLabel">Location *</InputLabel>
@@ -347,12 +347,12 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" />
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }}/>
                                                                 }
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} />
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }}/>
                                                                 }
                                                             </td>
                                                         </tr>

@@ -13,7 +13,7 @@ import Menu from "./components/Menu";
 import People from "./components/People";
 import Teams from "./components/Teams";
 import Locations from "./components/LocationAndHoliday/Locations";
-import Vacations from "./components/Vacations";
+import Vacations from "./components/Vacations/Vacations";
 import PICapacity from './components/PICapacity';
 
 import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IIteration, ITeam } from "./interfaces/Interfaces";
@@ -422,6 +422,8 @@ const App: React.FC<IProps> = (props: IProps) => {
           personsBasic={personsBasic}
           personVacations={personVacations}
           locationHolidays={locationHolidays}
+          teams={teams}
+          personTeams={personTeams}
           updateVacations={updateVacations}
           updateSelectedPersonId={(id: number) => setSelectedPersonId(id)}
         />;

@@ -36,12 +36,12 @@ const AddLocationHoliday: React.FC<IProps> = (props: IProps) => {
             >
                 <CardHeader title="Add Holiday"></CardHeader>
                 <CardContent>
-                    <TextField id="holidayname" fullWidth label="Holiday" variant="standard" required onChange={(e) => setName(e.target.value)} value={name} />
+                    <TextField id="holidayname" fullWidth label="Holiday" variant="standard" required onChange={(e) => setName(e.target.value)} value={name} inputProps={{ maxLength: 50 }}/>
                 </CardContent>
                 <CardContent>
                     <FormControl>
                         <FormLabel>Date</FormLabel>
-                        <DatePicker onChange={(date: Date) => setHolidayDate(date)} value={holidayDate} clearIcon={null} />
+                        <DatePicker onChange={(date: Date) => setHolidayDate(date)} value={holidayDate} clearIcon={null} format="dd MMM y"/>
                     </FormControl>
                 </CardContent>
                 <CardActions>

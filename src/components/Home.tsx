@@ -29,7 +29,7 @@ const Home: React.FC<IProps> = (props: IProps) => {
                     <p>Then each staff member can enter their planned vacation time:</p>
 
                     <ul className="home">
-                        <li><b>Vacations: </b> Click the 'Vacations' link to set the Vacation days that you plan to take.</li>
+                        <li><b>Vacations: </b> Click the 'Vacations' link and select 'Enter Vacations' to set the Vacation days that you plan to take.</li>
                     </ul>
 
                     <p>Once that's all done, you are ready to see the resulting Program Increment Capacity (Velocity) for your people and teams:</p>
@@ -42,7 +42,7 @@ const Home: React.FC<IProps> = (props: IProps) => {
 
             {props.userRole === "USER" &&
                 <>
-                    <p>Click the 'Vacations' link, and add your planned vacation days to the calendar.</p>
+                    <p>Click the 'Vacations' link and select 'Enter Vacations' and add your planned vacation days to the calendar.</p>
                     <p>Then click the 'P.I. Capacity' link, then select a Program Increment. You'll see the calculated Velocity for each person in the P.I. You can use the filters to limit the results to specific teams and/or persons.</p>
                 </>
             }

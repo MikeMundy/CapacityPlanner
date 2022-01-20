@@ -317,6 +317,36 @@ p {
   margin-left: 10px;
 }
 
+table.dateTable {
+  padding: 0;
+  margin: 0;
+}
+
+table.dateTable tr {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+table.dateTable td {
+  padding: 0;
+  padding-right: 2px;
+  margin-bottom: 2px;
+  border: 0;
+}
+
+
+table.dateTable td {
+  /* font-size: smaller; */
+}
+
+span.dateSpan {
+  display: inline-block;
+  height: 50px;
+  vertical-align: middle;
+  border: 1px solid black;
+}
+
 
 
 

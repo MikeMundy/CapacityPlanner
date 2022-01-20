@@ -46,7 +46,7 @@ const EditLocation: React.FC<IProps> = (props: IProps) => {
         >
             <CardHeader title="Edit Location"></CardHeader>
             <CardContent>
-                <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} inputProps={{ maxLength: 50 }}/>
             </CardContent>
             <CardActions>
                 <Button variant="contained" onClick={editLocation} disabled={name.trim() === ""}  >Update</Button>
