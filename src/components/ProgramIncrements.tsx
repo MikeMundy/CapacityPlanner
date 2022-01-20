@@ -117,7 +117,7 @@ const ProgramIncrements: React.FC<IProps> = (props: IProps) => {
                         <Card>
                             <CardHeader title={getAddOrEditTitle() + " Program Increment"} ></CardHeader>
                             <CardContent>
-                                <TextField id="location" label="PI Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                                <TextField id="location" label="PI Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                             </CardContent>
                             <CardActions>
                                 {isAdding &&

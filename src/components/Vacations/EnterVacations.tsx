@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import Modal from 'react-modal';
+import "../../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
 
-import "../../node_modules/react-big-calendar/lib/css/react-big-calendar.css";
-
-import { IEvent, ILocationHoliday, IPersonBasic, IPersonVacation } from "../interfaces/Interfaces";
 import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { IEvent, ILocationHoliday, IPersonBasic, IPersonVacation } from "../../interfaces/Interfaces";
 
 export interface IProps {
     selectedPersonId: number;
@@ -17,12 +16,11 @@ export interface IProps {
     updateSelectedPersonId: (personId: number) => void;
 }
 
-const Vacations: React.FC<IProps> = (props: IProps) => {
+const EnterVacations: React.FC<IProps> = (props: IProps) => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState({} as IEvent);
     const [fractionOfDay, setFractionOfDay] = useState("");
-
 
     const getEvents = () => {
         const person = props.personsBasic.find((p) => p.id === props.selectedPersonId);
@@ -80,7 +78,20 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
 
         const maxId = props.personVacations.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
         const existingEvent = props.personVacations.find((vp) => isSameDate(vp.date, data.start) && vp.personId === props.selectedPersonId);
-        if (!existingEvent) {
+
+        const theDate = new Date(data.start);
+
+        let hasHoliday = false;
+        const person = props.personsBasic.find((p) => p.id === props.selectedPersonId);
+        if (person) {
+            const personHolidays = [...props.locationHolidays.filter((lh) => lh.locationId === person.locationId)];
+            const holidayOnThisDate = personHolidays.find((ph) => ph.date.getFullYear() === theDate.getFullYear() && ph.date.getMonth() === theDate.getMonth() && ph.date.getDate() === theDate.getDate());
+            if (holidayOnThisDate) { hasHoliday = true; }
+        }
+
+        const isWeekend = theDate.getDay() === 0 || theDate.getDay() === 6;
+
+        if (!existingEvent && !hasHoliday && !isWeekend) {
             const newVacForPerson: IPersonVacation = { id: maxId + 1, personId: props.selectedPersonId, date: data.start, fractionOfDay: 1 };
             const updatedVacPerson = [...props.personVacations];
             updatedVacPerson.push(newVacForPerson)
@@ -138,20 +149,15 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
     };
 
     return (
-        <div>
-            <Typography variant="h3" component="div" gutterBottom>
-                Vacations
-            </Typography>
-
-
-
-            {/* <div>{JSON.stringify(props.personVacations, null, 2)}</div>
-            <div>{JSON.stringify(props.locationHolidays, null, 2)}</div> */}
+        <>
+            <Typography variant="h4" component="div" gutterBottom>
+                Enter Vacations
+        </Typography>
 
             {props.personsBasic.length > 0 &&
                 <>
                     <p>Select your name in the Person dropdown. In the calendar use the Back & Next buttons to find a month, then click on a day to
-                       add a vacation.</p>
+                    add a vacation.</p>
                     <p style={{ marginBottom: "20px" }}>A value of '1' equals one entire day of vacation. Click on any vacation entry to edit the proportion of the day (to '0.5' or '0.25' etc.) or to delete the vacation.</p>
 
                     <FormControl sx={{ marginBottom: 2, width: 200 }}>
@@ -215,11 +221,9 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
                 </Modal>
             }
 
-        </div >
-
+        </>
     )
-
 
 }
 
-export default Vacations;
+export default EnterVacations;

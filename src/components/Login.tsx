@@ -31,7 +31,6 @@ const Login: React.FC<IProps> = (props: IProps) => {
         e.preventDefault();
         const result = props.onLogin(userName, password);
         setLoginResponse(result);
-        setUserName("");
         setPassword("");
     }
 

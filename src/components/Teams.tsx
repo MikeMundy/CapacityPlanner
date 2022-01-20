@@ -97,7 +97,7 @@ const Teams: React.FC<IProps> = (props: IProps) => {
                     >
                         <CardHeader title="Add Team"></CardHeader>
                         <CardContent>
-                            <TextField id="username" label="Team Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                            <TextField id="username" label="Team Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                         </CardContent>
                         <CardActions>
                             <Button variant="contained" onClick={addTeam} disabled={name.trim() === ""} >Add</Button>
@@ -122,7 +122,7 @@ const Teams: React.FC<IProps> = (props: IProps) => {
                     >
                         <CardHeader title="Edit Team"></CardHeader>
                         <CardContent>
-                            <TextField id="username" label="Team Name" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} />
+                            <TextField id="username" label="Team Name" variant="standard" required value={editName} onChange={(e) => setEditName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                         </CardContent>
                         <CardActions>
                             <Button variant="contained" onClick={editTeam} disabled={editName.trim() === ""} >Update</Button>

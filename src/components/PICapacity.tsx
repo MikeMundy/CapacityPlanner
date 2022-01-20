@@ -123,7 +123,7 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
                     <div>
                         {getTeamSelect()} 
                         {getNameSelect()} 
-                        <FormControlLabel sx={{marginLeft: 1}} control={<Checkbox defaultChecked checked={minimise} onChange={(e) => setMinimise(e.target.checked)} />} label="Minimise results" />
+                        <FormControlLabel sx={{marginLeft: 1}} control={<Checkbox defaultChecked checked={minimise} onChange={(e) => setMinimise(e.target.checked)} />} label="Compact results" />
                     </div>
 
                     <PICapacityTable

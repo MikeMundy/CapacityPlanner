@@ -148,19 +148,19 @@ const ProgramIterations: React.FC<IProps> = (props: IProps) => {
                         <Card sx={{ width: 400, overflow: "visible" }}>
                             <CardHeader title={getAddOrEditTitle() + " a Program Iteration"} ></CardHeader>
                             <CardContent>
-                                <TextField id="iteration" label="Iteration Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                                <TextField id="iteration" label="Iteration Name" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                             </CardContent>
                             <CardContent>
                                 <FormControl>
                                     <FormLabel>Start Date</FormLabel>
-                                    <DatePicker onChange={(date: Date) => setStartDate(date)} value={startDate} clearIcon={null} />
+                                    <DatePicker onChange={(date: Date) => setStartDate(date)} value={startDate} clearIcon={null} format="dd MMM y"/>
                                 </FormControl>
                             </CardContent>
                             <CardContent>
-                                <TextField id="length" label="Length (days)" variant="standard" required value={lengthInDays} onChange={(e) => setLengthInDays(filterAsInteger(e.target.value))} />
+                                <TextField id="length" label="Length (days)" variant="standard" required value={lengthInDays} onChange={(e) => setLengthInDays(filterAsInteger(e.target.value))} inputProps={{ maxLength: 3 }}/>
                             </CardContent>
                             <CardContent>
-                                <TextField id="points" label="Points" variant="standard" required value={points} onChange={(e) => setPoints(filterAsInteger(e.target.value))} />
+                                <TextField id="points" label="Points" variant="standard" required value={points} onChange={(e) => setPoints(filterAsInteger(e.target.value))} inputProps={{ maxLength: 3 }}/>
                             </CardContent>
                             <CardContent>
                                 {isAdding &&

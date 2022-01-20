@@ -25,7 +25,7 @@ const AddLocation: React.FC<IProps> = (props: IProps) => {
             >
                 <CardHeader title="Add Location"></CardHeader>
                 <CardContent>
-                    <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} />
+                    <TextField id="location" label="Location" variant="standard" required value={name} onChange={(e) => setName(e.target.value)} inputProps={{ maxLength: 50 }}/>
                 </CardContent>
                 <CardContent>
                     <Chip label="Edit this location to add Holidays" size="small" />
