@@ -61,7 +61,7 @@ const People: React.FC<IProps> = (props: IProps) => {
         const displayPersonLocation = (p: IPersonBasic) => {
             const location = props.locations.find((l) => l.id === p.locationId);
             if (location) {
-                return location.name
+                return location.name;
             } else {
                 return "?";
             }

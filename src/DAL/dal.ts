@@ -7,7 +7,7 @@ export class DAL {
 
     }
 
-    // Teams:
+    // Persons:
 
     getAllPersons() {
         return http.get<Array<ITeam>>("/person");
@@ -17,6 +17,18 @@ export class DAL {
 
     getAllTeams() {
         return http.get<Array<ITeam>>("/team");
+    }
+
+    addTeam(team: ITeam) {
+        return http.post<ITeam>("/team", team);
+    }
+
+    updateTeam(team: ITeam) {
+        return http.put<ITeam>("/team/" + team.id, team);
+    }
+
+    deleteTeam(teamId: number) {
+        return http.delete<ITeam>("/team/" + teamId);
     }
 
     // PersonTeams:

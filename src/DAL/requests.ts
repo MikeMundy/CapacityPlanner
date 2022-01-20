@@ -1,3 +1,4 @@
+import { ITeam } from "../interfaces/Interfaces";
 import { DAL } from "./dal";
 
 export class Requests {
@@ -12,10 +13,25 @@ export class Requests {
         setPersons(persons.data);
     }
 
+    // Teams:
+
     getTeams = async (setTeams: any) => {
         const teams = await this.dal.getAllTeams();
         setTeams(teams.data);
     }
+
+    addTeam = async (team: ITeam) => {
+        await this.dal.addTeam(team);
+    }
+
+    updateTeam = async (team: ITeam) => {
+        await this.dal.updateTeam(team);
+    }
+
+    deleteTeam = async (teamId: number) => {
+        await this.dal.deleteTeam(teamId);
+    }
+
 
     getPersonTeams = async (setPersonTeams: any) => {
         const personTeams = await this.dal.getAllPersonTeams();
