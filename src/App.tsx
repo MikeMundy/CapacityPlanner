@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -16,13 +16,19 @@ import Locations from "./components/LocationAndHoliday/Locations";
 import Vacations from "./components/Vacations/Vacations";
 import PICapacity from './components/PICapacity';
 
-import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IIteration, ITeam } from "./interfaces/Interfaces";
-import { Typography } from '@mui/material';
+import { DAL } from "./DAL/dal";
+import { Requests } from "./DAL/requests";
 
+import { ILocation, ILocationHoliday, IPersonBasic, IPersonTeam, IPersonVacation, IProgramIncrement, IIteration, ITeam } from "./interfaces/Interfaces";
+import { Alert, IconButton, LinearProgress, Snackbar, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 export interface IProps {
 }
 
 const App: React.FC<IProps> = (props: IProps) => {
+
+  const dal = new DAL();
+  const requests = new Requests(dal);
 
   const getInitialPersonsBasic = () => {
     const personsBasic: IPersonBasic[] = [
@@ -102,7 +108,6 @@ const App: React.FC<IProps> = (props: IProps) => {
       { id: 8, locationId: 1, name: "Thanksgiving", date: new Date(2022, 10 - 1, 10) },
       { id: 9, locationId: 1, name: "Christmas (obs. Tue.)", date: new Date(2022, 12 - 1, 27) },
       { id: 9, locationId: 1, name: "Boxing Day", date: new Date(2022, 12 - 1, 26) },
-
       { id: 10, locationId: 2, name: "Martin Luther King Jr. Day", date: new Date(2021, 1 - 1, 18) },
       { id: 11, locationId: 2, name: "Thanksgiving (USA)", date: new Date(2021, 11 - 1, 25) },
     ]
@@ -124,7 +129,7 @@ const App: React.FC<IProps> = (props: IProps) => {
     return personVacations;
   };
 
-  const getInitialProgramIncrements2 = () => {
+  const getInitialProgramIncrements = () => {
     const programIncrements: IProgramIncrement[] = [
       { id: 1, name: "PI 2022.1" },
       { id: 2, name: "PI 2022.2" },
@@ -147,6 +152,15 @@ const App: React.FC<IProps> = (props: IProps) => {
     return programIterations;
   };
 
+  const [initialPersonsBasicDataLoaded, setInitialPersonsBasicDataLoaded] = useState(false);
+  const [initialTeamsDataLoaded, setInitialTeamsDataLoaded] = useState(false);
+  const [initialPersonTeamsDataLoaded, setInitialPersonTeamsDataLoaded] = useState(false);
+  const [initialLocationsDataLoaded, setInitialLocationsDataLoaded] = useState(false);
+  const [initialLocationHolidaysDataLoaded, setInitialLocationHolidaysDataLoaded] = useState(false);
+  const [initialPersonVacationsDataLoaded, setInitialPersonVacationsDataLoaded] = useState(false);
+  const [initialProgramIncrementsDataLoaded, setInitialProgramIncrementsDataLoaded] = useState(false);
+  const [initialProgramIterationsDataLoaded, setInitialProgramIterationsDataLoaded] = useState(false);
+
   const [page, setPage] = useState("HOME");
   const [personsBasic, setPersonsBasic] = useState(getInitialPersonsBasic())
   const [teams, setTeams] = useState(getInitialTeams())
@@ -154,14 +168,48 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [locations, setLocations] = useState(getInitialLocations())
   const [locationHolidays, setLocationHolidays] = useState(getInitialLocationHolidays())
   const [personVacations, setPersonVacations] = useState(getInitialPersonVacations())
-  const [programIncrements2, setProgramIncrements2] = useState(getInitialProgramIncrements2())
+  const [programIncrements, setProgramIncrements] = useState(getInitialProgramIncrements())
   const [programIterations, setProgramIterations] = useState(getInitialProgramIterations())
   const [selectedPersonId, setSelectedPersonId] = useState(-1);
   const [selectedProgramIncrementId, setSelectedProgramIncrementId] = useState(-1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState("");
 
-  // const [showData, setShowData] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Data access
+
+  useEffect(() => {
+
+    if (isLoggedIn) {
+      (async () => { 
+
+        try { await requests.getPersonsBasic(setPersonsBasic); setInitialPersonsBasicDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading persons data.") };
+
+        try { await requests.getTeams(setTeams); setInitialTeamsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading teams data.") };
+
+        try { await requests.getPersonTeams(setPersonTeams); setInitialPersonTeamsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading person-teams data.") };
+
+        try { await requests.getLocations(setLocations); setInitialLocationsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading locations data.") };
+
+        try { await requests.getLocationHolidays(setLocationHolidays); setInitialLocationHolidaysDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading location-holidays data.") };
+
+        try { await requests.getPersonVacations(setPersonVacations); setInitialPersonVacationsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading person-vacations data.") };
+
+        try { await requests.getProgramIncrements(setProgramIncrements); setInitialProgramIncrementsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading program increments data.") };
+
+        try { await requests.getIterations(setProgramIterations); setInitialProgramIterationsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading program iterations data.") };
+
+      })()
+
+      // (async () => { try { await requests.getPersonTeamsTeams(setPersonTeams); setInitialPersonTeamsDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading teams data.") } })()
+    }
+
+  }, [isLoggedIn]);
+
+  const allInitialDataLoaded = initialPersonsBasicDataLoaded && initialTeamsDataLoaded && initialPersonTeamsDataLoaded && initialLocationsDataLoaded && initialLocationHolidaysDataLoaded && initialPersonVacationsDataLoaded && initialProgramIncrementsDataLoaded && initialProgramIterationsDataLoaded;
+
+  const [showData, setShowData] = useState(false);
 
   const onSelectPage = (page: string) => {
     setPage(page);
@@ -305,9 +353,9 @@ const App: React.FC<IProps> = (props: IProps) => {
   }
 
   const addProgramIncrement2 = (pi: IProgramIncrement) => {
-    let updatedPIs = [...programIncrements2];
+    let updatedPIs = [...programIncrements];
     updatedPIs.push(pi);
-    setProgramIncrements2(updatedPIs);
+    setProgramIncrements(updatedPIs);
   }
 
   const setProgramIncrementId = (id: number) => {
@@ -315,19 +363,19 @@ const App: React.FC<IProps> = (props: IProps) => {
   }
 
   const editProgramIncrement2 = (pi: IProgramIncrement) => {
-    let updatedPIs = [...programIncrements2];
+    let updatedPIs = [...programIncrements];
     const index = updatedPIs.findIndex((t) => t.id === pi.id);
     if (index >= 0) {
       updatedPIs[index] = pi;
-      setProgramIncrements2(updatedPIs);
+      setProgramIncrements(updatedPIs);
     }
   }
 
   const deleteProgramIncrement2 = (id: number) => {
     // delete the PI
-    let updatedPIs = [...programIncrements2];
+    let updatedPIs = [...programIncrements];
     updatedPIs = updatedPIs.filter((t) => t.id !== id);
-    setProgramIncrements2(updatedPIs);
+    setProgramIncrements(updatedPIs);
     // delete the Iterations for the PI
     let updatedIterations = [...programIterations];
     updatedIterations = updatedIterations.filter((i) => i.programIncrementId !== id);
@@ -381,83 +429,108 @@ const App: React.FC<IProps> = (props: IProps) => {
 
     if (!isLoggedIn) { return <Login onLogin={onLogin} /> }
 
-    switch (page) {
-      case "HOME":
-        return <Home userRole={userRole}/>;
+    if (allInitialDataLoaded) {
+      switch (page) {
+        case "HOME":
+          return <Home userRole={userRole} />;
 
-      case "PEOPLE":
-        return <People
-          personsBasic={personsBasic}
-          locations={locations}
-          teams={teams}
-          personTeams={personTeams}
-          addPerson={addPerson}
-          editPerson={editPerson}
-          deletePerson={deletePerson}
-        />;
+        case "PEOPLE":
+          return <People
+            personsBasic={personsBasic}
+            locations={locations}
+            teams={teams}
+            personTeams={personTeams}
+            addPerson={addPerson}
+            editPerson={editPerson}
+            deletePerson={deletePerson}
+          />;
 
-      case "TEAMS":
-        return <Teams
-          teams={teams}
-          addTeam={addTeam}
-          editTeam={editTeam}
-          deleteTeam={deleteTeam}
-        />;
+        case "TEAMS":
+          return <Teams
+            teams={teams}
+            addTeam={addTeam}
+            editTeam={editTeam}
+            deleteTeam={deleteTeam}
+          />;
 
-      case "LOCATIONS":
-        return <Locations
-          locations={locations}
-          locationHolidays={locationHolidays}
-          addLocation={addLocation}
-          editLocation={editLocation}
-          deleteLocation={deleteLocation}
-          addLocationHoliday={addLocationHoliday}
-          editLocationHoliday={editLocationHoliday}
-          deleteLocationHoliday={deleteLocationHoliday}
-        />;
+        case "LOCATIONS":
+          return <Locations
+            locations={locations}
+            locationHolidays={locationHolidays}
+            addLocation={addLocation}
+            editLocation={editLocation}
+            deleteLocation={deleteLocation}
+            addLocationHoliday={addLocationHoliday}
+            editLocationHoliday={editLocationHoliday}
+            deleteLocationHoliday={deleteLocationHoliday}
+          />;
 
-      case "VACATIONS":
-        return <Vacations
-          selectedPersonId={selectedPersonId}
-          personsBasic={personsBasic}
-          personVacations={personVacations}
-          locationHolidays={locationHolidays}
-          teams={teams}
-          personTeams={personTeams}
-          updateVacations={updateVacations}
-          updateSelectedPersonId={(id: number) => setSelectedPersonId(id)}
-        />;
+        case "VACATIONS":
+          return <Vacations
+            selectedPersonId={selectedPersonId}
+            personsBasic={personsBasic}
+            personVacations={personVacations}
+            locationHolidays={locationHolidays}
+            teams={teams}
+            personTeams={personTeams}
+            updateVacations={updateVacations}
+            updateSelectedPersonId={(id: number) => setSelectedPersonId(id)}
+          />;
 
-      case "PROGRAM_INCREMENTS":
-        return <ProgramIncrements
-          programIncrements={programIncrements2}
-          programIterations={getIterationsForIncrement()}
-          setProgramIncrementId={setProgramIncrementId}
-          addProgramIncrement={addProgramIncrement2}
-          editProgramIncrement={editProgramIncrement2}
-          deleteProgramIncrement={deleteProgramIncrement2}
-          addProgramIteration={addProgramIteration}
-          editProgramIteration={editProgramIteration}
-          deleteProgramIteration={deleteProgramIteration}
-        />;
+        case "PROGRAM_INCREMENTS":
+          return <ProgramIncrements
+            programIncrements={programIncrements}
+            programIterations={getIterationsForIncrement()}
+            setProgramIncrementId={setProgramIncrementId}
+            addProgramIncrement={addProgramIncrement2}
+            editProgramIncrement={editProgramIncrement2}
+            deleteProgramIncrement={deleteProgramIncrement2}
+            addProgramIteration={addProgramIteration}
+            editProgramIteration={editProgramIteration}
+            deleteProgramIteration={deleteProgramIteration}
+          />;
 
-      case "CAPACITY":
-        return <PICapacity
-          programIncrements={programIncrements2}
-          programIterations={getIterationsForIncrement()}
-          persons={personsBasic}
-          locations={locations}
-          teams={teams}
-          personTeams={personTeams}
-          locationHolidays={locationHolidays}
-          personVacations={personVacations}
-          selectedProgramIncrement={selectedProgramIncrementId}
-          updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)}
-        />;
+        case "CAPACITY":
+          return <PICapacity
+            programIncrements={programIncrements}
+            programIterations={getIterationsForIncrement()}
+            persons={personsBasic}
+            locations={locations}
+            teams={teams}
+            personTeams={personTeams}
+            locationHolidays={locationHolidays}
+            personVacations={personVacations}
+            selectedProgramIncrement={selectedProgramIncrementId}
+            updateSelectedProgramIncrement={(id: number) => setSelectedProgramIncrementId(id)}
+          />;
 
-      default: return <h2>Page Unknown</h2>;
+        default: return <h2>Page Unknown</h2>;
+      }
+    } else {
+      return <Alert severity="info">Loading data.... <LinearProgress /> </Alert>
     }
+
   }
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setErrorMessage("");
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className="app">
@@ -468,10 +541,26 @@ const App: React.FC<IProps> = (props: IProps) => {
         </Typography>
 
         {isLoggedIn &&
-          <Menu page={page} userRole={userRole} onSelectPage={onSelectPage} onLogOut={onLogOut} />
+          <Menu allDataLoaded={allInitialDataLoaded} page={page} userRole={userRole} onSelectPage={onSelectPage} onLogOut={onLogOut} />
         }
 
+        {/* <div>initialPersonsDataLoaded: {initialPersonsBasicDataLoaded.toString()}</div>
+        <div>initialTeamsDataLoaded: {initialTeamsDataLoaded.toString()}</div>
+        <div>initialPersonTeamsDataLoaded: {initialPersonTeamsDataLoaded.toString()}</div>
+        <div>initialLocationsDataLoaded: {initialLocationsDataLoaded.toString()}</div>
+        <div>initialLocationHolidaysDataLoaded: {initialLocationHolidaysDataLoaded.toString()}</div>
+        <div>initialPersonVacationsDataLoaded: {initialPersonVacationsDataLoaded.toString()}</div>
+        <div>initialProgramIncrementsDataLoaded: {initialProgramIncrementsDataLoaded.toString()}</div>
+        <div>initialProgramIterationsDataLoaded: {initialProgramIterationsDataLoaded.toString()}</div> */}
+
         {getComponentToDisplay()}
+
+        <Snackbar
+          open={errorMessage !== ""}
+          onClose={handleClose}
+          message={errorMessage}
+          action={action}
+        />
 
         {/* <div>selectedProgramIncrementId: {selectedProgramIncrementId}</div>
       <div><pre>{JSON.stringify(programIterations, null, 2)}</pre></div> */}
@@ -479,7 +568,7 @@ const App: React.FC<IProps> = (props: IProps) => {
       </div>
       <Footer></Footer>
 
-      {/* {!showData &&
+      {!showData &&
         <div>
           <button onClick={(e) => setShowData(true)}>Show Data</button>
         </div>
@@ -492,10 +581,10 @@ const App: React.FC<IProps> = (props: IProps) => {
           <pre><div className="data"><h4>LOCATION HOLIDAYS:</h4> {JSON.stringify(locationHolidays, null, 2)}</div></pre>
           <pre><div className="data"><h4>TEAMS:</h4> {JSON.stringify(teams, null, 2)}</div></pre>
           <pre><div className="data"><h4>PERSON TEAMS:</h4> {JSON.stringify(personTeams, null, 2)}</div></pre>
-          <pre><div className="data"><h4>PIs:</h4> {JSON.stringify(programIncrements2, null, 2)}</div></pre>
+          <pre><div className="data"><h4>PIs:</h4> {JSON.stringify(programIncrements, null, 2)}</div></pre>
           <pre><div className="data"><h4>Iterations:</h4> {JSON.stringify(programIterations, null, 2)}</div></pre>
         </div>
-      } */}
+      }
 
     </div >
   );
