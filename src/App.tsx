@@ -30,127 +30,127 @@ const App: React.FC<IProps> = (props: IProps) => {
   const dal = new DAL();
   const requests = new Requests(dal);
 
-  const getInitialPersonsBasic = () => {
-    const personsBasic: IPersonBasic[] = [
-      { id: 1, firstName: "Mary", lastName: "Ang", locationId: 1 },
-      { id: 2, firstName: "Rishika", lastName: "Singh", locationId: 1 },
-      { id: 3, firstName: "Levi", lastName: "Dimalibot", locationId: 1 },
-      { id: 4, firstName: "Shane", lastName: "O'Malley", locationId: 1 },
-      { id: 5, firstName: "Knowlton", lastName: "Wang", locationId: 1 },
-      { id: 6, firstName: "Corey", lastName: "Little", locationId: 1 },
-      { id: 7, firstName: "Judy", lastName: "Wang", locationId: 1 },
-      { id: 8, firstName: "Allan", lastName: "Hou", locationId: 1 },
-      { id: 9, firstName: "Chunhui", lastName: "Liu", locationId: 1 },
-      { id: 10, firstName: "Tony", lastName: "Zhang", locationId: 1 },
-      { id: 11, firstName: "Jing", lastName: "Zhang", locationId: 1 },
-      { id: 12, firstName: "Lan", lastName: "Luo", locationId: 1 },
-      { id: 13, firstName: "Mike", lastName: "Mundy", locationId: 1 },
-      { id: 14, firstName: "Chris", lastName: "Dufour", locationId: 1 },
-      { id: 15, firstName: "Keikhosro", lastName: "Safavi", locationId: 1 },
-      { id: 16, firstName: "Chris", lastName: "Mate", locationId: 1 },
-      { id: 17, firstName: "Trevor", lastName: "Mackay", locationId: 1 },
-      { id: 18, firstName: "Mike", lastName: "Deroin", locationId: 1 },
-    ]
-    return personsBasic;
-  };
+  // const getInitialPersonsBasic = () => {
+  //   const personsBasic: IPersonBasic[] = [
+  //     { id: 1, firstName: "Mary", lastName: "Ang", locationId: 1 },
+  //     { id: 2, firstName: "Rishika", lastName: "Singh", locationId: 1 },
+  //     { id: 3, firstName: "Levi", lastName: "Dimalibot", locationId: 1 },
+  //     { id: 4, firstName: "Shane", lastName: "O'Malley", locationId: 1 },
+  //     { id: 5, firstName: "Knowlton", lastName: "Wang", locationId: 1 },
+  //     { id: 6, firstName: "Corey", lastName: "Little", locationId: 1 },
+  //     { id: 7, firstName: "Judy", lastName: "Wang", locationId: 1 },
+  //     { id: 8, firstName: "Allan", lastName: "Hou", locationId: 1 },
+  //     { id: 9, firstName: "Chunhui", lastName: "Liu", locationId: 1 },
+  //     { id: 10, firstName: "Tony", lastName: "Zhang", locationId: 1 },
+  //     { id: 11, firstName: "Jing", lastName: "Zhang", locationId: 1 },
+  //     { id: 12, firstName: "Lan", lastName: "Luo", locationId: 1 },
+  //     { id: 13, firstName: "Mike", lastName: "Mundy", locationId: 1 },
+  //     { id: 14, firstName: "Chris", lastName: "Dufour", locationId: 1 },
+  //     { id: 15, firstName: "Keikhosro", lastName: "Safavi", locationId: 1 },
+  //     { id: 16, firstName: "Chris", lastName: "Mate", locationId: 1 },
+  //     { id: 17, firstName: "Trevor", lastName: "Mackay", locationId: 1 },
+  //     { id: 18, firstName: "Mike", lastName: "Deroin", locationId: 1 },
+  //   ]
+  //   return personsBasic;
+  // };
 
-  const getInitialTeams = () => {
-    const teams: ITeam[] = [
-      { id: 1, name: "Azurites" },
-      { id: 2, name: "Presence" },
-    ]
-    return teams;
-  };
+  // const getInitialTeams = () => {
+  //   const teams: ITeam[] = [
+  //     { id: 1, name: "Azurites" },
+  //     { id: 2, name: "Presence" },
+  //   ]
+  //   return teams;
+  // };
 
-  const getInitialPersonTeams = () => {
-    const personTeams: IPersonTeam[] = [
-      { personId: 1, teamId: 1, role: "QA Manager", percentage: 50 },
-      { personId: 1, teamId: 2, role: "QA Manager", percentage: 50 },
-      { personId: 18, teamId: 1, role: "Product Manager", percentage: 25 },
-      { personId: 18, teamId: 2, role: "Product Manager", percentage: 75 },
-      { personId: 3, teamId: 2, role: "QA", percentage: 100 },
-      { personId: 14, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 8, teamId: 2, role: "Developer", percentage: 50 },
-      { personId: 6, teamId: 2, role: "QA", percentage: 100 },
-      { personId: 9, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 12, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 17, teamId: 2, role: "Tech Writer", percentage: 100 },
-      { personId: 16, teamId: 2, role: "Software Release Developer", percentage: 100 },
-      { personId: 13, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 4, teamId: 2, role: "QA Manager", percentage: 100 },
-      { personId: 15, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 2, teamId: 2, role: "QA", percentage: 100 },
-      { personId: 7, teamId: 2, role: "Director IS", percentage: 100 },
-      { personId: 5, teamId: 2, role: "QA", percentage: 100 },
-      { personId: 10, teamId: 2, role: "Developer", percentage: 100 },
-      { personId: 11, teamId: 2, role: "Developer", percentage: 100 },
-    ]
-    return personTeams;
-  };
+  // const getInitialPersonTeams = () => {
+  //   const personTeams: IPersonTeam[] = [
+  //     { personId: 1, teamId: 1, role: "QA Manager", percentage: 50 },
+  //     { personId: 1, teamId: 2, role: "QA Manager", percentage: 50 },
+  //     { personId: 18, teamId: 1, role: "Product Manager", percentage: 25 },
+  //     { personId: 18, teamId: 2, role: "Product Manager", percentage: 75 },
+  //     { personId: 3, teamId: 2, role: "QA", percentage: 100 },
+  //     { personId: 14, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 8, teamId: 2, role: "Developer", percentage: 50 },
+  //     { personId: 6, teamId: 2, role: "QA", percentage: 100 },
+  //     { personId: 9, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 12, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 17, teamId: 2, role: "Tech Writer", percentage: 100 },
+  //     { personId: 16, teamId: 2, role: "Software Release Developer", percentage: 100 },
+  //     { personId: 13, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 4, teamId: 2, role: "QA Manager", percentage: 100 },
+  //     { personId: 15, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 2, teamId: 2, role: "QA", percentage: 100 },
+  //     { personId: 7, teamId: 2, role: "Director IS", percentage: 100 },
+  //     { personId: 5, teamId: 2, role: "QA", percentage: 100 },
+  //     { personId: 10, teamId: 2, role: "Developer", percentage: 100 },
+  //     { personId: 11, teamId: 2, role: "Developer", percentage: 100 },
+  //   ]
+  //   return personTeams;
+  // };
 
-  const getInitialLocations = () => {
-    const locations: ILocation[] = [
-      { id: 1, name: "Ontario" },
-      { id: 2, name: "California" },
-    ]
-    return locations;
-  };
+  // const getInitialLocations = () => {
+  //   const locations: ILocation[] = [
+  //     { id: 1, name: "Ontario" },
+  //     { id: 2, name: "California" },
+  //   ]
+  //   return locations;
+  // };
 
-  const getInitialLocationHolidays = () => {
-    const locationHolidays: ILocationHoliday[] = [
-      { id: 1, locationId: 1, name: "New Years Day (obs. Mon.)", date: new Date(2022, 1 - 1, 3) },
-      { id: 2, locationId: 1, name: "Family Day", date: new Date(2022, 2 - 1, 2) },
-      { id: 3, locationId: 1, name: "Good Friday", date: new Date(2022, 4 - 1, 15) },
-      { id: 4, locationId: 1, name: "Victoria Day", date: new Date(2022, 5 - 1, 23) },
-      { id: 5, locationId: 1, name: "Canada Day", date: new Date(2022, 7 - 1, 1) },
-      { id: 6, locationId: 1, name: "Civic Holiday", date: new Date(2022, 8 - 1, 1) },
-      { id: 7, locationId: 1, name: "Labour Day", date: new Date(2022, 9 - 1, 5) },
-      { id: 8, locationId: 1, name: "Thanksgiving", date: new Date(2022, 10 - 1, 10) },
-      { id: 9, locationId: 1, name: "Christmas (obs. Tue.)", date: new Date(2022, 12 - 1, 27) },
-      { id: 9, locationId: 1, name: "Boxing Day", date: new Date(2022, 12 - 1, 26) },
-      { id: 10, locationId: 2, name: "Martin Luther King Jr. Day", date: new Date(2021, 1 - 1, 18) },
-      { id: 11, locationId: 2, name: "Thanksgiving (USA)", date: new Date(2021, 11 - 1, 25) },
-    ]
-    return locationHolidays;
-  };
+  // const getInitialLocationHolidays = () => {
+  //   const locationHolidays: ILocationHoliday[] = [
+  //     { id: 1, locationId: 1, name: "New Years Day (obs. Mon.)", date: new Date(2022, 1 - 1, 3) },
+  //     { id: 2, locationId: 1, name: "Family Day", date: new Date(2022, 2 - 1, 2) },
+  //     { id: 3, locationId: 1, name: "Good Friday", date: new Date(2022, 4 - 1, 15) },
+  //     { id: 4, locationId: 1, name: "Victoria Day", date: new Date(2022, 5 - 1, 23) },
+  //     { id: 5, locationId: 1, name: "Canada Day", date: new Date(2022, 7 - 1, 1) },
+  //     { id: 6, locationId: 1, name: "Civic Holiday", date: new Date(2022, 8 - 1, 1) },
+  //     { id: 7, locationId: 1, name: "Labour Day", date: new Date(2022, 9 - 1, 5) },
+  //     { id: 8, locationId: 1, name: "Thanksgiving", date: new Date(2022, 10 - 1, 10) },
+  //     { id: 9, locationId: 1, name: "Christmas (obs. Tue.)", date: new Date(2022, 12 - 1, 27) },
+  //     { id: 9, locationId: 1, name: "Boxing Day", date: new Date(2022, 12 - 1, 26) },
+  //     { id: 10, locationId: 2, name: "Martin Luther King Jr. Day", date: new Date(2021, 1 - 1, 18) },
+  //     { id: 11, locationId: 2, name: "Thanksgiving (USA)", date: new Date(2021, 11 - 1, 25) },
+  //   ]
+  //   return locationHolidays;
+  // };
 
-  const getInitialPersonVacations = () => {
-    const personVacations: IPersonVacation[] = [
-      { id: 1, personId: 13, date: new Date(2022, 1 - 1, 31), fractionOfDay: 1 },
-      { id: 2, personId: 13, date: new Date(2022, 2 - 1, 1), fractionOfDay: 1 },
-      { id: 3, personId: 13, date: new Date(2022, 2 - 1, 3), fractionOfDay: 1 },
-      { id: 4, personId: 13, date: new Date(2022, 2 - 1, 4), fractionOfDay: 1 },
-      { id: 5, personId: 13, date: new Date(2022, 2 - 1, 7), fractionOfDay: 1 },
-      { id: 6, personId: 13, date: new Date(2022, 2 - 1, 8), fractionOfDay: 1 },
-      { id: 7, personId: 13, date: new Date(2022, 2 - 1, 9), fractionOfDay: 1 },
-      { id: 8, personId: 13, date: new Date(2022, 2 - 1, 10), fractionOfDay: 1 },
-      { id: 9, personId: 13, date: new Date(2022, 2 - 1, 11), fractionOfDay: 1 },
-    ]
-    return personVacations;
-  };
+  // const getInitialPersonVacations = () => {
+  //   const personVacations: IPersonVacation[] = [
+  //     { id: 1, personId: 13, date: new Date(2022, 1 - 1, 31), fractionOfDay: 1 },
+  //     { id: 2, personId: 13, date: new Date(2022, 2 - 1, 1), fractionOfDay: 1 },
+  //     { id: 3, personId: 13, date: new Date(2022, 2 - 1, 3), fractionOfDay: 1 },
+  //     { id: 4, personId: 13, date: new Date(2022, 2 - 1, 4), fractionOfDay: 1 },
+  //     { id: 5, personId: 13, date: new Date(2022, 2 - 1, 7), fractionOfDay: 1 },
+  //     { id: 6, personId: 13, date: new Date(2022, 2 - 1, 8), fractionOfDay: 1 },
+  //     { id: 7, personId: 13, date: new Date(2022, 2 - 1, 9), fractionOfDay: 1 },
+  //     { id: 8, personId: 13, date: new Date(2022, 2 - 1, 10), fractionOfDay: 1 },
+  //     { id: 9, personId: 13, date: new Date(2022, 2 - 1, 11), fractionOfDay: 1 },
+  //   ]
+  //   return personVacations;
+  // };
 
-  const getInitialProgramIncrements = () => {
-    const programIncrements: IProgramIncrement[] = [
-      { id: 1, name: "PI 2022.1" },
-      { id: 2, name: "PI 2022.2" },
-    ]
-    return programIncrements;
-  };
+  // const getInitialProgramIncrements = () => {
+  //   const programIncrements: IProgramIncrement[] = [
+  //     { id: 1, name: "PI 2022.1" },
+  //     { id: 2, name: "PI 2022.2" },
+  //   ]
+  //   return programIncrements;
+  // };
 
-  const getInitialProgramIterations = () => {
-    const programIterations: IIteration[] = [
-      { id: 1, programIncrementId: 1, name: "PI Planning 2022.1", startDate: new Date(2022, 1 - 1, 24), lengthInDays: 2, points: 0 },
-      { id: 2, programIncrementId: 1, name: "Iteration 2022.1.1", startDate: new Date(2022, 1 - 1, 26), lengthInDays: 14, points: 8 },
-      { id: 3, programIncrementId: 1, name: "Iteration 2022.1.2", startDate: new Date(2022, 2 - 1, 9), lengthInDays: 14, points: 8 },
-      { id: 4, programIncrementId: 1, name: "Iteration 2022.1.3", startDate: new Date(2022, 2 - 1, 23), lengthInDays: 14, points: 8 },
-      { id: 5, programIncrementId: 1, name: "Iteration 2022.1.4", startDate: new Date(2022, 3 - 1, 9), lengthInDays: 14, points: 8 },
-      { id: 6, programIncrementId: 1, name: "Iteration 2022.1.5", startDate: new Date(2022, 3 - 1, 23), lengthInDays: 14, points: 8 },
-      { id: 7, programIncrementId: 1, name: "Iteration 2022.1.6", startDate: new Date(2022, 4 - 1, 20), lengthInDays: 21, points: 12 },
-      { id: 8, programIncrementId: 2, name: "PI Planning 2022.2", startDate: new Date(2022, 5 - 1, 22), lengthInDays: 2, points: 0 },
-      { id: 9, programIncrementId: 2, name: "Iteration 2022.2.1", startDate: new Date(2022, 5 - 1, 24), lengthInDays: 14, points: 8 },
-    ]
-    return programIterations;
-  };
+  // const getInitialProgramIterations = () => {
+  //   const programIterations: IIteration[] = [
+  //     { id: 1, programIncrementId: 1, name: "PI Planning 2022.1", startDate: new Date(2022, 1 - 1, 24), lengthInDays: 2, points: 0 },
+  //     { id: 2, programIncrementId: 1, name: "Iteration 2022.1.1", startDate: new Date(2022, 1 - 1, 26), lengthInDays: 14, points: 8 },
+  //     { id: 3, programIncrementId: 1, name: "Iteration 2022.1.2", startDate: new Date(2022, 2 - 1, 9), lengthInDays: 14, points: 8 },
+  //     { id: 4, programIncrementId: 1, name: "Iteration 2022.1.3", startDate: new Date(2022, 2 - 1, 23), lengthInDays: 14, points: 8 },
+  //     { id: 5, programIncrementId: 1, name: "Iteration 2022.1.4", startDate: new Date(2022, 3 - 1, 9), lengthInDays: 14, points: 8 },
+  //     { id: 6, programIncrementId: 1, name: "Iteration 2022.1.5", startDate: new Date(2022, 3 - 1, 23), lengthInDays: 14, points: 8 },
+  //     { id: 7, programIncrementId: 1, name: "Iteration 2022.1.6", startDate: new Date(2022, 4 - 1, 20), lengthInDays: 21, points: 12 },
+  //     { id: 8, programIncrementId: 2, name: "PI Planning 2022.2", startDate: new Date(2022, 5 - 1, 22), lengthInDays: 2, points: 0 },
+  //     { id: 9, programIncrementId: 2, name: "Iteration 2022.2.1", startDate: new Date(2022, 5 - 1, 24), lengthInDays: 14, points: 8 },
+  //   ]
+  //   return programIterations;
+  // };
 
   const [initialPersonsBasicDataLoaded, setInitialPersonsBasicDataLoaded] = useState(false);
   const [initialTeamsDataLoaded, setInitialTeamsDataLoaded] = useState(false);
@@ -162,14 +162,15 @@ const App: React.FC<IProps> = (props: IProps) => {
   const [initialProgramIterationsDataLoaded, setInitialProgramIterationsDataLoaded] = useState(false);
 
   const [page, setPage] = useState("HOME");
-  const [personsBasic, setPersonsBasic] = useState(getInitialPersonsBasic())
-  const [teams, setTeams] = useState(getInitialTeams())
-  const [personTeams, setPersonTeams] = useState(getInitialPersonTeams())
-  const [locations, setLocations] = useState(getInitialLocations())
-  const [locationHolidays, setLocationHolidays] = useState(getInitialLocationHolidays())
-  const [personVacations, setPersonVacations] = useState(getInitialPersonVacations())
-  const [programIncrements, setProgramIncrements] = useState(getInitialProgramIncrements())
-  const [programIterations, setProgramIterations] = useState(getInitialProgramIterations())
+  const [personsBasic, setPersonsBasic] = useState([] as IPersonBasic[]);
+  const [teams, setTeams] = useState([] as ITeam[]);
+  const [personTeams, setPersonTeams] = useState([] as IPersonTeam[]);
+  const [locations, setLocations] = useState([] as ILocation[]);
+  const [locationHolidays, setLocationHolidays] = useState([] as ILocationHoliday[]);
+  const [personVacations, setPersonVacations] = useState([] as IPersonVacation[]);
+  const [programIncrements, setProgramIncrements] = useState([] as IProgramIncrement[]);
+  const [programIterations, setProgramIterations] = useState([] as IIteration[]);
+
   const [selectedPersonId, setSelectedPersonId] = useState(-1);
   const [selectedProgramIncrementId, setSelectedProgramIncrementId] = useState(-1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -182,7 +183,7 @@ const App: React.FC<IProps> = (props: IProps) => {
   useEffect(() => {
 
     if (isLoggedIn) {
-      (async () => { 
+      (async () => {
 
         try { await requests.getPersonsBasic(setPersonsBasic); setInitialPersonsBasicDataLoaded(true); } catch (e: any) { setErrorMessage("Error occurred loading persons data.") };
 
@@ -211,8 +212,11 @@ const App: React.FC<IProps> = (props: IProps) => {
 
   const [showData, setShowData] = useState(false);
 
-  const onSelectPage = (page: string) => {
+  const onSelectPage = async (page: string) => {
     setPage(page);
+    if (page === "TEAMS") {
+      try { await requests.getTeams(setTeams); } catch (e: any) { setErrorMessage("Error occurred loading teams data.") };
+    }
   }
 
   const getIterationsForIncrement = () => {
@@ -258,22 +262,28 @@ const App: React.FC<IProps> = (props: IProps) => {
     setPersonsBasic(updatedPersonsBasic);
   }
 
-  const addTeam = (team: ITeam) => {
+  const addTeam = async (team: ITeam) => {
     let updatedTeams = [...teams];
     updatedTeams.push(team);
+
+    try { await requests.addTeam(team); } catch (e: any) { setErrorMessage("Error occurred while adding a team.") };
+
     setTeams(updatedTeams);
   }
 
-  const editTeam = (team: ITeam) => {
+  const editTeam = async (team: ITeam) => {
     let updatedTeams = [...teams];
     const index = updatedTeams.findIndex((t) => t.id === team.id);
     if (index >= 0) {
       updatedTeams[index] = team;
+
+      try { await requests.updateTeam(team); } catch (e: any) { setErrorMessage("Error occurred while updating a team.") };
+
       setTeams(updatedTeams);
     }
   }
 
-  const deleteTeam = (id: number) => {
+  const deleteTeam = async (id: number) => {
     // remove all people from the team:
     let updatedPersonTeams = [...personTeams];
     updatedPersonTeams = updatedPersonTeams.filter((pt) => pt.teamId !== id);
@@ -282,6 +292,9 @@ const App: React.FC<IProps> = (props: IProps) => {
     // remove the team:
     let updatedTeams = [...teams];
     updatedTeams = updatedTeams.filter((t) => t.id !== id);
+
+    try { await requests.deleteTeam(id); } catch (e: any) { setErrorMessage("Error occurred while deleting a team.") };
+
     setTeams(updatedTeams);
   }
 
