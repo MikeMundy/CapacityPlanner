@@ -231,7 +231,7 @@ const People: React.FC<IProps> = (props: IProps) => {
         if (parseInt(percent)) {
             updatedPersonsTeams[index].percentage = parseInt(percent);
         } else {
-            updatedPersonsTeams[index].percentage = 100;
+            updatedPersonsTeams[index].percentage = 0;
         }
         setThisPersonsTeams(updatedPersonsTeams);
     }
