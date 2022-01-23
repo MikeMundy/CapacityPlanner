@@ -13,7 +13,9 @@ export interface IProps {
     locationHolidays: ILocationHoliday[];
     teams: ITeam[];
     personTeams: IPersonTeam[];
-    updateVacations: (personVactions: IPersonVacation[]) => void;
+    addVacation: (personVacation: IPersonVacation) => void;
+    editVacation: (personVacation: IPersonVacation) => void;
+    deleteVacation: (personVacationId: number) => void;
     updateSelectedPersonId: (personId: number) => void;
 }
 
@@ -45,7 +47,9 @@ const Vacations: React.FC<IProps> = (props: IProps) => {
                     personsBasic={props.personsBasic}
                     personVacations={props.personVacations}
                     locationHolidays={props.locationHolidays}
-                    updateVacations={props.updateVacations}
+                    addVacation={props.addVacation}
+                    editVacation={props.editVacation}
+                    deleteVacation={props.deleteVacation}
                     updateSelectedPersonId={props.updateSelectedPersonId}
                 />
             }

@@ -23,6 +23,7 @@ export interface ITeam {
 }
 
 export interface IPersonTeam {
+    id: number;
     personId: number;
     teamId: number;
     role: string;

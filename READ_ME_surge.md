@@ -1,17 +1,21 @@
-Hosted at https://breezy-leg.surge.sh/
-(URL is stored in /build/CNAME)
+# Deployment and Hosting via Surge
+
+The site is hosted online at https://breezy-leg.surge.sh/
+
+The URL used when deploying the site is stored in the '/build/CNAME' file. 
+
+## Before first deployment
 
 Before first deployment to production, run: 
 
 yarn global add surge
 
-To deploy to production via Surge, start in this folder:
+## Deploying to Production
+
+After installing surge, you can deploy the front end to production via Surge. Start in the root folder and run:
 
 yarn build
 
 cd build
 
 surge
-
-To be really useful I'd need to add a persistent back-end data store (maybe https://jsonbin.io/) and maybe
-user accounts and roles. Maybe I'll do this for the next hackathon.

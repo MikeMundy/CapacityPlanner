@@ -127,7 +127,7 @@ const People: React.FC<IProps> = (props: IProps) => {
         let personTeams: IPersonTeam[] = [];
         thisPersonsTeams.forEach((pt) => {
             if (pt.inTeam) {
-                personTeams.push({ teamId: pt.teamId, personId: newPerson.id, role: pt.role, percentage: isNullPercent(pt.percentage) });
+                personTeams.push({ id: -1, teamId: pt.teamId, personId: newPerson.id, role: pt.role, percentage: isNullPercent(pt.percentage) });
             }
         })
 
@@ -173,9 +173,11 @@ const People: React.FC<IProps> = (props: IProps) => {
 
         let personTeams: IPersonTeam[] = [];
 
+        let maxId = props.personTeams.reduce((acc, p) => acc = acc > p.id ? acc : p.id, 0);
         thisPersonsTeams.forEach((pt) => {
             if (pt.inTeam) {
-                personTeams.push({ teamId: pt.teamId, personId: personEdited.id, role: pt.role, percentage: pt.percentage });
+                maxId++;
+                personTeams.push({ id: maxId, teamId: pt.teamId, personId: personEdited.id, role: pt.role, percentage: pt.percentage });
             }
         })
         props.editPerson(updatedPerson, personTeams);
@@ -254,8 +256,8 @@ const People: React.FC<IProps> = (props: IProps) => {
                             <CardHeader title="Add Person"></CardHeader>
                             <CardContent>
                                 <Stack spacing={1}>
-                                    <TextField id="firstName" label="First Name" variant="standard" required value={firstName} onChange={(e) => setFirstName(e.target.value)} inputProps={{ maxLength: 50 }}/>
-                                    <TextField id="lastName" label="Last Name" variant="standard" required value={lastName} onChange={(e) => setLastName(e.target.value)} inputProps={{ maxLength: 50 }}/>
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={firstName} onChange={(e) => setFirstName(e.target.value)} inputProps={{ maxLength: 50 }} />
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={lastName} onChange={(e) => setLastName(e.target.value)} inputProps={{ maxLength: 50 }} />
                                     <p></p>
                                     <FormControl fullWidth>
                                         <InputLabel id="ageSelectLabel">Location *</InputLabel>
@@ -283,12 +285,12 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }}/>
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }} />
                                                                 }
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }}/>
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }} />
                                                                 }
                                                             </td>
                                                         </tr>
@@ -318,8 +320,8 @@ const People: React.FC<IProps> = (props: IProps) => {
                             <CardHeader title="Edit Person"></CardHeader>
                             <CardContent>
                                 <Stack spacing={1}>
-                                    <TextField id="firstName" label="First Name" variant="standard" required value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} inputProps={{ maxLength: 50 }}/>
-                                    <TextField id="lastName" label="Last Name" variant="standard" required value={editLastName} onChange={(e) => setEditLastName(e.target.value)} inputProps={{ maxLength: 50 }}/>
+                                    <TextField id="firstName" label="First Name" variant="standard" required value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} inputProps={{ maxLength: 50 }} />
+                                    <TextField id="lastName" label="Last Name" variant="standard" required value={editLastName} onChange={(e) => setEditLastName(e.target.value)} inputProps={{ maxLength: 50 }} />
                                     <p></p>
                                     <FormControl fullWidth>
                                         <InputLabel id="ageSelectLabel">Location *</InputLabel>
@@ -347,12 +349,12 @@ const People: React.FC<IProps> = (props: IProps) => {
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }}/>
+                                                                    <TextField id="role" size="small" label="Role" variant="standard" value={getRoleInTeam(t)} onChange={(e) => changeRoleInTeam(e.target.value, t)} margin="dense" inputProps={{ maxLength: 50 }} />
                                                                 }
                                                             </td>
                                                             <td style={{ verticalAlign: "bottom" }}>
                                                                 {isInTeam(t) &&
-                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }}/>
+                                                                    <TextField id="percent" size="small" label="Percent" variant="standard" required value={getPercentInTeam(t)} onChange={(e) => changePercentInTeam(e.target.value, t)} margin="dense" sx={{ width: 50 }} inputProps={{ maxLength: 3 }} />
                                                                 }
                                                             </td>
                                                         </tr>

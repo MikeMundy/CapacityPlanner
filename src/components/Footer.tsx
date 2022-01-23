@@ -8,7 +8,7 @@ const Footer: React.FC<IProps> = (props: IProps) => {
 
     return (
         <Typography variant="body2" component="div" gutterBottom sx={{ marginTop: 3 }}>
-            Questions and bug reports to Michael Mundy at <a href="mailto:mmundy@west.com">mmundy@west.com</a>
+            Admin Contacts:  Michael Mundy (<a href="mailto:mmundy@west.com">mmundy@west.com</a>) or Keikhosro Safavi (<a href="mailto:ksafavi@west.com">ksafavi@west.com</a>)
         </Typography>
     )
 
