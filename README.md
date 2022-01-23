@@ -1,7 +1,7 @@
 # Capacity Planner
 
 This is a tool to assist in generating a precise Team Velocity for Planning Iterations during Agile planning.
-# Quick Setup
+## Quick Local Setup
 
 git clone https://github.com/MikeMundy/CapacityPlanner.git
 
@@ -19,7 +19,7 @@ This project requires a back end service. The back end is available at https://g
 
 ## Configuration
 
-You will need to update the baseURL value in \src\DAL\http-common.ts to point to the URL where your local back end MySQL instance is running, followed by '/api/', i.e. 'http://localhost:8080/api/'
+You will need to update the baseURL value in \src\DAL\http-common.ts to point to the URL where your local back service is running, followed by '/api/', i.e. 'http://localhost:8080/api/'
 
 ## Deployment to live site
 
