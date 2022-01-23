@@ -12,6 +12,8 @@ yarn global add surge
 
 ## Deploying to Production
 
+Update src\DAL\http-common.ts so that baseURL points to the production back end API; ie.   baseURL: "https://capcity-planner-app.azurewebsites.net/api/"
+
 After installing surge, you can deploy the front end to production via Surge. Start in the root folder and run:
 
 yarn build
