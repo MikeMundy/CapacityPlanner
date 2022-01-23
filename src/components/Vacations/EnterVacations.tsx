@@ -12,7 +12,9 @@ export interface IProps {
     personsBasic: IPersonBasic[];
     personVacations: IPersonVacation[];
     locationHolidays: ILocationHoliday[];
-    updateVacations: (personVactions: IPersonVacation[]) => void;
+    addVacation: (personVacation: IPersonVacation) => void;
+    editVacation: (personVacation: IPersonVacation) => void;
+    deleteVacation: (personVacationId: number) => void;
     updateSelectedPersonId: (personId: number) => void;
 }
 
@@ -76,7 +78,6 @@ const EnterVacations: React.FC<IProps> = (props: IProps) => {
         // console.log(JSON.stringify(data));
         // console.log(data.start);
 
-        const maxId = props.personVacations.reduce((acc, t) => acc = acc > t.id ? acc : t.id, 0);
         const existingEvent = props.personVacations.find((vp) => isSameDate(vp.date, data.start) && vp.personId === props.selectedPersonId);
 
         const theDate = new Date(data.start);
@@ -92,16 +93,12 @@ const EnterVacations: React.FC<IProps> = (props: IProps) => {
         const isWeekend = theDate.getDay() === 0 || theDate.getDay() === 6;
 
         if (!existingEvent && !hasHoliday && !isWeekend) {
-            const newVacForPerson: IPersonVacation = { id: maxId + 1, personId: props.selectedPersonId, date: data.start, fractionOfDay: 1 };
-            const updatedVacPerson = [...props.personVacations];
-            updatedVacPerson.push(newVacForPerson)
-            props.updateVacations(updatedVacPerson);
+            const newVacForPerson: IPersonVacation = { id: -1, personId: props.selectedPersonId, date: data.start, fractionOfDay: 1 };
+            props.addVacation(newVacForPerson);
         }
     }
 
     const onSelectEvent = (data: any) => {
-        // console.log(JSON.stringify(data));
-        // console.log(parseFloat(data.title));
         if (!isNaN(parseFloat(data.title))) {
             setSelectedEvent(data);
             setFractionOfDay(data.title);
@@ -112,9 +109,7 @@ const EnterVacations: React.FC<IProps> = (props: IProps) => {
     const onDeleteEvent = () => {
         const existingEvent = props.personVacations.find((vp) => isSameDate(vp.date, selectedEvent.start) && vp.personId === props.selectedPersonId);
         if (existingEvent) {
-            let updatedVacPerson = [...props.personVacations];
-            updatedVacPerson = updatedVacPerson.filter((vp) => vp.id !== existingEvent.id);
-            props.updateVacations(updatedVacPerson);
+            props.deleteVacation(existingEvent.id);
         }
         setModalIsOpen(false);
     }
@@ -124,10 +119,12 @@ const EnterVacations: React.FC<IProps> = (props: IProps) => {
         if (existingEvent) {
             let updatedVacPerson = [...props.personVacations];
             const thisEvent = updatedVacPerson.find((vp) => isSameDate(vp.date, selectedEvent.start) && vp.personId === props.selectedPersonId);
-            if (thisEvent && parseFloat(fractionOfDay)) {
-                thisEvent.fractionOfDay = Math.max(Math.min(parseFloat(fractionOfDay), 1), 0);
+            if (thisEvent) {
+                if (thisEvent && parseFloat(fractionOfDay)) {
+                    thisEvent.fractionOfDay = Math.max(Math.min(parseFloat(fractionOfDay), 1), 0);
+                }
+                props.editVacation(thisEvent);
             }
-            props.updateVacations(updatedVacPerson);
         }
         setModalIsOpen(false);
     }
