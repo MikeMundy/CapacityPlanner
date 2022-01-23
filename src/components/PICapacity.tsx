@@ -19,6 +19,7 @@ export interface IProps {
 const PICapacity: React.FC<IProps> = (props: IProps) => {
 
     const [minimise, setMinimise] = useState(false);
+    const [skipZeroAvailability, setSkipZeroAvailability] = useState(false);
 
     const nullPI: IProgramIncrement = { id: -1, name: "" };
 
@@ -124,10 +125,12 @@ const PICapacity: React.FC<IProps> = (props: IProps) => {
                         {getTeamSelect()} 
                         {getNameSelect()} 
                         <FormControlLabel sx={{marginLeft: 1}} control={<Checkbox defaultChecked checked={minimise} onChange={(e) => setMinimise(e.target.checked)} />} label="Compact results" />
+                        <FormControlLabel sx={{marginLeft: 1}} control={<Checkbox defaultChecked checked={skipZeroAvailability} onChange={(e) => setSkipZeroAvailability(e.target.checked)} />} label="Skip 0% availability" />
                     </div>
 
                     <PICapacityTable
                         minimiseResults={minimise}
+                        skipZeroAvailability={skipZeroAvailability}
                         programIncrements={props.programIncrements}
                         programIterations={props.programIterations}
                         persons={props.persons}
