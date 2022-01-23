@@ -51,7 +51,7 @@ const People: React.FC<IProps> = (props: IProps) => {
                 if (percent) {
                     return percent?.toString();
                 }
-                return;
+                return 0;
             }
 
             const teamRoles = thisPersonsTeamNames.map((n) => <div key={n.id} id={"n" + n.id} className="marBottom5">{n.name} ({thisPersonsTeamIds.filter((ptr) => ptr.teamId === n.id).map((r) => <span id={r.role + r.teamId} >{r.role.trim() === "" ? "no role" : r.role}</span>)})<span className="floatRight">&nbsp;{showPercent(thisPersonsTeamIds.find((ptr) => ptr.teamId === n.id)?.percentage)}%</span></div>);
@@ -222,7 +222,7 @@ const People: React.FC<IProps> = (props: IProps) => {
     const getPercentInTeam = (team: ITeam) => {
         const percent = thisPersonsTeams.find((pt) => pt.teamId === team.id)?.percentage;
         if (percent) { return percent; }
-        return "";
+        return 0;
     }
 
     const changePercentInTeam = (percent: string, team: ITeam) => {
