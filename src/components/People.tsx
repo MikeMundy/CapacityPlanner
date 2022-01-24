@@ -30,6 +30,8 @@ const People: React.FC<IProps> = (props: IProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [personEdited, setPersonEdited] = useState(nullPerson);
 
+    const [selectedFilterTeamId, setSelectedFilterTeamId] = useState(-1);
+
     const getPersonsElements = () => {
 
         if (props.personsBasic.length === 0) { return <p>There are currently no people.</p> }
@@ -73,7 +75,9 @@ const People: React.FC<IProps> = (props: IProps) => {
             };
         }
 
-        const output = props.personsBasic.sort(sorter).map((p) =>
+        const output = props.personsBasic
+            .filter((p) => selectedFilterTeamId === -1 || props.personTeams.find((pt) => pt.personId === p.id && pt.teamId === selectedFilterTeamId) )
+            .sort(sorter).map((p) =>
             <tr key={p.id}>
                 {/* <td>{p.id}</td> */}
                 <td>{p.lastName}</td>
@@ -236,6 +240,27 @@ const People: React.FC<IProps> = (props: IProps) => {
         setThisPersonsTeams(updatedPersonsTeams);
     }
 
+    const teamSorter = (p1: ITeam, p2: ITeam): number => {
+        if (p1.name === p2.name) {
+            return p1.name < p2.name ? -1 : 1
+        }
+        return p1.name < p2.name ? -1 : 1;
+    };
+
+    const getTeamSelect = () => {
+        const options: any[] = [];
+        options.push(<MenuItem value={-1}>&nbsp;</MenuItem>);
+        props.teams.sort(teamSorter).forEach((team) => {
+            options.push(<MenuItem key={team.id} value={team.id}>{team.name}</MenuItem>)
+        })
+        return <FormControl sx={{ marginBottom: 2, width: 200 }}>
+            <InputLabel id="team">Team</InputLabel>
+            <Select size="small" onChange={(e) => setSelectedFilterTeamId(parseInt(e.target.value.toString()))} value={selectedFilterTeamId} labelId="team" label="team">
+                {options}
+            </Select>
+        </FormControl >;
+    }
+
     return (
         <div>
             <Typography variant="h3" component="div" gutterBottom>
@@ -244,7 +269,10 @@ const People: React.FC<IProps> = (props: IProps) => {
 
             {!isAdding && !isEditing &&
                 <>
-                    <div><Button variant="contained" onClick={(e) => beginAddPerson()} className="bigButton">Add Person</Button></div>
+                    <div style={{marginBottom: "20px"}}><Button variant="contained" onClick={(e) => beginAddPerson()} className="bigButton">Add Person</Button></div>
+                    <div>
+                        {getTeamSelect()}
+                    </div>
                     {getPersonsElements()}
                 </>
             }
