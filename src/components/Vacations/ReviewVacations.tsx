@@ -98,12 +98,20 @@ const ReviewVacations: React.FC<IProps> = (props: IProps) => {
         return p1.lastName < p2.lastName ? -1 : 1;
     };
 
+    const dateSort = (d1: IPersonVacation, d2: IPersonVacation) => {
+        return d1.date > d2.date ? 1 : -1;
+    }
+
     const getPersonsVacations = (id: number) => {
         const results: any[] = [];
 
         const pad = (s: number): string => s.toString().padStart(2, " ");
 
-        props.personVacations.filter((pv) => pv.personId === id).filter((pv) => pv.date >= fromDate && pv.date <= toDate).map((pv) => {
+        props.personVacations
+            .filter((pv) => pv.personId === id)
+            .filter((pv) => pv.date >= fromDate && pv.date <= toDate)
+            .sort(dateSort)
+            .map((pv) => {
             return results.push(<tr><td>{pv.date.toLocaleDateString("default", { weekday: 'short' })}</td><td>{pad(pv.date.getDate())}</td><td>{pv.date.toLocaleString("default", { month: "short" })}</td><td>{pv.date.getFullYear()}</td><td>-</td><td>{pv.fractionOfDay.toFixed(2)} day</td></tr>)
         })
 

@@ -3,6 +3,7 @@ import { IIteration, IIterationExtended, ILocation, ILocationHoliday, IPersonBas
 
 export interface IProps {
     minimiseResults: boolean;
+    skipZeroAvailability: boolean;
     programIncrements: IProgramIncrement[];
     programIterations: IIteration[];
     persons: IPersonBasic[];
@@ -304,7 +305,10 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
 
         let rowNum = 1;
 
-        props.personTeams.filter((pt) => pt.teamId === props.selectedFilterTeamId || props.selectedFilterTeamId === -1).sort(personTeamSorter).forEach(pt => {
+        props.personTeams
+            .filter((pt) => pt.teamId === props.selectedFilterTeamId || props.selectedFilterTeamId === -1)
+            .filter((pt) => pt.percentage !== 0 || !props.skipZeroAvailability)
+            .sort(personTeamSorter).forEach(pt => {
             const p = props.persons.filter((p) => p.id === props.selectedFilterPersonId || props.selectedFilterPersonId === -1).find((p) => p.id === pt.personId);
             if (p) {
 
