@@ -94,16 +94,20 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
         let out: any[] = [];
 
         const getRow = (cr: ICapacityRow) => {
+
+            let trClassName = "personRow";
+            if (cr.availability === 0) { trClassName += " notAvailable" }
+
             return (
-                <tr className="personRow">
+                <tr className={trClassName}>
                     <td>{cr.name}</td>
                     {!props.minimiseResults &&
                         <>
                             <td>{cr.location}</td>
                             <td>{cr.team} ({cr.role})</td>
-                            <td className="center">{cr.availability}%</td>
                         </>
                     }
+                    <td className="center">{cr.availability}%</td>
                     {/* <td className="center">
                         <input type="text" value={0} className={"numInput"} onChange={(e) => { }}></input>
                     </td> */}
@@ -309,42 +313,42 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
             .filter((pt) => pt.teamId === props.selectedFilterTeamId || props.selectedFilterTeamId === -1)
             .filter((pt) => pt.percentage !== 0 || !props.skipZeroAvailability)
             .sort(personTeamSorter).forEach(pt => {
-            const p = props.persons.filter((p) => p.id === props.selectedFilterPersonId || props.selectedFilterPersonId === -1).find((p) => p.id === pt.personId);
-            if (p) {
+                const p = props.persons.filter((p) => p.id === props.selectedFilterPersonId || props.selectedFilterPersonId === -1).find((p) => p.id === pt.personId);
+                if (p) {
 
-                const capRow: ICapacityRow = {
-                    num: rowNum,
-                    personId: p.id,
-                    name: p.lastName + ", " + p.firstName,
-                    location: getLocationName(p.locationId),
-                    team: getTeamName(pt.teamId),
-                    role: getRoleName(pt.teamId, pt.personId),
-                    availability: getAvailability(pt.teamId, pt.personId),
-                    carryoverPoints: 0,
-                    skipHolsAndPTOs: false,
-                    newPerson: false,
-                    iterations: []
-                };
-                rowNum = rowNum + 1;
-
-                let capIterNum = 1;
-                iterations.forEach((iteration, index) => {
-                    const holidays = getHolidaysForPersonForIteration(iteration, p);
-                    const ptos = getPTOsForPersonForIteration(iteration, p, pt);
-                    const capIter = {
-                        num: capIterNum,
-                        holidays,
-                        ptos,
-                        capacity: getCapacityForPersonForIteration(currentPI, iteration, p, pt, holidays, ptos),
-                        capacityDesc: getCapacityDescForPersonForIteration(currentPI, iteration, pt, holidays, ptos),
+                    const capRow: ICapacityRow = {
+                        num: rowNum,
+                        personId: p.id,
+                        name: p.lastName + ", " + p.firstName,
+                        location: getLocationName(p.locationId),
+                        team: getTeamName(pt.teamId),
+                        role: getRoleName(pt.teamId, pt.personId),
+                        availability: getAvailability(pt.teamId, pt.personId),
+                        carryoverPoints: 0,
+                        skipHolsAndPTOs: false,
+                        newPerson: false,
+                        iterations: []
                     };
-                    capRow.iterations.push(capIter);
-                    capIterNum = capIterNum + 1;
-                });
+                    rowNum = rowNum + 1;
 
-                theCapRows.push(capRow)
-            }
-        });
+                    let capIterNum = 1;
+                    iterations.forEach((iteration, index) => {
+                        const holidays = getHolidaysForPersonForIteration(iteration, p);
+                        const ptos = getPTOsForPersonForIteration(iteration, p, pt);
+                        const capIter = {
+                            num: capIterNum,
+                            holidays,
+                            ptos,
+                            capacity: getCapacityForPersonForIteration(currentPI, iteration, p, pt, holidays, ptos),
+                            capacityDesc: getCapacityDescForPersonForIteration(currentPI, iteration, pt, holidays, ptos),
+                        };
+                        capRow.iterations.push(capIter);
+                        capIterNum = capIterNum + 1;
+                    });
+
+                    theCapRows.push(capRow)
+                }
+            });
 
         theCapRows = setSkippedHolidayAndPTOCells(theCapRows);
         theCapRows = setNewPerson(theCapRows);
@@ -366,7 +370,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
 
     const getTotalsRows = (capRows: ICapacityRow[]) => {
         let colspan = 4;
-        if (props.minimiseResults) { colspan = 1; }
+        if (props.minimiseResults) { colspan = 2; }
 
         return (
             <tr className="topRow">
@@ -409,9 +413,10 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
                                 <>
                                     <th rowSpan={2} className="smaller">Location</th>
                                     <th rowSpan={2} className="smaller">Team & Role</th>
-                                    <th rowSpan={2} className="smaller">Availability</th>
+
                                 </>
                             }
+                            <th rowSpan={2} className="smaller">Avail.</th>
                             {iterations.map((i, index) =>
                                 <th key={index} colSpan={3} className="iterationCell">
                                     <table className="iterationTable">
