@@ -347,6 +347,10 @@ span.dateSpan {
   border: 1px solid black;
 }
 
+tr.notAvailable {
+  color: lightgray;
+}
+
 
 
 
