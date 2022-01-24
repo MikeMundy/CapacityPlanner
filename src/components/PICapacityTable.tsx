@@ -64,7 +64,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
         return pad(dt.getDate()) + " " + dt.toLocaleString("default", { month: "short" }) + " " + dt.getFullYear() + " " + dt.toLocaleDateString("en-US", { weekday: 'short' });;
     }
 
-    interface ICapIteration { num: number, holidays: number, ptos: number, capacity: number; capacityDesc: string };
+    interface ICapIteration { num: number, points: number, holidays: number, ptos: number, capacity: number; capacityDesc: string };
     interface ICapacityRow { num: number, personId: number, name: string, location: string, team: string; role: string; availability: number, carryoverPoints: number, skipHolsAndPTOs: boolean, newPerson: boolean, iterations: ICapIteration[] }
 
     const getNumTeams = (personId: number) => {
@@ -111,7 +111,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
                     {/* <td className="center">
                         <input type="text" value={0} className={"numInput"} onChange={(e) => { }}></input>
                     </td> */}
-                    {cr.iterations.map((cri, index) =>
+                    {cr.iterations.filter((i) => i.points > 0 || !props.minimiseResults).map((cri, index) =>
                         <React.Fragment key={index}>
                             {!cr.skipHolsAndPTOs &&
                                 <React.Fragment key={index}>
@@ -137,7 +137,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
 
     const ptoTitleRows = (
         <tr className="smaller">
-            {iterations.map((iteration, index) =>
+            {iterations.filter((i) => i.points > 0 || !props.minimiseResults).map((iteration, index) =>
                 <React.Fragment key={index}>
                     <td className="half center topRow"><b>Hols.</b></td>
                     <td className="half center topRow"><b>PTOs</b></td>
@@ -337,6 +337,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
                         const ptos = getPTOsForPersonForIteration(iteration, p, pt);
                         const capIter = {
                             num: capIterNum,
+                            points: iteration.points,
                             holidays,
                             ptos,
                             capacity: getCapacityForPersonForIteration(currentPI, iteration, p, pt, holidays, ptos),
@@ -375,7 +376,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
         return (
             <tr className="topRow">
                 <td colSpan={colspan}><b>Total:</b></td>
-                {iterations.map((iteration, index) =>
+                {iterations.filter((i) => i.points > 0 || !props.minimiseResults).map((iteration, index) =>
                     <React.Fragment key={index}>
                         <td colSpan={2}></td>
                         <td className="center"><b>{getTotalCapacityForIteration(capRows, iteration).toFixed(1)}</b></td>
@@ -417,7 +418,7 @@ const PICapacityTable: React.FC<IProps> = (props: IProps) => {
                                 </>
                             }
                             <th rowSpan={2} className="smaller">Avail.</th>
-                            {iterations.map((i, index) =>
+                            {iterations.filter((i) => i.points > 0 || !props.minimiseResults).map((i, index) =>
                                 <th key={index} colSpan={3} className="iterationCell">
                                     <table className="iterationTable">
                                         <tr>
